@@ -11,6 +11,7 @@ public class TestProcessing extends PApplet {
 	}
 
 	// maybe this will show up in the svn
+	// another comment
 
 	public void draw() {
 		stroke(255);
