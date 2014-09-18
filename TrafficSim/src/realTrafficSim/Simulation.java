@@ -5,6 +5,8 @@ import processing.core.*;
 
 public class Simulation extends PApplet {
 	
+//	#NO
+	
 	int c = color(0);
 	float x, x2, x3 = 0;
 	float y = 100;
