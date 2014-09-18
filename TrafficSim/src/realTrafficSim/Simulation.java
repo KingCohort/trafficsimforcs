@@ -1,3 +1,4 @@
+
 package realTrafficSim;
 
 import processing.core.*;
@@ -15,7 +16,6 @@ public class Simulation extends PApplet {
 	public void setup() {
 		size(displayWidth, displayHeight);
 		background(0);
-		//frameRate(30);
 	}
 
 	public void draw() {
@@ -43,3 +43,8 @@ public class Simulation extends PApplet {
 		rect(x2, y+100, carWidth, carHeight);
 	}
 }
+
+
+
+
+
