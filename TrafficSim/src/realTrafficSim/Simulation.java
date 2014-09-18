@@ -30,6 +30,9 @@ public class Simulation extends PApplet {
 		if (x > width) {
 			x = 0;
 		}
+		if (x2 > width) {
+			x2 = 0;
+		}
 	}
 
 	void display() {
