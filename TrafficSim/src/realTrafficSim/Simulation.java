@@ -27,6 +27,7 @@ public class Simulation extends PApplet {
 	void move() {
 		x = x + speed;
 		x2 = x2 + speed2;
+		
 		if (x > width) {
 			x = 0;
 		}
