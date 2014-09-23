@@ -11,7 +11,7 @@ public class TestProcessing extends PApplet
 {
 	public void setup()
 	{
-		size(200,200);
+		size(1500,900);
 		background(0);
 	}
 	
