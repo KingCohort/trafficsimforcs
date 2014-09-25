@@ -3,6 +3,8 @@ package realTrafficSim;
 
 public class Car {
 	
+	// a change to the car class
+	
 	public float getxCoord() {
 		return xCoord;
 	}
