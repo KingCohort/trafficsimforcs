@@ -8,15 +8,18 @@ public class Simulation extends PApplet {
 	//	#NO
 
 	int c = color(0);
-	float x, x2, x3 = 0;
+	
 	float y = 100;
 	float carWidth = 60;
 	float carHeight = 30;
 	float speed = 2;
-	float speed2 = 3;
-	float speed3 = 1;
+	int x1 = 0;
 	int laneLength = 60;
-	Car userCar = new Car();
+	int offset = 0;
+	int medianSpeed = 0;
+//	Car car1 = new Car();
+//	Car car2 = new Car();
+	
 
 	public void setup() {
 		size(displayWidth, displayHeight);
@@ -24,53 +27,78 @@ public class Simulation extends PApplet {
 	}
 
 	public void draw() {
-		background(255);
+		background(0, 255, 0);
+		highwayLanes();
 		move();
 		display();
-		changeLane();
+		//changeLane();
 	}
 
 	void move() {
-		userCar.setxCoord(userCar.getxCoord()+speed);
-		x2 = x2 + speed2;
+		car1.setxCoord(car1.getxCoord()+speed);
 
-		if (userCar.getxCoord() > width) {
-			userCar.setxCoord(0);
-		}
-		if (x2 > width){
-			x2 = 0;
-		}
+// controls looping; treadmill effect
+//		if (userCar.getxCoord() > width) {
+//			userCar.setxCoord(0);
+//		}
 	}
 
-	void changeLane(){
-		userCar.setyCoord(userCar.getyCoord()+speed);
-		if (userCar.getyCoord() == displayHeight){
-			userCar.setyCoord(0);
-		}
-
-			x3 = x3 + speed3;
-
-			if (x > width) {
-				x = 0;
-
-			}
-			if (x2 > width) {
-				x2 = 0;
-			}
-			if (x3 > width) {
-				x3 = 0;
-			}
+//	void changeLane(){
+//		userCar.setyCoord(userCar.getyCoord()+speed);
+//		if (userCar.getyCoord() == displayHeight){
+//			userCar.setyCoord(0);
+//		}
+//
+//			x3 = x3 + speed3;
+//
+//			if (x > width) {
+//				x = 0;
+//
+//			}
+//			if (x2 > width) {
+//				x2 = 0;
+//			}
+//			if (x3 > width) {
+//				x3 = 0;
+//			}
+//	}
+	
+	void highwayLanes() {
+		// road
+		fill(51);
+		stroke(0);
+		rect(0, 100, displayWidth, 200);
 		
+		// top outer road line
+		fill(255);
+		stroke(0);
+		rect(0, 110, displayWidth, 10);
+		//bottom outer road line
+		fill(255);
+		stroke(0);
+		rect(0, 280, displayWidth, 10);
+		
+		// median
+		fill(255);
+		stroke(0); 
+		offset = offset - medianSpeed;
+		for(int i = 0; i < displayWidth; i++)  {
+			rect(i*100+offset, 195, 40, 10);
+		}
 	}
 
 	void display() {
-		fill(c);
-		rect(userCar.getxCoord(), userCar.getyCoord(), carWidth, carHeight);
+		fill(255,0,0);
+		stroke(0);
+		rect(car1.getxCoord(), car1.getyCoord()+140, carWidth, carHeight);
 
 		//fill(c);
 		//rect(x2, y+100, carWidth, carHeight);
-
-		fill(c+200);
-		rect(x3, y+200, carWidth, carHeight);
+//
+//		fill(c+200);
+//		rect(x1, y+200, carWidth, carHeight);
 	}
 }
+
+
+
