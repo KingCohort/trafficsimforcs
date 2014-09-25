@@ -1,5 +1,7 @@
 package realTrafficSim;
 
+import java.util.ArrayList;
+
 import processing.core.*;
 
 
@@ -17,25 +19,31 @@ public class Simulation extends PApplet {
 	int laneLength = 60;
 	int offset = 0;
 	int medianSpeed = 0;
-//	Car car1 = new Car();
-//	Car car2 = new Car();
+	Car car1 = new Car();
+	Car car2 = new Car();
+	ArrayList<Car> cars = new ArrayList<Car>();
 	
-
 	public void setup() {
 		size(displayWidth, displayHeight);
 		background(0);
+		cars.add(car1);
+		cars.add(car2);
+
 	}
 
 	public void draw() {
 		background(0, 255, 0);
 		highwayLanes();
-		move();
+		move(cars);
 		display();
 		//changeLane();
 	}
 
-	void move() {
-		car1.setxCoord(car1.getxCoord()+speed);
+	void move(ArrayList<Car> carsList) {
+		for (Car car : carsList) {
+			car.setxCoord(car.getxCoord()+speed);
+		}
+//		car1.setxCoord(car1.getxCoord()+speed);
 
 // controls looping; treadmill effect
 //		if (userCar.getxCoord() > width) {
@@ -91,6 +99,7 @@ public class Simulation extends PApplet {
 		fill(255,0,0);
 		stroke(0);
 		rect(car1.getxCoord(), car1.getyCoord()+140, carWidth, carHeight);
+		rect(car2.getxCoord(), car2.getyCoord()+230, carWidth, carHeight);
 
 		//fill(c);
 		//rect(x2, y+100, carWidth, carHeight);
