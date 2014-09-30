@@ -1,7 +1,25 @@
 
 package realTrafficSim;
 
+import java.awt.Point;
+
 public class Car {
+	float xCoord;
+	float yCoord;
+	
+	public Car(float xCoord, float yCoord) {
+		super();
+		this.xCoord = xCoord;
+		this.yCoord = yCoord;
+	}
+
+	public Point getLocation(){
+		Point loc = new Point();
+		
+		loc.setLocation(this.xCoord , this.yCoord);
+		
+		return loc;
+	}
 	
 	public float getxCoord() {
 		return xCoord;
@@ -17,14 +35,6 @@ public class Car {
 
 	public void setyCoord(float yCoord) {
 		this.yCoord = yCoord;
-	}
-
-	float xCoord = 0;
-	float yCoord = 0;
-	
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		
 	}
 
 }

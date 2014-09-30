@@ -19,48 +19,80 @@ public class Simulation extends PApplet {
 	int x1 = 0;
 	int offset = 0;
 	int medianSpeed = 3;
-	Car car1 = new Car();
-	Car car2 = new Car();
-	ArrayList<Car> cars = new ArrayList<Car>();
+	float laneChangeVar = 40;
+
+	Car car1 = new Car(0,140);
+	Car car2 = new Car(0 + carWidth + 50, 140);
+
+
+	//	ArrayList<Car> cars = new ArrayList<Car>();
 
 	public void setup() {
 		size(displayWidth, displayHeight);
 		background(0);
-		cars.add(car1);
-		cars.add(car2);
+		//		cars.add(car1);
+		//		cars.add(car2);
 	}
 
 	public void draw() {
 		background(0, 255, 0);
 		highwayLanes();
-		move(cars);
+		move(car1, 1);
+		move(car2, 1);
+		changeLane(car1, car2, 1, 1); //1 = merging down 0 = merging up
 		display();
-		changeLane();
+		//		changeLane();*/
 	}
 
-	void move(ArrayList<Car> carsList) {
-		for (Car car : carsList) {
-			car.setxCoord(car.getxCoord() + speed);
+	void move(Car car, float speed) {
+		//		for (Car car : carsList) {
+		//			car.setxCoord(car.getxCoord() + speed);
+		//		}
+
+		car.setxCoord(car.getxCoord()+speed);
+
+		//	controls looping; treadmill effect
+		if (car.getxCoord() > width) {
+			car.setxCoord(0);
 		}
-		
-//		car1.setxCoord(car1.getxCoord()+speed);
-
-//	controls looping; treadmill effect
-//		if (userCar.getxCoord() > width) {
-//			userCar.setxCoord(0);
-//		}
 	}
 
-	void changeLane() {
+	/* void changeLane() {
 		car1.setyCoord(car1.getyCoord() + speed);
-		
+
+
 		if (car1.getyCoord() == 230) {
 			car1.setyCoord(0);
 		}
 		if (x1 > width) {
 			x1 = 0;
 		}
+	}*/
+
+	void changeLane(Car car, Car obsCar, float speed1, int direction){
+
+		if (this.doMagic() == true)
+		{
+			car.setyCoord(car.getyCoord() + laneChangeVar);
+
+		}
+		/*	car.setxCoord(car.getxCoord() + speed1);
+		if(obsCar.getxCoord() + carWidth > car.getxCoord() - carHeight){
+
+			if(direction == 0){
+				while(((car.getxCoord() + carWidth >= obsCar.getxCoord()) && (car.getyCoord() - carHeight < obsCar.getyCoord()))){
+					car.setyCoord(car.getyCoord() - laneChangeVar);
+				}
+			}else{
+				while(((car.getxCoord() + carWidth <= obsCar.getxCoord()) && (car.getyCoord() - carHeight > obsCar.getyCoord()))){
+					car.setyCoord(car.getyCoord() + laneChangeVar);
+				}
+
+			}
+		}*/
+
 	}
+
 
 	void highwayLanes() {
 		// road
@@ -81,7 +113,7 @@ public class Simulation extends PApplet {
 		fill(255);
 		stroke(0); 
 		offset = offset - medianSpeed;
-		
+
 		for(int i = 0; i < displayWidth; i++) {
 			rect(i * 100 + offset, 195, 40, 10);
 		}
@@ -90,16 +122,44 @@ public class Simulation extends PApplet {
 	void display() {
 		fill(255, 0, 0);
 		stroke(0);
-		rect(car1.getxCoord(), car1.getyCoord()+140, carWidth, carHeight);
-		rect(car2.getxCoord(), car2.getyCoord()+230, carWidth, carHeight);
+		rect(car1.getxCoord(), car1.getyCoord(), carWidth, carHeight);
+		rect(car2.getxCoord(), car2.getyCoord(), carWidth, carHeight);
 
-//		fill(c);
-//		rect(x2, y+100, carWidth, carHeight);
+		//		fill(c);
+		//		rect(x2, y+100, carWidth, carHeight);
 
-//		fill(c+200);
-//		rect(x1, y+200, carWidth, carHeight);
+		//		fill(c+200);
+		//		rect(x1, y+200, carWidth, carHeight);
 	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
