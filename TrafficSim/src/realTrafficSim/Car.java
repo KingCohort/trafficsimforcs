@@ -1,19 +1,27 @@
 
+
 package realTrafficSim;
 
 import java.awt.Point;
 
-public class Car {
-	float xCoord;
-	float yCoord;
+public class Car
+{
+	int xCoord;
+	int yCoord;
+	int width;
+	int height;
 	
-	public Car(float xCoord, float yCoord) {
+	public Car(int xCoord, int yCoord, int width, int height)
+	{
 		super();
 		this.xCoord = xCoord;
 		this.yCoord = yCoord;
+		this.width = width;
+		this.height = height;
 	}
 
-	public Point getLocation() {
+	public Point getLocation()
+	{
 		Point loc = new Point();
 		
 		loc.setLocation(this.xCoord , this.yCoord);
@@ -21,20 +29,37 @@ public class Car {
 		return loc;
 	}
 	
-	public float getxCoord() {
+	public int getxCoord()
+	{
 		return xCoord;
 	}
 
-	public void setxCoord(float xCoord) {
-		this.xCoord = xCoord;
+	public void setxCoord(int f)
+	{
+		this.xCoord = f;
 	}
 
-	public float getyCoord() {
+	public int getyCoord()
+	{
 		return yCoord;
 	}
 
-	public void setyCoord(float yCoord) {
+	public void setyCoord(int yCoord)
+	{
 		this.yCoord = yCoord;
 	}
-
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
