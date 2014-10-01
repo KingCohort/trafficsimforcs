@@ -37,3 +37,33 @@ FROM DISPLAY METHOD
 
 		//		fill(c+200);
 		//		rect(x1, y+200, carWidth, carHeight);
+
+STUFF
+
+//	public static Main getMainObject()
+//    {
+//            return mainClass;
+//    }
+	
+//	void move(Car car, float speed)
+//	{
+//		car.setxCoord(car.getxCoord()+speed);
+//
+//		//	controls looping; treadmill effect
+//		if (car.getxCoord() > width) {
+//			car.setxCoord(0);
+//		}
+//	}
+//
+//	void changeLane(Car car, Car obsCar, float speed1, int direction)
+//	{
+//		car.setyCoord(car.getyCoord() + laneChangeVar);
+//	}
+//
+//	void display()
+//	{
+//		fill(255, 0, 0);
+//		stroke(0);
+//		rect(car1.getxCoord(), car1.getyCoord(), carWidth, carHeight);
+//		rect(car2.getxCoord(), car2.getyCoord(), carWidth, carHeight);
+//	}

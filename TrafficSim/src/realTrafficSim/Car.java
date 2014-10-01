@@ -13,7 +13,7 @@ public class Car {
 		this.yCoord = yCoord;
 	}
 
-	public Point getLocation(){
+	public Point getLocation() {
 		Point loc = new Point();
 		
 		loc.setLocation(this.xCoord , this.yCoord);
