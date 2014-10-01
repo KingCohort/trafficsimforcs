@@ -20,15 +20,8 @@ public class Environment {
 	 * 		__Ycoor : is the Y coordinate
 	 * 
 	 */
+	
 	PApplet par;
-	
-	/* public Environment(PApplet parent)
-	{
-		par = parent;
-	} */ 
-	
-
-
 
 	void createHighway(PApplet par)
 	{
@@ -52,7 +45,6 @@ public class Environment {
 		int medianSize = 10;
 		int medianHor = 40;
 		int medianXcoor;
-		int medianYcoor = 0;
 		int offset = 0;
 		int medianSpeed = 3;
 		
@@ -62,17 +54,20 @@ public class Environment {
 		int numLanes = 2;
 		
 		// base highway
-		int highwaySize = par.displayWidth;
+		int highwaySize = par.displayWidth; // width of the road
+		// the horizontal size of the road
 		int highwayHor = (buffer * 2) + ( topBoundSize + bottomBoundSize ) + ( medianSize ) + ( ( laneSize ) * (numLanes) );
 		
 		// bottom lane coord declared here for other vars info
 		int bottomBoundYcoor = ( buffer ) + ( topBoundYcoor ) + ( ( laneSize ) * (numLanes) ) + ( medianSize );
+		int medianYcoor = ( highwayYcoor ) + ( buffer ) + ( topBoundSize ) + ( laneSize );
+		
 		// rect(X, Y, WIDTH, HEIGHT), how to use rect
 		
 		// base road
 		par.fill(51);
 		par.stroke(0);
-		par.rect(highwayXcoor, highwayYcoor, highwayHor, highwaySize);
+		par.rect(highwayXcoor, highwayYcoor, highwaySize, highwayHor);
 
 		// top outer road line
 		par.fill(255);
