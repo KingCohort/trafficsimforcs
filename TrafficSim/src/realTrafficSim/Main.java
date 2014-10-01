@@ -1,15 +1,16 @@
+
+
 package realTrafficSim;
 
 import processing.core.*;
 
-
-public class Simulation extends PApplet {
-
-	//	#NO
-	//	ALL THE #NO FOR ALL OF THE PROJECT
-
+public class Main extends PApplet
+{
+	// needed for processing
 	private static final long serialVersionUID = 1L;
-
+	
+	private static Main mainClass;
+	
 	int c = color(0);
 	float y = 100;
 	float carWidth = 60;
@@ -22,8 +23,14 @@ public class Simulation extends PApplet {
 	Car car2 = new Car(0 + carWidth + 50, 140);
 	Environment env = new Environment();
 	
+	public static void main(String[] args)
+	{
+		PApplet.main("realTrafficSim.Main");
+	}
+	
 	public void setup()
 	{
+		mainClass = this;
 		size(displayWidth, displayHeight);
 		background(0);
 		//		cars.add(car1);
@@ -39,7 +46,12 @@ public class Simulation extends PApplet {
 		changeLane(car1, car2, 1, 1); //1 = merging down 0 = merging up
 		display();
 	}
-
+	
+	public static Main getMainObject()
+    {
+            return mainClass;
+    }
+	
 	void move(Car car, float speed)
 	{
 		car.setxCoord(car.getxCoord()+speed);
@@ -63,34 +75,3 @@ public class Simulation extends PApplet {
 		rect(car2.getxCoord(), car2.getyCoord(), carWidth, carHeight);
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

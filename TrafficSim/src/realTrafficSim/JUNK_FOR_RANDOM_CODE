@@ -1,0 +1,39 @@
+
+
+old change lane method
+
+/* void changeLane() {
+		car1.setyCoord(car1.getyCoord() + speed);
+
+
+		if (car1.getyCoord() == 230) {
+			car1.setyCoord(0);
+		}
+		if (x1 > width) {
+			x1 = 0;
+		}
+	}*/
+	
+FROM NEW CHANGE LANE METHOD
+	/*	car.setxCoord(car.getxCoord() + speed1);
+		if(obsCar.getxCoord() + carWidth > car.getxCoord() - carHeight){
+
+			if(direction == 0){
+				while(((car.getxCoord() + carWidth >= obsCar.getxCoord()) && (car.getyCoord() - carHeight < obsCar.getyCoord()))){
+					car.setyCoord(car.getyCoord() - laneChangeVar);
+				}
+			}else{
+				while(((car.getxCoord() + carWidth <= obsCar.getxCoord()) && (car.getyCoord() - carHeight > obsCar.getyCoord()))){
+					car.setyCoord(car.getyCoord() + laneChangeVar);
+				}
+
+			}
+		}*/
+		
+FROM DISPLAY METHOD
+
+//		fill(c);
+		//		rect(x2, y+100, carWidth, carHeight);
+
+		//		fill(c+200);
+		//		rect(x1, y+200, carWidth, carHeight);
