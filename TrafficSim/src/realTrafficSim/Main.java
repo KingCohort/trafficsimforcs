@@ -31,10 +31,10 @@ public class Main extends PApplet
 	public void draw()
 	{
 		background(0, 255, 0);
-		env.createHighway(this);
+		env.createHighway(mainClass);
 		env.move(car1, 1);
 		env.move(car2, 1);
-		env.display(this);
+		env.display(mainClass);
 	}
 	
 	public static Main getMainObject()

@@ -134,8 +134,9 @@ public class Environment
 		car.setxCoord(car.getxCoord() + speed);
 
 		//	controls looping; treadmill effect
-//		if (car.getxCoord() > car.displayWidth) {
-//			car.setxCoord(0);
+	//if (car.getxCoord() > car.displayWidth) {
+		//car.setxCoord(0);
+	//}
 //		}
 	}
 }
