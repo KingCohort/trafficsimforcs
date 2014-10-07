@@ -33,7 +33,9 @@ public class Main extends PApplet
 		background(0, 255, 0);
 		env.createHighway(this);
 		env.move(car1, 1);
+		//env.changeLane(car1, 1);
 		env.move(car2, 1);
+		env.changeLane(car1, 1);
 		env.display(this);
 	}
 	
@@ -42,3 +44,9 @@ public class Main extends PApplet
 		return mainClass;
     }
 }
+
+
+
+
+
+

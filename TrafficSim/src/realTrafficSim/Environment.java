@@ -29,6 +29,7 @@ public class Environment
 	int car1Y = 150;
 	int car2X = 0;
 	int car2Y = 150;
+	boolean carInOtherLane = false;
 
 	Car car1 = new Car(car1X, car1Y, carWidth, carHeight);
 	Car car2 = new Car(car2X, car2Y, carWidth, carHeight);
@@ -124,8 +125,8 @@ public class Environment
 	{
 		par.fill(255, 0, 0);
 		par.stroke(0);
-		par.rect(Main.car1.getxCoord(), car1.getyCoord(), carWidth, carHeight);
-		par.rect(Main.car2.getxCoord(), car2.getyCoord(), carWidth, carHeight);
+		par.rect(Main.car1.getxCoord(), Main.car1.getyCoord(), carWidth, carHeight);
+		par.rect(Main.car2.getxCoord(), Main.car2.getyCoord(), carWidth, carHeight);
 	}
 
 
@@ -138,6 +139,24 @@ public class Environment
 		//car.setxCoord(0);
 	//}
 //		}
+	}
+	
+	void changeLane(Car car, int speed)
+	{
+		if  (car.getyCoord() < 250 && carInOtherLane == false)// '/highwayYcoor-(lanesize*0.5)')
+		{
+		car.setyCoord(car.getyCoord() + speed);
+		}
+		else if (car.getyCoord() == 250)
+		{
+			carInOtherLane = true;
+			car.setxCoord(car.getxCoord() + speed +1);
+		}
+		if (car.getxCoord() > 960 && car.getyCoord() >= 150)
+		{
+			car.setyCoord(car.getyCoord() - speed);
+		}
+		
 	}
 }
 
