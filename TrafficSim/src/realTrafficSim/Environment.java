@@ -112,20 +112,20 @@ public class Environment
 //		Car car1 = new Car(car1X, car1Y, carWidth, carHeight);
 //		Car car2 = new Car(car2X, car2Y, carWidth, carHeight);
 
-		par.fill(255,0,0);
-		par.stroke(0);
-		par.rect(car1X, car1Y, carWidth, carHeight);
-
-		move(car1, 1);
-		move(car2, 1);
+//		par.fill(255,0,0);
+//		par.stroke(0);
+//		par.rect(car1X, car1Y, carWidth, carHeight);
+//
+//		move(car1, 1);
+//		move(car2, 1);
 	}
 
 	void display(PApplet par)
 	{
 		par.fill(255, 0, 0);
 		par.stroke(0);
-		par.rect(car1.getxCoord(), car1.getyCoord(), carWidth, carHeight);
-		par.rect(car2.getxCoord(), car2.getyCoord(), carWidth, carHeight);
+		par.rect(Main.car1.getxCoord(), car1.getyCoord(), carWidth, carHeight);
+		par.rect(Main.car2.getxCoord(), car2.getyCoord(), carWidth, carHeight);
 	}
 
 

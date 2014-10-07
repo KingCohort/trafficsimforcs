@@ -11,8 +11,8 @@ public class Main extends PApplet
 	
 	private static Main mainClass;
 	
-	Car car1 = new Car(0,150,60,40);
-    Car car2 = new Car(0 + 150 + 50, 140,60,40);
+	public static Car car1 = new Car(0,150,60,40);
+    public static Car car2 = new Car(0 + 150 + 50, 140,60,40);
 	
 	Environment env = new Environment();
 	
@@ -31,10 +31,10 @@ public class Main extends PApplet
 	public void draw()
 	{
 		background(0, 255, 0);
-		env.createHighway(mainClass);
+		env.createHighway(this);
 		env.move(car1, 1);
 		env.move(car2, 1);
-		env.display(mainClass);
+		env.display(this);
 	}
 	
 	public static Main getMainObject()
