@@ -42,9 +42,3 @@ public class Main extends PApplet
 		return mainClass;
     }
 }
-
-
-
-
-
-
