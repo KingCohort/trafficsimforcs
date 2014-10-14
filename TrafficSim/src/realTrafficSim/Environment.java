@@ -23,8 +23,8 @@ public class Environment
 	 * 
 	 */
 	
-	int carWidth = 60;
-	int carHeight = 30;
+	int carWidth = 80;
+	int carHeight = 45;
 	int car1X = 90;
 	int car1Y = 150;
 	int car2X = 0;
@@ -133,19 +133,13 @@ public class Environment
 	void move(Car car, int speed)
 	{
 		car.setxCoord(car.getxCoord() + speed);
-
-		//	controls looping; treadmill effect
-	//if (car.getxCoord() > car.displayWidth) {
-		//car.setxCoord(0);
-	//}
-//		}
 	}
 	
 	void changeLane(Car car, int speed)
 	{
 		if  (car.getyCoord() < 250 && carInOtherLane == false)// '/highwayYcoor-(lanesize*0.5)')
 		{
-		car.setyCoord(car.getyCoord() + speed);
+			car.setyCoord(car.getyCoord() + speed);
 		}
 		else if (car.getyCoord() == 250)
 		{
