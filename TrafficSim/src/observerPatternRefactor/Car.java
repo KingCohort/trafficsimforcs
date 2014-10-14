@@ -11,8 +11,6 @@ public class Car
 	int yCoord;
 	int width;
 	int height;
-	int carWidth = 60;
-	int carHeight = 30;
 	int car1X = 90;
 	int car1Y = 150;
 	int car2X = 0;

@@ -1,5 +1,7 @@
 package observerPatternRefactor;
 
+import java.awt.Point;
+import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -68,12 +70,15 @@ public class trafficView extends PApplet implements Observer{
 	// bottom lane coord declared here for other vars info
 	int bottomBoundYcoor = ( buffer ) + ( topBoundYcoor ) + ( ( laneSize ) * (numLanes) ) + ( medianSize );
 	int medianYcoor = ( highwayYcoor ) + ( buffer ) + ( topBoundSize ) + ( laneSize );
+	
+	int carWidth = 60;
+	int carHeight = 30;
 
 
-	public static void main(String[] args)
-	{
-		PApplet.main("realTrafficSim.Main");
-	}
+//	public trafficView(int carWidth, int carHeight) {
+//		this.carWidth = carWidth;
+//		this.carHeight = carHeight;
+//	}
 
 	public void setup()
 	{
@@ -81,18 +86,21 @@ public class trafficView extends PApplet implements Observer{
 		background(0);
 	}
 
-	public void draw()
+	public void draw(ArrayList<Point> carLocs)
 	{
 		background(0, 255, 0);
 		createHighway();
-		display();
+		displayCars(carLocs);
 	}
 
 
-	void display()
+	void displayCars(ArrayList<Point> carLocs)
 	{
 		fill(255, 0, 0);
 		stroke(0);
+		for (Point point : carLocs) {
+			rect(point.x, point.y, carWidth, carHeight);
+		}
 	}
 
 	void createHighway()
@@ -126,16 +134,9 @@ public class trafficView extends PApplet implements Observer{
 	}
 
 	@Override
-	public void update(Observable arg0, Object arg1) {
-		
+	public void update(Observable model, Object carLocs) {
+		draw((ArrayList<Point>) carLocs);
 		//update the simulation view, probably just re-call the draw method.
 
 	}
-
-
-
-
-
-
-
 }
