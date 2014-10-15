@@ -17,6 +17,10 @@ public class trafficView extends PApplet implements Observer{
 	//There are no manipulation of object behavior. This class will generate the simulation graphics
 	//The only class who knows about anything besides itself is the controller class. This is not that class
 	 * 
+	 * SIMULATION BEING DONE HERE
+	 * take array of cars
+	 * telling things where to draw stuff
+	 * 
 	 * --- INFORMATION ABOUT VARS ---
 	 * 
 	 * __Size : is the size of the box in the Y direction
