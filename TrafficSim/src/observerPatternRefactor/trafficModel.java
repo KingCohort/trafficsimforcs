@@ -27,10 +27,6 @@ public class trafficModel extends java.util.Observable {
 		return  cars;
 	}
 
-	public void setObserver(Observer o) {
-		this.o = o;
-	}
-
 	public void notifyObservers() {	
 		setChanged();
 		carLocs = new ArrayList<Point>();

@@ -37,11 +37,13 @@ public class trafficView extends PApplet implements Observer{
 	 */
 
 	private static final long serialVersionUID = 1L;
-	
+
 	int carWidth = 60;
 	int carHeight = 30;
-	
-	ArrayList<Point> carLocs;
+
+	ArrayList<Point> carLocs = new ArrayList<Point>() {{
+		add(new Point(0, 150));
+	}};
 
 	public void setup()
 	{
@@ -103,7 +105,7 @@ public class trafficView extends PApplet implements Observer{
 		// bottom lane coord declared here for other vars info
 		int bottomBoundYcoor = ( buffer ) + ( topBoundYcoor ) + ( ( laneSize ) * (numLanes) ) + ( medianSize );
 		int medianYcoor = ( highwayYcoor ) + ( buffer ) + ( topBoundSize ) + ( laneSize );
-		
+
 		// rect(X, Y, WIDTH, HEIGHT), how to use rect
 
 		// base road
@@ -131,10 +133,12 @@ public class trafficView extends PApplet implements Observer{
 		}		
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void update(Observable model, Object carLocs) {
 		this.carLocs = (ArrayList<Point>) carLocs;
 		//update the simulation view, probably just re-call the draw method.
 
 	}
+
 }
