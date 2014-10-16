@@ -37,60 +37,18 @@ public class trafficView extends PApplet implements Observer{
 	 */
 
 	private static final long serialVersionUID = 1L;
-
-	int buffer = 10;
-
-	// highway coords
-	int highwayXcoor = 0;
-	int highwayYcoor = 100;
-
-	// lane bound coordinates
-	int topBoundXcoor = 0;
-	int topBoundYcoor = highwayYcoor + buffer;
-	int bottomBoundXcoor = 0;
-
-	// extra white line outer bounds
-	int topBoundSize = 10;
-	int bottomBoundSize = topBoundSize; // the boundary lines should be the same size
-	int boundHor = displayWidth;
-
-	// median
-	int medianSize = 10;
-	int medianHor = 40;
-	int medianXcoor;
-	int offset = 0;
-	int medianSpeed = 3;
-
-	// lanes
-	int laneSize = 100;
-	int laneHor = displayWidth;
-	int numLanes = 2;
-
-	// base highway
-	int highwaySize = (buffer * 2) + ( topBoundSize + bottomBoundSize ) + ( medianSize ) + ( ( laneSize ) * (numLanes) ); 
-	// the horizontal size of the road
-	int highwayHor = displayWidth; // width of the road
-
-	// bottom lane coord declared here for other vars info
-	int bottomBoundYcoor = ( buffer ) + ( topBoundYcoor ) + ( ( laneSize ) * (numLanes) ) + ( medianSize );
-	int medianYcoor = ( highwayYcoor ) + ( buffer ) + ( topBoundSize ) + ( laneSize );
 	
 	int carWidth = 60;
 	int carHeight = 30;
-
-
-//	public trafficView(int carWidth, int carHeight) {
-//		this.carWidth = carWidth;
-//		this.carHeight = carHeight;
-//	}
+	
+	ArrayList<Point> carLocs;
 
 	public void setup()
 	{
 		size(displayWidth, displayHeight);
-		background(0);
 	}
 
-	public void draw(ArrayList<Point> carLocs)
+	public void draw()
 	{
 		background(0, 255, 0);
 		createHighway();
@@ -109,6 +67,42 @@ public class trafficView extends PApplet implements Observer{
 
 	void createHighway()
 	{
+		int buffer = 10;
+
+		// highway coords
+		int highwayXcoor = 0;
+		int highwayYcoor = 100;
+
+		// lane bound coordinates
+		int topBoundXcoor = 0;
+		int topBoundYcoor = highwayYcoor + buffer;
+		int bottomBoundXcoor = 0;
+
+		// extra white line outer bounds
+		int topBoundSize = 10;
+		int bottomBoundSize = topBoundSize; // the boundary lines should be the same size
+		int boundHor = displayWidth;
+
+		// median
+		int medianSize = 10;
+		int medianHor = 40;
+		int medianXcoor;
+		int offset = 0;
+		int medianSpeed = 0;
+
+		// lanes
+		int laneSize = 100;
+		int laneHor = displayWidth;
+		int numLanes = 2;
+
+		// base highway
+		int highwaySize = (buffer * 2) + ( topBoundSize + bottomBoundSize ) + ( medianSize ) + ( ( laneSize ) * (numLanes) ); 
+		// the horizontal size of the road
+		int highwayHor = displayWidth; // width of the road
+
+		// bottom lane coord declared here for other vars info
+		int bottomBoundYcoor = ( buffer ) + ( topBoundYcoor ) + ( ( laneSize ) * (numLanes) ) + ( medianSize );
+		int medianYcoor = ( highwayYcoor ) + ( buffer ) + ( topBoundSize ) + ( laneSize );
 		
 		// rect(X, Y, WIDTH, HEIGHT), how to use rect
 
@@ -131,15 +125,15 @@ public class trafficView extends PApplet implements Observer{
 		stroke(0); 
 		offset = offset - medianSpeed;
 
-		for (int i = 0; i < displayWidth; i++)
+		for (int i = 0; i < displayWidth; i+=100)
 		{
-			rect(i * 100 + offset, medianYcoor, medianHor, medianSize);
+			rect(i + offset, medianYcoor, medianHor, medianSize);
 		}		
 	}
 
 	@Override
 	public void update(Observable model, Object carLocs) {
-		draw((ArrayList<Point>) carLocs);
+		this.carLocs = (ArrayList<Point>) carLocs;
 		//update the simulation view, probably just re-call the draw method.
 
 	}

@@ -6,9 +6,11 @@ public class TrafficSimMain {
 		// TODO Auto-generated method stub
 		trafficModel model = new trafficModel(); 
 		trafficView view = new trafficView();
-		trafficController controller = new trafficController(model, view);
-		model.setObserver(controller);
-//		controller.start();
+		model.addObserver(view);
+		
+//		trafficController controller = new trafficController(model, view);
+//		model.addObserver(controller);
+		//http://www.austintek.com/mvc/
 	}
 
 }

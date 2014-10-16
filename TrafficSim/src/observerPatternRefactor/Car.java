@@ -17,13 +17,12 @@ public class Car
 	int car2Y = 150;
 	boolean carInOtherLane = false;
 	
-	public Car(int xCoord, int yCoord, int width, int height)
+	public Car(int xCoord, int yCoord)
 	{
 		super();
 		this.xCoord = xCoord;
 		this.yCoord = yCoord;
-		this.width = width;
-		this.height = height;
+	
 	}
 	
 	public static void main(Car car){

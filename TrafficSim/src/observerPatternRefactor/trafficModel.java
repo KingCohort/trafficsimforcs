@@ -12,16 +12,21 @@ public class trafficModel extends java.util.Observable {
 	//There is no environment. This class will create an array of car objects that is passed to the controller and into the view
 	//The only class who knows about anything besides itself is the controller class. This is not that class
 
-	Car[] cars = new Car[100];
 	
+	Car[] cars = new Car[1];
 	Observer o;
 	ArrayList<Point> carLocs;
-	
-	public Car[] createCars(){
 
+	public Car[] createCars(){
+	
+		//for(int i = 0; i < cars.length; i++){
+			
+			cars[0] = new Car(0,150);
+			
+		//}
 		return  cars;
 	}
-	
+
 	public void setObserver(Observer o) {
 		this.o = o;
 	}
@@ -34,5 +39,5 @@ public class trafficModel extends java.util.Observable {
 		}
 		o.update(this, carLocs);
 	}
-	
+
 }

@@ -12,15 +12,37 @@ public class trafficController implements Observer {
 	
 	private trafficModel model;
 	private trafficView view;
+	private GUIView gui;
 
 	
-	public trafficController(trafficModel model, trafficView view) {
-		this.model = model;
-		this.view = view;
+	public trafficController() {
+	
+	}
+	
+	public void addTrafficView(trafficView v){
+		
+		this.view = v;
+		
+	}
+	
+	public void addTrafficModel(trafficModel m){
+		
+		this.model = m;
+		
+	}
+	
+	public void addGUIView(GUIView gui){
+		
+		this.gui = gui;
+		
 	}
 
 	@Override
 	public void update(Observable model, Object carLocs) {
 		view.update(model, carLocs);
+	}
+	
+	public void start() {
+		view.draw();
 	}
 }
