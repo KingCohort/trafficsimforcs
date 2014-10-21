@@ -12,7 +12,11 @@ import processing.core.PApplet;
  
 public class MySwingApp extends JFrame {
  
-    JButton btnMakeWindow;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	JButton btnMakeWindow;
     ControlFrame cf;    
  
     public MySwingApp(){
@@ -34,7 +38,11 @@ public class MySwingApp extends JFrame {
     }
  
     public class ControlFrame extends JFrame {
-      private ControlApplet papplet;
+      /**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+	private ControlApplet papplet;
       private JButton btnCircles;
  
       public ControlFrame(String title, int w, int h) {
@@ -73,7 +81,11 @@ public class MySwingApp extends JFrame {
  
     public class ControlApplet extends PApplet {
  
-      public int appWidth, appHeight;
+      /**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+	public int appWidth, appHeight;
  
       public void setup() {
         size(appWidth, appHeight);
