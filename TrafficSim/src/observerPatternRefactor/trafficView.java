@@ -38,19 +38,17 @@ public class trafficView extends PApplet implements Observer{
 
 	private static final long serialVersionUID = 1L;
 
-	int carWidth = 60;
+	int carWidth = 60; // what if we have a parameter class where all of the random dimensional info is so it
 	int carHeight = 30;
+	ArrayList<Point> carLocs = new ArrayList<Point>();
 
-	ArrayList<Point> carLocs = new ArrayList<Point>() {{
-		add(new Point(0, 150));
-	}};
 
 	public void setup()
 	{
 		size(displayWidth, displayHeight);
 	}
 
-	public void draw()
+	public void draw(ArrayList<Point> carLocs)
 	{
 		background(0, 255, 0);
 		createHighway();

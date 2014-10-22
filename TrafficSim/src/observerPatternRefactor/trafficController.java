@@ -46,4 +46,13 @@ public class trafficController extends java.util.Observable implements Observer 
 	public void start() {
 		model.notifyObservers();
 	}
+	
+	public int[] getCarDimensions(){ 
+		
+		int[] dimensions = new int[1];
+		view.carHeight = dimensions[0];
+		view.carWidth = dimensions[1];
+		
+		return dimensions;
+	}
 }
