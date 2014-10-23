@@ -38,6 +38,7 @@ public class GUI extends JFrame {
 				{
 //					GUI frame = new GUI();
 //					frame.setVisible(true);
+					//
 					
 					btnStart.addActionListener(new ActionListener()
 					{
