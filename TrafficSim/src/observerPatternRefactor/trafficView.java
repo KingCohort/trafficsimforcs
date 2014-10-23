@@ -1,14 +1,12 @@
 package observerPatternRefactor;
 
-import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
-import processing.core.PApplet;
-import realTrafficSim.Car;
-import realTrafficSim.Environment;
-import realTrafficSim.Main;
+import javafx.geometry.BoundingBox;
+import processing.core.*;
+
 
 public class trafficView extends PApplet implements Observer{
 
@@ -40,15 +38,16 @@ public class trafficView extends PApplet implements Observer{
 
 	int carWidth = 60; // what if we have a parameter class where all of the random dimensional info is so it
 	int carHeight = 30;
-	ArrayList<Point> carLocs = new ArrayList<Point>();
+	ArrayList<BoundingBox> carLocs = new ArrayList<BoundingBox>();
 
-
+	// processing setup method
 	public void setup()
 	{
 		size(displayWidth, displayHeight);
 	}
-
-	public void draw(ArrayList<Point> carLocs)
+	
+	// processing draw method
+	public void draw(ArrayList<BoundingBox> carLocs)
 	{
 		background(0, 255, 0);
 		createHighway();
@@ -56,12 +55,12 @@ public class trafficView extends PApplet implements Observer{
 	}
 
 
-	void displayCars(ArrayList<Point> carLocs)
+	void displayCars(ArrayList<BoundingBox> carLocs)
 	{
 		fill(255, 0, 0);
 		stroke(0);
-		for (Point point : carLocs) {
-			rect(point.x, point.y, carWidth, carHeight);
+		for (BoundingBox bb : carLocs) {
+			rect((float)bb.getMinX(), (float)bb.getMinY(), (float)bb.getWidth(), (float)bb.getHeight());
 		}
 	}
 
@@ -134,7 +133,8 @@ public class trafficView extends PApplet implements Observer{
 	@SuppressWarnings("unchecked")
 	@Override
 	public void update(Observable model, Object carLocs) {
-		this.carLocs = (ArrayList<Point>) carLocs;
+		System.out.println("THING STATUS: DONE");
+		this.carLocs = (ArrayList<BoundingBox>) carLocs;
 		//update the simulation view, probably just re-call the draw method.
 
 	}

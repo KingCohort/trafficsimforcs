@@ -3,7 +3,7 @@ package observerPatternRefactor;
 import java.util.Observable;
 import java.util.Observer;
 
-public class trafficController extends java.util.Observable implements Observer {
+public class trafficController {
 	
 	//This is where the communication between the model and the views go on. All things related to data transfer
 	//between the Model and the two Views. There is no manipulation of object behavior, there is no draw method
@@ -13,7 +13,6 @@ public class trafficController extends java.util.Observable implements Observer 
 	private trafficModel model;
 	private trafficView view;
 	private GUIView gui;
-	Observer o;
 
 	
 	public trafficController() {
@@ -38,13 +37,15 @@ public class trafficController extends java.util.Observable implements Observer 
 		
 	}
 
-	@Override
-	public void update(Observable model, Object carLocs) {
-		o.update(model, carLocs);
-	}
-	
+
 	public void start() {
-		model.notifyObservers();
+		trafficModel model = new trafficModel(); 
+		trafficView view = new trafficView();
+		model.addObserver(view);
+		System.out.println("it did a thing");
+		view.setup();
+		model.start();
+		
 	}
 	
 	public int[] getCarDimensions(){ 

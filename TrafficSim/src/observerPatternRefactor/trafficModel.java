@@ -7,7 +7,6 @@ import java.util.Observer;
 import java.util.ArrayList;
 
 import javafx.geometry.BoundingBox;
-import javafx.geometry.BoundingBoxBuilder;
 
 public class trafficModel extends java.util.Observable {
 
@@ -17,39 +16,47 @@ public class trafficModel extends java.util.Observable {
 
 
 	Car[] cars = new Car[2];
-	Observer o;
 	ArrayList<Point> carPoints;
-	ArrayList<BoundingBox> carBB;
+	ArrayList<BoundingBox> carBB = new ArrayList<BoundingBox>();
+	Boolean simulation = true;
 
-	public Car[] createCars(){
+	public void createCars(){
 
 		//for(int i = 0; i < cars.length; i++){
 		cars[0] = new Car(0,150, 60, 30);
 		cars[1] = new Car(0, 250, 60, 30);
 		//}
-		return  cars;
 	}
 
-	public void notifyObservers() {	
-		setChanged();
-		o.update(this, carBB);
-	}
+//	public void notifyObservers() {	
+//		setChanged();
+//		update(this, carBB);
+//	}
 
 
 
 	private ArrayList<BoundingBox> getBB(Car[] cars){
-
+		
 		for (Car car : cars) {
-			carBB.add(new BoundingBox(car.xCoord,car.yCoord,car.width,car.height));
+			carBB.add(new BoundingBox((float)car.xCoord,(float)car.yCoord,(float)car.width,(float)car.height));
 		}
 
 		return carBB;
 	}
 
-	public void main(Car[] cars){
+	public void start(){
+		createCars();
 		carBB = getBB(cars);
-		for(int i = 0; i < cars.length; i++){
-			cars[i].makeDecision(carBB);
+		run();
+		}
+	
+	public void run() {
+		while (simulation = true) {
+			for (Car car : cars) {
+				car.makeDecision(carBB);
+			}
+			setChanged();
+			notifyObservers(carBB);
 		}
 	}
 }
