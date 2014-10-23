@@ -1,20 +1,14 @@
-package observerPatternRefactor;
+package moreRefactor;
 
 import java.awt.Point;
-import java.util.Arrays;
-import java.util.Observable;
-import java.util.Observer;
 import java.util.ArrayList;
+import java.util.Observable;
 
-import javafx.geometry.BoundingBox; // java has bounding boxes now
-
-public class trafficModel extends java.util.Observable {
-
-	//This is where the actual simulation takes place. All things related to what should happen in the simulation goes here
-	//There is no environment. This class will create an array of car objects that is passed to the controller and into the view
-	//The only class who knows about anything besides itself is the controller class. This is not that class
+import javafx.geometry.BoundingBox;
 
 
+public class trafficModel extends Observable {
+	
 	Car[] cars = new Car[2];
 	ArrayList<Point> carPoints;		// is this still used?? cause bounding boxes
 	ArrayList<BoundingBox> carBB = new ArrayList<BoundingBox>();
@@ -59,7 +53,5 @@ public class trafficModel extends java.util.Observable {
 			notifyObservers(carBB);
 		}
 	}
+
 }
-
-
-

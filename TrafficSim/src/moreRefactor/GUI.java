@@ -1,39 +1,32 @@
-package observerPatternRefactor;
+package moreRefactor;
 
-import java.awt.*;
+import java.awt.EventQueue;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Observable;
-import java.util.Observer;
 
-import javax.swing.*;
-import javax.swing.border.EmptyBorder; // for some reason this needs to be imported seperatly??
+import javax.swing.ButtonGroup;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerNumberModel;
+import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
 
+public class GUI extends JFrame {
 
-public class GUIView extends JFrame implements Observer {
-
-	// this is just for the purpose of getting the gui down before makeing it the actual gui class
-	// dont delete either class
-	// this class may not work if you dont have windowBuilder installed 
-
-	@Override
-	public void update(Observable arg0, Object arg1)
-	{
-		// TODO Auto-generated method stub
-
-	}
-
-
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	JButton btnStart;
 
 	/**
 	 * Launch the application.
-	 * @return 
 	 */
 	public void GUIStart()
 	{
@@ -43,19 +36,21 @@ public class GUIView extends JFrame implements Observer {
 			{
 				try
 				{
-
-
+//					GUI frame = new GUI();
+//					frame.setVisible(true);
 					
-					btnStart.addActionListener(new ActionListener() {
+					btnStart.addActionListener(new ActionListener()
+					{
 						@Override
-						public void actionPerformed(ActionEvent e) {
-							trafficController trafficController = new trafficController();
-							trafficController.start();
+						public void actionPerformed(ActionEvent e)
+						{
+							trafficModel model = new trafficModel();
+							model.run();
 						}
 					});
-
-			        setVisible(true);
-
+					
+					setVisible(true);
+					
 				}
 				catch (Exception e)
 				{
@@ -65,16 +60,10 @@ public class GUIView extends JFrame implements Observer {
 		});
 	}
 
-
-
 	/**
 	 * Create the frame.
-	 * this creates all the GUI using WindowBuilder and swing
-	 * to edit make sure that WindowBuilder is installed in eclipse to edit GUI 
-	 * 		in drag and drop interface
-	 * 
 	 */
-	public GUIView() {
+	public GUI() {
 		setTitle("Traffic Sim Menu");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 800, 550);
@@ -203,8 +192,5 @@ public class GUIView extends JFrame implements Observer {
 		radioBtnGroup.add(rdbtnMedium);
 		radioBtnGroup.add(rdbtnLow);
 	}
+
 }
-
-
-
-

@@ -1,6 +1,6 @@
 
 
-package observerPatternRefactor;
+package moreRefactor;
 
 import java.util.ArrayList;
 

@@ -16,7 +16,7 @@ public class trafficController {
 
 	
 	public trafficController() {
-	
+		
 	}
 	
 	public void addTrafficView(trafficView v){
@@ -37,13 +37,12 @@ public class trafficController {
 		
 	}
 
-
+	// when the start simulation button it pressed this is what is used to actually go into the simulation
 	public void start() {
 		trafficModel model = new trafficModel(); 
 		trafficView view = new trafficView();
 		model.addObserver(view);
 		System.out.println("it did a thing");
-		view.setup();
 		model.start();
 		
 	}
@@ -57,3 +56,9 @@ public class trafficController {
 		return dimensions;
 	}
 }
+
+
+
+
+
+

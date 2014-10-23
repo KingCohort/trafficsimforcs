@@ -1,15 +1,13 @@
-package observerPatternRefactor;
+package moreRefactor;
 
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
+import processing.core.PApplet;
 import javafx.geometry.BoundingBox;
-import processing.core.*;
 
-
-public class trafficView extends PApplet implements Observer 
-{
+public class trafficView extends PApplet implements Observer {
 
 	/*--INFORMATION ABOUT VIEW--
 	//This is where the highway and cars are drawn. All things related to what the simulation should LOOK LIKE goes here
@@ -139,5 +137,6 @@ public class trafficView extends PApplet implements Observer
 		//update the simulation view, probably just re-call the draw method.
 
 	}
+
 
 }
