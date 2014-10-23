@@ -19,6 +19,8 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
+import processing.core.PApplet;
+
 public class GUI extends JFrame {
 
 	private static final long serialVersionUID = 1L;
@@ -45,8 +47,10 @@ public class GUI extends JFrame {
 						@Override
 						public void actionPerformed(ActionEvent e)
 						{
+							PApplet.main("moreRefactor.trafficView");
+							System.out.println("creating a model");
 							trafficModel model = new trafficModel();
-							model.run();
+							model.start();
 						}
 					});
 					

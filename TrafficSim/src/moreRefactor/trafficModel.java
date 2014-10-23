@@ -1,5 +1,6 @@
 package moreRefactor;
 
+import java.awt.Graphics;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Observable;
@@ -14,7 +15,11 @@ public class trafficModel extends Observable {
 	ArrayList<BoundingBox> carBB = new ArrayList<BoundingBox>();
 	Boolean simulation = true;
 
+
+	
 	public void createCars() {
+		
+		System.out.println("creating cars");
 
 		//for(int i = 0; i < cars.length; i++){
 		cars[0] = new Car(0,150, 60, 30);
@@ -22,15 +27,15 @@ public class trafficModel extends Observable {
 		//}
 	}
 
-//	public void notifyObservers() {	
-//		setChanged();
-//		update(this, carBB);
-//	}
+	//	public void notifyObservers() {	
+	//		setChanged();
+	//		update(this, carBB);
+	//	}
 
 
 	// 	java has bounding boxes now yay
 	private ArrayList<BoundingBox> getBB(Car[] cars){
-		
+
 		for (Car car : cars) {
 			carBB.add(new BoundingBox((float)car.xCoord,(float)car.yCoord,(float)car.width,(float)car.height));
 		}
@@ -41,17 +46,22 @@ public class trafficModel extends Observable {
 	public void start(){
 		createCars();
 		carBB = getBB(cars);
+		
+		System.out.println("starting model");
+		
 		run();
-		}
-	
-	public void run() {
-		while (simulation = true) {
-			for (Car car : cars) {
-				car.makeDecision(carBB);
-			}
-			setChanged();
-			notifyObservers(carBB);
-		}
 	}
 
+	public void run() {
+		for (Car car : cars) {
+			car.makeDecision(carBB);
+			System.out.println("Cars are deciding");
+		}
+		
+		
+		setChanged();
+		notifyObservers(carBB);
+	}
 }
+
+

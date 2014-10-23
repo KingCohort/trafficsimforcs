@@ -38,13 +38,26 @@ public class trafficView extends PApplet implements Observer {
 	int carWidth = 60; // what if we have a parameter class where all of the random dimensional info is so it
 	int carHeight = 30;
 	ArrayList<BoundingBox> carLocs = new ArrayList<BoundingBox>();
+	public static trafficView view;
+	
+	
+	public trafficView() {
+		start();
+	}
+
+	public void trafficViewObservers(Observable o){
+		
+		o.addObserver(this);
+		
+	}
 
 	// processing setup method
 	public void setup()
 	{
 		size(displayWidth, displayHeight);
+		view = this;
 	}
-	
+
 	// processing draw method
 	public void draw(ArrayList<BoundingBox> carLocs)
 	{
@@ -56,6 +69,7 @@ public class trafficView extends PApplet implements Observer {
 
 	void displayCars(ArrayList<BoundingBox> carLocs)
 	{
+		System.out.println("Displaying cars");
 		fill(255, 0, 0);
 		stroke(0);
 		for (BoundingBox bb : carLocs) {
@@ -129,14 +143,30 @@ public class trafficView extends PApplet implements Observer {
 		}		
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
-	public void update(Observable model, Object carLocs) {
-		System.out.println("THING STATUS: DONE");
-		this.carLocs = (ArrayList<BoundingBox>) carLocs;
-		//update the simulation view, probably just re-call the draw method.
+	public void update(Observable o, Object arg) {
+		ArrayList<BoundingBox> carBBs = new ArrayList<BoundingBox>();
+		
+		if(arg instanceof ArrayList){
+			
+			System.out.println("Lucy! Its an ArrayList!");
+			carBBs = (ArrayList<BoundingBox>)arg;
 
+		} else{
+			
+			System.out.println("Not an array list, its" + arg.getClass().getSimpleName() + " and o is " + o.getClass().getSimpleName());
+		}
+		
+		System.out.println("Its drawing probably");
+		draw(carBBs);
+		
 	}
 
 
 }
+
+
+
+
+
+
