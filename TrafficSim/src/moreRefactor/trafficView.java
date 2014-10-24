@@ -55,6 +55,7 @@ public class trafficView extends PApplet implements Observer {
 	public void setup()
 	{
 		size(displayWidth, displayHeight);
+		//background(0, 255, 0);
 		view = this;
 	}
 

@@ -1,7 +1,7 @@
+
+
 package moreRefactor;
 
-import java.awt.Graphics;
-import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Observable;
 
@@ -11,7 +11,6 @@ import javafx.geometry.BoundingBox;
 public class trafficModel extends Observable {
 	
 	Car[] cars = new Car[2];
-	ArrayList<Point> carPoints;		// is this still used?? cause bounding boxes
 	ArrayList<BoundingBox> carBB = new ArrayList<BoundingBox>();
 	Boolean simulation = true;
 
@@ -50,6 +49,8 @@ public class trafficModel extends Observable {
 		System.out.println("starting model");
 		
 		run();
+		trafficView view = trafficView.view;
+		view.draw(carBB);
 	}
 
 	public void run() {
