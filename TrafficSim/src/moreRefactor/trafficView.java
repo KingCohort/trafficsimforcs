@@ -1,13 +1,13 @@
 package moreRefactor;
 
 import java.util.ArrayList;
-import java.util.Observable;
-import java.util.Observer;
+//import java.util.Observable;
+//import java.util.Observer;
 
 import processing.core.PApplet;
 import javafx.geometry.BoundingBox;
 
-public class trafficView extends PApplet implements Observer {
+public class trafficView extends PApplet {
 
 	/*--INFORMATION ABOUT VIEW--
 	//This is where the highway and cars are drawn. All things related to what the simulation should LOOK LIKE goes here
@@ -44,11 +44,11 @@ public class trafficView extends PApplet implements Observer {
 	public trafficView() {
 	}
 
-	public void trafficViewObservers(Observable o){
-		
-		o.addObserver(this);
-		System.out.println("observer added");
-	}
+//	public void trafficViewObservers(Observable o){
+//		
+//		o.addObserver(this);
+//		System.out.println("observer added");
+//	}
 
 	// processing setup method
 	public void setup()
@@ -148,24 +148,24 @@ public class trafficView extends PApplet implements Observer {
 		}		
 	}
 
-	@Override
-	public void update(Observable o, Object arg) {
-		ArrayList<BoundingBox> carBBs = new ArrayList<BoundingBox>();
-		System.out.println("i'm updating");
-		if(arg instanceof ArrayList){
-			
-			System.out.println("Lucy! Its an ArrayList!");
-			carBBs = (ArrayList<BoundingBox>)arg;
-
-		} else{
-			
-			System.out.println("Not an array list, its" + arg.getClass().getSimpleName() + " and o is " + o.getClass().getSimpleName());
-		}
-		
-		System.out.println("Its drawing probably");
-		draw();
-		
-	}
+//	@Override
+//	public void update(Observable o, Object arg) {
+//		ArrayList<BoundingBox> carBBs = new ArrayList<BoundingBox>();
+//		System.out.println("i'm updating");
+//		if(arg instanceof ArrayList){
+//			
+//			System.out.println("Lucy! Its an ArrayList!");
+//			carBBs = (ArrayList<BoundingBox>)arg;
+//
+//		} else{
+//			
+//			System.out.println("Not an array list, its" + arg.getClass().getSimpleName() + " and o is " + o.getClass().getSimpleName());
+//		}
+//		
+//		System.out.println("Its drawing probably");
+//		draw();
+//		
+//	}
 
 
 }

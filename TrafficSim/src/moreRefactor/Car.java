@@ -76,7 +76,9 @@ public class Car
 		
 		move(1);
 		System.out.println("I made a decision");
-		//car.changeLane(car, 1);
+		if (getxCoord() > 400) {
+			changeLane(1);
+		}
 	
 	}
 	
@@ -91,22 +93,22 @@ public class Car
 	}
 	
 	
-	void changeLane(ArrayList<BoundingBox> carLoc, int speed)
+	void changeLane(int speed)
 	{
 		
-		/* if  (changer.getyCoord() < 250 && carInOtherLane == false)// '/highwayYcoor-(lanesize*0.5)')
+		 if  (getyCoord() < 250 && carInOtherLane == false)// '/highwayYcoor-(lanesize*0.5)')
 		{
-		changer.setyCoord(changer.getyCoord() + speed);
+		setyCoord(getyCoord() + speed);
 		}
-		else if (changer.getyCoord() == 250)
+		else if (getyCoord() == 250)
 		{
 			carInOtherLane = true;
-			changer.setxCoord(changer.getxCoord() + speed +1);
+			setxCoord(getxCoord() + speed +1);
 		}
-		if (changer.getxCoord() > 960 && changer.getyCoord() >= 150)
+		if (getxCoord() > 960 && getyCoord() >= 150)
 		{
-			changer.setyCoord(changer.getyCoord() - speed);
-		} */
+			setyCoord(getyCoord() - speed);
+		} 
 	}
 	
 	

@@ -3,12 +3,12 @@
 package moreRefactor;
 
 import java.util.ArrayList;
-import java.util.Observable;
+//import java.util.Observable;
 
 import javafx.geometry.BoundingBox;
 
 
-public class trafficModel extends Observable {
+public class trafficModel {
 
 	Car[] cars = new Car[2];
 	ArrayList<BoundingBox> carBB = new ArrayList<BoundingBox>();

@@ -6,7 +6,7 @@ public class trafficMain {
 	{
 		trafficModel model = new trafficModel();
 		trafficView view = new trafficView();
-		view.trafficViewObservers(model);
+//		view.trafficViewObservers(model);
 		GUI gui = new GUI();
 		gui.GUIStart();		
 	}
