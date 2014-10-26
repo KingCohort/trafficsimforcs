@@ -42,13 +42,12 @@ public class trafficView extends PApplet implements Observer {
 	
 	
 	public trafficView() {
-		start();
 	}
 
 	public void trafficViewObservers(Observable o){
 		
 		o.addObserver(this);
-		
+		System.out.println("observer added");
 	}
 
 	// processing setup method
@@ -60,11 +59,14 @@ public class trafficView extends PApplet implements Observer {
 	}
 
 	// processing draw method
-	public void draw(ArrayList<BoundingBox> carLocs)
+	public void draw()
 	{
+		System.out.println("Now drawing");
 		background(0, 255, 0);
 		createHighway();
+		carLocs = trafficModel.model.getBB();
 		displayCars(carLocs);
+		//makeDecision(carLocs);
 	}
 
 
@@ -80,6 +82,8 @@ public class trafficView extends PApplet implements Observer {
 
 	void createHighway()
 	{
+		System.out.println("Displaying highway");
+
 		int buffer = 10;
 
 		// highway coords
@@ -147,7 +151,7 @@ public class trafficView extends PApplet implements Observer {
 	@Override
 	public void update(Observable o, Object arg) {
 		ArrayList<BoundingBox> carBBs = new ArrayList<BoundingBox>();
-		
+		System.out.println("i'm updating");
 		if(arg instanceof ArrayList){
 			
 			System.out.println("Lucy! Its an ArrayList!");
@@ -159,7 +163,7 @@ public class trafficView extends PApplet implements Observer {
 		}
 		
 		System.out.println("Its drawing probably");
-		draw(carBBs);
+		draw();
 		
 	}
 

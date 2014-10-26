@@ -8,10 +8,6 @@ public class trafficMain {
 		trafficView view = new trafficView();
 		view.trafficViewObservers(model);
 		GUI gui = new GUI();
-		gui.GUIStart();
-		
+		gui.GUIStart();		
 	}
-	
-	
-
 }

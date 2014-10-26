@@ -19,6 +19,8 @@ public class Car
 	int carHeight;
 	boolean carInOtherLane = false;
 	
+	float speed = 1;
+	
 	
 	public Car(double xCoord, double yCoord,double width, double height)
 	{
@@ -55,7 +57,7 @@ public class Car
 	void move(double speed)
 	{
 		setxCoord(getxCoord() + speed);
-
+		//setxCoord(50);
 	}
 	
 	double computeCarLength(){
@@ -73,9 +75,14 @@ public class Car
 	void makeDecision(ArrayList<BoundingBox> carloc){
 		
 		move(1);
+		System.out.println("I made a decision");
 		//car.changeLane(car, 1);
 	
 	}
+	
+	//void move(ArrayList<BoundingBox> carloc, int speed){
+		
+	//}
 	
 	BoundingBox getBoundingBox(){
 		
