@@ -11,18 +11,25 @@ import javafx.geometry.*;
 // the program will create many cars to simulate real traffic
 public class Car
 {
-	double xCoord;
-	double yCoord;
+	float xCoord;
+	float yCoord;
 	double width;
 	double height;
 	int carWidth; 
 	int carHeight;
 	boolean carInOtherLane = false;
+	int RIGHT = 0;
+	int UP = 1;
+	int LEFT = 2;
+	int DOWN = 3;
+	
+	
+	
 	
 	float speed = 1;
 	
 	
-	public Car(double xCoord, double yCoord,double width, double height)
+	public Car(float xCoord, float yCoord,double width, double height)
 	{
 		super();
 		this.xCoord = xCoord;
@@ -31,33 +38,38 @@ public class Car
 		this.height = height;
 	
 	}
-	
 
 	
-	public double getxCoord()
+	public float getxCoord()
 	{
 		return xCoord;
 	}
 
-	public void setxCoord(double f)
+	public void setxCoord(float f)
 	{
 		this.xCoord = f;
 	}
 
-	public double getyCoord()
+	public float getyCoord()
 	{
 		return yCoord;
 	}
 
-	public void setyCoord(double yCoord)
+	public void setyCoord(float yCoord)
 	{
 		this.yCoord = yCoord;
 	}
 	
-	void move(double speed)
+	void speedUp(float speed)
 	{
 		setxCoord(getxCoord() + speed);
 		//setxCoord(50);
+	}
+	
+	void slowDown(float speed){
+		
+		setxCoord(getxCoord() - speed);
+		
 	}
 	
 	double computeCarLength(){
@@ -72,9 +84,9 @@ public class Car
 		return carHeight;
 	}
 	
-	void makeDecision(ArrayList<BoundingBox> carloc){
+	void makeDecision(ArrayList<BoundingBox> carloc, int[] personality){
 		
-		move(1);
+		speedUp(1);
 		System.out.println("I made a decision");
 		if (getxCoord() > 400) {
 			changeLane(1);
@@ -82,10 +94,7 @@ public class Car
 	
 	}
 	
-	//void move(ArrayList<BoundingBox> carloc, int speed){
-		
-	//}
-	
+
 	BoundingBox getBoundingBox(){
 		
 		BoundingBox carBox = new BoundingBox(getxCoord(), getyCoord(), width, height);
@@ -93,7 +102,7 @@ public class Car
 	}
 	
 	
-	void changeLane(int speed)
+	void changeLane(float speed)
 	{
 		
 		 if  (getyCoord() < 250 && carInOtherLane == false)// '/highwayYcoor-(lanesize*0.5)')
@@ -122,41 +131,47 @@ public class Car
 			if((getBoundingBox().getMaxX() + computeCarLength()) > carLoc.get(i).getMinX()){
 				
 				//right direction, assignment of index 0
-				surroundingCarLocations[0] = true;
-				
-			} else if((getBoundingBox().getMaxX() + computeCarLength()) < carLoc.get(i).getMinX()){
+				surroundingCarLocations[RIGHT] = true;	
+			} 
+			if((getBoundingBox().getMaxX() + computeCarLength()) < carLoc.get(i).getMinX()){
 				
 				//right direction, assignment of index 0
-				surroundingCarLocations[0] = false;
+				surroundingCarLocations[RIGHT] = false;
 				
-			} else if((getBoundingBox().getMinY() - computeCarHeight()) < carLoc.get(i).getMaxY()){
+			} 
+			if((getBoundingBox().getMinY() - computeCarHeight()) < carLoc.get(i).getMaxY()){
 				
 				//up direction, assignment of index 1
-				surroundingCarLocations[1] = true;
+				surroundingCarLocations[UP] = true;
 				
-			} else if((getBoundingBox().getMinY() + computeCarHeight()) > carLoc.get(i).getMaxY()){
+			} 
+			if((getBoundingBox().getMinY() + computeCarHeight()) > carLoc.get(i).getMaxY()){
 			
 				//up direction, assignment of index 1
-				surroundingCarLocations[1] = false;
+				surroundingCarLocations[UP] = false;
 				
-			} else if((getBoundingBox().getMinX() - computeCarLength()) < carLoc.get(i).getMaxX()){
-				
-				//left direction, assignment of index 2
-				surroundingCarLocations[2] = true;			
-				
-			} else if((getBoundingBox().getMinX() - computeCarLength()) > carLoc.get(i).getMaxX()){
+			} 
+			if((getBoundingBox().getMinX() - computeCarLength()) < carLoc.get(i).getMaxX()){
 				
 				//left direction, assignment of index 2
-				surroundingCarLocations[2] = false;	
-			} else if((getBoundingBox().getMaxY() - computeCarLength() < carLoc.get(i).getMinY())){
+				surroundingCarLocations[LEFT] = true;			
+				
+			} 
+			if((getBoundingBox().getMinX() - computeCarLength()) > carLoc.get(i).getMaxX()){
+				
+				//left direction, assignment of index 2
+				surroundingCarLocations[LEFT] = false;	
+			} 
+			if((getBoundingBox().getMaxY() - computeCarLength() < carLoc.get(i).getMinY())){
 				
 				//down direction, assignment of index 3
-				surroundingCarLocations[3] = true;
+				surroundingCarLocations[DOWN] = true;
 				
-			} else if((getBoundingBox().getMaxY() - computeCarLength() > carLoc.get(i).getMinY()))
+			} 
+			if((getBoundingBox().getMaxY() - computeCarLength() > carLoc.get(i).getMinY()))
 				
 				//down direction, assignment of index 3
-				surroundingCarLocations[3] = false;
+				surroundingCarLocations[DOWN] = false;
 		}	
 			
 		 return surroundingCarLocations;
