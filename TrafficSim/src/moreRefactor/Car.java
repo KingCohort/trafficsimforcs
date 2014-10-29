@@ -100,6 +100,7 @@ public class Car
 	BoundingBox getBoundingBox(){
 		
 		BoundingBox carBox = new BoundingBox(getxCoord(), getyCoord(), width, height);
+		//instance variable
 		return carBox;
 	}
 	
@@ -128,6 +129,7 @@ public class Car
 		boolean[] surroundingCarLocations = new boolean[4]; // 0 = right 1 = up 2 = left 3 = down
 		//method that informs the car of its surroundings. Returns an array of booleans for each cardinal direction
 		//the car could attempt to move. This is called before any decision is made
+		//simple names (constants) rather than [0] etc
 		for(int i = 0; i < carLoc.size(); i++){
 				
 			if((getBoundingBox().getMaxX() + computeCarLength()) > carLoc.get(i).getMinX()){

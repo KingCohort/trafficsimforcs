@@ -36,11 +36,12 @@ public class trafficModel {
 
 
 	// 	java has bounding boxes now yay
-	public ArrayList<BoundingBox> getBB(){
+	public ArrayList<BoundingBox> getBB()
+	{
 		carBB = new ArrayList<BoundingBox>();
 		int[] personality = new int[5];
 		for (Car car : cars) {
-			car.makeDecision(carBB, personality);
+			car.makeDecision(carBB);
 			System.out.println("Cars are deciding");
 		}
 		for (Car car : cars) {

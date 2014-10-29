@@ -57,7 +57,7 @@ public class trafficView extends PApplet {
 		//background(0, 255, 0);
 		view = this;
 	}
-
+ 
 	// processing draw method
 	public void draw()
 	{
@@ -145,7 +145,7 @@ public class trafficView extends PApplet {
 		for (int i = 0; i < displayWidth; i+=100)
 		{
 			rect(i + offset, medianYcoor, medianHor, medianSize);
-		}		
+		}
 	}
 
 //	@Override
