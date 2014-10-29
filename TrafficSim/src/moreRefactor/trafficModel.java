@@ -10,18 +10,27 @@ import javafx.geometry.BoundingBox;
 
 public class trafficModel {
 
-	Car[] cars = new Car[2];
+	Car[] cars = new Car[2]; // this should be a variable 
 	ArrayList<BoundingBox> carBB = new ArrayList<BoundingBox>();
 	Boolean simulation = true;
 	public static trafficModel model;
+	
+	
+	public static GUI theGUI;
+	public static int numberOfCars;
 
 	public trafficModel() {
 		model = this;
 	}
 
 	public void createCars() {
+		//numberOfCars = theGUI.getCarSpinnerValue();
 
 		System.out.println("creating cars");
+		
+		System.out.println("-----THIS IS THE NUMBER OF CARS: " + numberOfCars);
+		
+		// create cars dynamically
 
 		//for(int i = 0; i < cars.length; i++){
 		cars[0] = new Car(0,150, 60, 30);
@@ -59,11 +68,11 @@ public class trafficModel {
 		view.draw();
 	}
 
-//	public void run() {
-//			for (Car car : cars) {
-//				car.makeDecision(carBB);
-//				System.out.println("Cars are deciding");
-//			}
-//		}
-	}
+	//	public void run() {
+	//			for (Car car : cars) {
+	//				car.makeDecision(carBB);
+	//				System.out.println("Cars are deciding");
+	//			}
+	//		}
+}
 
