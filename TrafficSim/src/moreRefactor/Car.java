@@ -22,10 +22,6 @@ public class Car
 	int UP = 1;
 	int LEFT = 2;
 	int DOWN = 3;
-	
-	
-	
-	
 	float speed = 1;
 	
 	
@@ -72,6 +68,10 @@ public class Car
 		
 	}
 	
+	void stop(float speed){		
+		speed = 0;
+	}
+	
 	double computeCarLength(){
 		
 		double carLength = (getxCoord() + width);
@@ -84,7 +84,7 @@ public class Car
 		return carHeight;
 	}
 	
-	void makeDecision(ArrayList<BoundingBox> carloc, int[] personality){
+	void makeDecision(ArrayList<BoundingBox> carloc){
 		
 		speedUp(1);
 		System.out.println("I made a decision");
@@ -93,6 +93,8 @@ public class Car
 		}
 	
 	}
+	
+	
 	
 
 	BoundingBox getBoundingBox(){
