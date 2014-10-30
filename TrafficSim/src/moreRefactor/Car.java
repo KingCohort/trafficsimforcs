@@ -18,6 +18,7 @@ public class Car
 	int carWidth; 
 	int carHeight;
 	boolean carInOtherLane = false;
+	boolean carActive = false; //each car has this paramter, determines if it can collide/is on view  
 	int RIGHT = 0;
 	int UP = 1;
 	int LEFT = 2;
@@ -108,7 +109,7 @@ public class Car
 	void changeLane(float speed)
 	{
 
-		if  (getyCoord() < 250 && carInOtherLane == false)// '/highwayYcoor-(lanesize*0.5)')
+		/*if  (getyCoord() < 250 && carInOtherLane == false)// '/highwayYcoor-(lanesize*0.5)')
 		{
 			setyCoord(getyCoord() + speed);
 		}
@@ -120,8 +121,9 @@ public class Car
 		if (getxCoord() > 960 && getyCoord() >= 150)
 		{
 			setyCoord(getyCoord() - speed);
-		} 
+		} */
 	}
+
 
 
 	boolean[] checkOtherCars(ArrayList<BoundingBox> carLoc){

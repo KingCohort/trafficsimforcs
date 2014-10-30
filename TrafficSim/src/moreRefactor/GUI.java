@@ -52,7 +52,7 @@ public class GUI extends JFrame {
 						{
 							PApplet.main("moreRefactor.trafficView");
 							System.out.println("creating a model");
-							trafficModel model = new trafficModel();
+							TrafficModel model = new TrafficModel();
 							model.start();
 						}
 					});

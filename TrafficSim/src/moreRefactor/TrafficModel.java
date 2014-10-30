@@ -19,13 +19,18 @@ public class TrafficModel {
 		model = this;
 	}
 
-	public void createCars() {
+	public void createCars(int carNum) {
 
 		System.out.println("creating cars");
-		//for(int i = 0; i < cars.length; i++){
-		cars[0] = new Car(0,150, 60, 30);
-		cars[1] = new Car(200, 150, 60, 30);
-		//}
+		for(int i = 0; i < carNum; i++){
+			
+			
+			
+		}
+		
+//		cars[0] = new Car(0,150, 60, 30);
+//		cars[1] = new Car(200, 150, 60, 30);
+
 	}
 
 	//	public void notifyObservers() {	
@@ -49,7 +54,7 @@ public class TrafficModel {
 	}
 
 	public void start(){
-		createCars();
+	//	createCars();
 		carBB = getBB();
 		System.out.println("starting model");
 		TrafficView view = TrafficView.view;
