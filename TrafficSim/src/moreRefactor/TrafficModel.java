@@ -11,6 +11,7 @@ import javafx.geometry.BoundingBox;
 public class TrafficModel {
 
 	Car[] cars = new Car[2];
+	TrafficConstants constant = new TrafficConstants();
 	ArrayList<BoundingBox> carBB = new ArrayList<BoundingBox>();
 	Boolean simulation = true;
 	public static TrafficModel model;
@@ -23,7 +24,7 @@ public class TrafficModel {
 
 		System.out.println("creating cars");
 		for(int i = 0; i < carNum; i++){
-			
+				
 			
 			
 		}

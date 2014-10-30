@@ -95,9 +95,6 @@ public class Car
 
 	}
 
-
-
-
 	BoundingBox getBoundingBox(){
 
 		BoundingBox carBox = new BoundingBox(getxCoord(), getyCoord(), width, height);
@@ -143,25 +140,21 @@ public class Car
 
 				//right direction, assignment of index 0
 				surroundingCarLocations[RIGHT] = false;
-
 			} 
 			if((getBoundingBox().getMinY() - computeCarHeight()) < carLoc.get(i).getMaxY()){
 
 				//up direction, assignment of index 1
 				surroundingCarLocations[UP] = true;
-
 			} 
 			if((getBoundingBox().getMinY() + computeCarHeight()) > carLoc.get(i).getMaxY()){
 
 				//up direction, assignment of index 1
 				surroundingCarLocations[UP] = false;
-
 			} 
 			if((getBoundingBox().getMinX() - computeCarLength()) < carLoc.get(i).getMaxX()){
 
 				//left direction, assignment of index 2
 				surroundingCarLocations[LEFT] = true;			
-
 			} 
 			if((getBoundingBox().getMinX() - computeCarLength()) > carLoc.get(i).getMaxX()){
 
@@ -172,10 +165,9 @@ public class Car
 
 				//down direction, assignment of index 3
 				surroundingCarLocations[DOWN] = true;
-
 			} 
 			if((getBoundingBox().getMaxY() - computeCarLength() > carLoc.get(i).getMinY()))
-
+				
 				//down direction, assignment of index 3
 				surroundingCarLocations[DOWN] = false;
 		}	
