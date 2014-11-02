@@ -1,6 +1,6 @@
 
 
-package moreRefactor;
+package observerPatternRefactor;
 
 import java.util.ArrayList;
 
@@ -18,8 +18,6 @@ public class Car
 	int carWidth; 
 	int carHeight;
 	boolean carInOtherLane = false;
-	
-	float speed = 1;
 	
 	
 	public Car(double xCoord, double yCoord,double width, double height)
@@ -57,7 +55,7 @@ public class Car
 	void move(double speed)
 	{
 		setxCoord(getxCoord() + speed);
-		//setxCoord(50);
+
 	}
 	
 	double computeCarLength(){
@@ -75,16 +73,9 @@ public class Car
 	void makeDecision(ArrayList<BoundingBox> carloc){
 		
 		move(1);
-		System.out.println("I made a decision");
-		if (getxCoord() > 400) {
-			changeLane(1);
-		}
+		//car.changeLane(car, 1);
 	
 	}
-	
-	//void move(ArrayList<BoundingBox> carloc, int speed){
-		
-	//}
 	
 	BoundingBox getBoundingBox(){
 		
@@ -93,22 +84,22 @@ public class Car
 	}
 	
 	
-	void changeLane(int speed)
+	void changeLane(ArrayList<BoundingBox> carLoc, int speed)
 	{
 		
-		 if  (getyCoord() < 250 && carInOtherLane == false)// '/highwayYcoor-(lanesize*0.5)')
+		/* if  (changer.getyCoord() < 250 && carInOtherLane == false)// '/highwayYcoor-(lanesize*0.5)')
 		{
-		setyCoord(getyCoord() + speed);
+		changer.setyCoord(changer.getyCoord() + speed);
 		}
-		else if (getyCoord() == 250)
+		else if (changer.getyCoord() == 250)
 		{
 			carInOtherLane = true;
-			setxCoord(getxCoord() + speed +1);
+			changer.setxCoord(changer.getxCoord() + speed +1);
 		}
-		if (getxCoord() > 960 && getyCoord() >= 150)
+		if (changer.getxCoord() > 960 && changer.getyCoord() >= 150)
 		{
-			setyCoord(getyCoord() - speed);
-		} 
+			changer.setyCoord(changer.getyCoord() - speed);
+		} */
 	}
 	
 	

@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import processing.core.PApplet;
 import javafx.geometry.BoundingBox;
 
-public class TrafficView extends PApplet {
+public class trafficView extends PApplet {
 
 	/*--INFORMATION ABOUT VIEW--
 	//This is where the highway and cars are drawn. All things related to what the simulation should LOOK LIKE goes here
@@ -38,26 +38,33 @@ public class TrafficView extends PApplet {
 	int carWidth = 60; // what if we have a parameter class where all of the random dimensional info is so it
 	int carHeight = 30;
 	ArrayList<BoundingBox> carLocs = new ArrayList<BoundingBox>();
-	TrafficModel model;
-
-	public TrafficView(TrafficModel model) {
-		this.model = model;
+	public static trafficView view;
+	
+	
+	public trafficView() {
 	}
+
+//	public void trafficViewObservers(Observable o){
+//		
+//		o.addObserver(this);
+//		System.out.println("observer added");
+//	}
 
 	// processing setup method
 	public void setup()
 	{
 		size(displayWidth, displayHeight);
 		//background(0, 255, 0);
+		view = this;
 	}
 
 	// processing draw method
 	public void draw()
 	{
 		System.out.println("Now drawing");
-//		background(0, 255, 0);
+		background(0, 255, 0);
 		createHighway();
-		carLocs = model.getBB();
+		carLocs = trafficModel.model.getBB();
 		displayCars(carLocs);
 		//makeDecision(carLocs);
 	}
@@ -138,27 +145,27 @@ public class TrafficView extends PApplet {
 		for (int i = 0; i < displayWidth; i+=100)
 		{
 			rect(i + offset, medianYcoor, medianHor, medianSize);
-		}
+		}		
 	}
 
-	//	@Override
-	//	public void update(Observable o, Object arg) {
-	//		ArrayList<BoundingBox> carBBs = new ArrayList<BoundingBox>();
-	//		System.out.println("i'm updating");
-	//		if(arg instanceof ArrayList){
-	//			
-	//			System.out.println("Lucy! Its an ArrayList!");
-	//			carBBs = (ArrayList<BoundingBox>)arg;
-	//
-	//		} else{
-	//			
-	//			System.out.println("Not an array list, its" + arg.getClass().getSimpleName() + " and o is " + o.getClass().getSimpleName());
-	//		}
-	//		
-	//		System.out.println("Its drawing probably");
-	//		draw();
-	//		
-	//	}
+//	@Override
+//	public void update(Observable o, Object arg) {
+//		ArrayList<BoundingBox> carBBs = new ArrayList<BoundingBox>();
+//		System.out.println("i'm updating");
+//		if(arg instanceof ArrayList){
+//			
+//			System.out.println("Lucy! Its an ArrayList!");
+//			carBBs = (ArrayList<BoundingBox>)arg;
+//
+//		} else{
+//			
+//			System.out.println("Not an array list, its" + arg.getClass().getSimpleName() + " and o is " + o.getClass().getSimpleName());
+//		}
+//		
+//		System.out.println("Its drawing probably");
+//		draw();
+//		
+//	}
 
 
 }
