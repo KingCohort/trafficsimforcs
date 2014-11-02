@@ -11,12 +11,11 @@ import javafx.geometry.*;
 // the program will create many cars to simulate real traffic
 public class Car
 {
+	TrafficConstants constants = new TrafficConstants();
+	double carWidth;
+	double carHeight;
 	float xCoord;
 	float yCoord;
-	double width;
-	double height;
-	int carWidth; 
-	int carHeight;
 	boolean carInOtherLane = false;
 	boolean carActive = false; //each car has this paramter, determines if it can collide/is on view  
 	int RIGHT = 0;
@@ -26,13 +25,12 @@ public class Car
 	float speed = 1;
 
 
-	public Car(float xCoord, float yCoord,double width, double height)
+	public Car()
 	{
-		super();
-		this.xCoord = xCoord;
-		this.yCoord = yCoord;
-		this.width = width;
-		this.height = height;
+		
+		carWidth = constants.CARWIDTH;
+		carHeight = constants.CARHEIGHT;
+		
 
 	}
 
@@ -75,13 +73,13 @@ public class Car
 
 	double computeCarLength(){
 
-		double carLength = (getxCoord() + width);
+		double carLength = (getxCoord() + carWidth);
 		return carLength;
 
 	}
 
 	double computeCarHeight(){
-		double carHeight = (getyCoord() + height);
+		 carHeight = (getyCoord() + carHeight);
 		return carHeight;
 	}
 
@@ -97,7 +95,7 @@ public class Car
 
 	BoundingBox getBoundingBox(){
 
-		BoundingBox carBox = new BoundingBox(getxCoord(), getyCoord(), width, height);
+		BoundingBox carBox = new BoundingBox(getxCoord(), getyCoord(), carWidth, carHeight);
 		//instance variable
 		return carBox;
 	}
