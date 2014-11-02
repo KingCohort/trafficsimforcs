@@ -21,14 +21,14 @@ public class TrafficModel {
 	public void createCars(int carNum) {
 
 		System.out.println("creating cars");
-		for(int i = 0; i < carNum; i++){
+//		for(int i = 0; i < carNum; i++){
 				
 			
 			
-		}
+//		}
 		
-//		cars[0] = new Car(0,150, 60, 30);
-//		cars[1] = new Car(200, 150, 60, 30);
+		cars[0] = new Car();
+		cars[1] = new Car();
 
 	}
 
