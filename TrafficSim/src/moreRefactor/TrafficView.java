@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import processing.core.PApplet;
 import javafx.geometry.BoundingBox;
 
-public class trafficView extends PApplet {
+public class TrafficView extends PApplet {
 
 	/*--INFORMATION ABOUT VIEW--
 	//This is where the highway and cars are drawn. All things related to what the simulation should LOOK LIKE goes here
@@ -38,17 +38,14 @@ public class trafficView extends PApplet {
 	int carWidth = 60; // what if we have a parameter class where all of the random dimensional info is so it
 	int carHeight = 30;
 	ArrayList<BoundingBox> carLocs = new ArrayList<BoundingBox>();
-	public static trafficView view;
+	public static TrafficView view;
 	
 	
-	public trafficView() {
+	public TrafficView()
+	{
+		
 	}
 
-//	public void trafficViewObservers(Observable o){
-//		
-//		o.addObserver(this);
-//		System.out.println("observer added");
-//	}
 
 	// processing setup method
 	public void setup()
@@ -64,7 +61,7 @@ public class trafficView extends PApplet {
 		System.out.println("Now drawing");
 		background(0, 255, 0);
 		createHighway();
-		carLocs = trafficModel.model.getBB();
+		carLocs = TrafficModel.model.getBB();
 		displayCars(carLocs);
 		//makeDecision(carLocs);
 	}
@@ -147,26 +144,6 @@ public class trafficView extends PApplet {
 			rect(i + offset, medianYcoor, medianHor, medianSize);
 		}		
 	}
-
-//	@Override
-//	public void update(Observable o, Object arg) {
-//		ArrayList<BoundingBox> carBBs = new ArrayList<BoundingBox>();
-//		System.out.println("i'm updating");
-//		if(arg instanceof ArrayList){
-//			
-//			System.out.println("Lucy! Its an ArrayList!");
-//			carBBs = (ArrayList<BoundingBox>)arg;
-//
-//		} else{
-//			
-//			System.out.println("Not an array list, its" + arg.getClass().getSimpleName() + " and o is " + o.getClass().getSimpleName());
-//		}
-//		
-//		System.out.println("Its drawing probably");
-//		draw();
-//		
-//	}
-
 
 }
 

@@ -47,9 +47,9 @@ public class GUI extends JFrame {
 						@Override
 						public void actionPerformed(ActionEvent e)
 						{
-							PApplet.main("moreRefactor.trafficView");
+							PApplet.main("moreRefactor.TrafficView");
 							System.out.println("creating a model");
-							trafficModel model = new trafficModel();
+							TrafficModel model = new TrafficModel();
 							model.start();
 						}
 					});
