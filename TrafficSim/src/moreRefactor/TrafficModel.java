@@ -15,10 +15,9 @@ public class TrafficModel {
 	ArrayList<BoundingBox> carBB = new ArrayList<BoundingBox>();
 	Boolean simulation = true;
 	TrafficConstants constants = new TrafficConstants();
-	TrafficView view = new TrafficView();
 
 
-	public void createCars(int carNum) {
+	public void createCars (int carNum) {
 
 		System.out.println("creating cars");
 //		for(int i = 0; i < carNum; i++){
@@ -53,6 +52,7 @@ public class TrafficModel {
 	}
 
 	public void start(){
+		TrafficView view = new TrafficView(this);
 		createCars(constants.CARNUM);
 		carBB = getBB();
 		System.out.println("starting model");
