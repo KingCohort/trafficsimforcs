@@ -7,7 +7,8 @@ import java.util.ArrayList;
 import processing.core.PApplet;
 import javafx.geometry.BoundingBox;
 
-public class TrafficView extends PApplet {
+public class TrafficView extends PApplet
+{
 
 	/*--INFORMATION ABOUT VIEW--
 	//This is where the highway and cars are drawn. All things related to what the simulation should LOOK LIKE goes here
@@ -51,7 +52,6 @@ public class TrafficView extends PApplet {
 	public void setup()
 	{
 		size(displayWidth, displayHeight);
-		//background(0, 255, 0);
 		view = this;
 	}
 
@@ -72,7 +72,9 @@ public class TrafficView extends PApplet {
 		System.out.println("Displaying cars");
 		fill(255, 0, 0);
 		stroke(0);
-		for (BoundingBox bb : carLocs) {
+		
+		for (BoundingBox bb : carLocs)
+		{
 			rect((float)bb.getMinX(), (float)bb.getMinY(), (float)bb.getWidth(), (float)bb.getHeight());
 		}
 	}

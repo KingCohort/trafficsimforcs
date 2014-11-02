@@ -72,11 +72,13 @@ public class Car
 		return carHeight;
 	}
 	
-	void makeDecision(ArrayList<BoundingBox> carloc){
-		
+	void makeDecision(ArrayList<BoundingBox> carloc)
+	{		
 		move(1);
 		System.out.println("I made a decision");
-		if (getxCoord() > 400) {
+		
+		if (getxCoord() > 400)
+		{
 			changeLane(1);
 		}
 	

@@ -68,7 +68,8 @@ public class GUI extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public GUI() {
+	public GUI()
+	{
 		setTitle("Traffic Sim Menu");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 800, 550);
@@ -197,5 +198,8 @@ public class GUI extends JFrame {
 		radioBtnGroup.add(rdbtnMedium);
 		radioBtnGroup.add(rdbtnLow);
 	}
-
 }
+
+
+
+

@@ -1,5 +1,6 @@
 package moreRefactor;
 
-public class TrafficConstants {
+public class TrafficConstants
+{
 
 }
