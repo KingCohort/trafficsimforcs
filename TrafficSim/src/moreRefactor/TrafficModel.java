@@ -5,20 +5,18 @@ package moreRefactor;
 import java.util.ArrayList;
 //import java.util.Observable;
 
+
 import javafx.geometry.BoundingBox;
 
 
 public class TrafficModel {
 
 	Car[] cars = new Car[2];
-	TrafficConstants constant = new TrafficConstants();
 	ArrayList<BoundingBox> carBB = new ArrayList<BoundingBox>();
 	Boolean simulation = true;
-	public static TrafficModel model;
+	TrafficConstants constants = new TrafficConstants();
+	TrafficView view = new TrafficView();
 
-	public TrafficModel() {
-		model = this;
-	}
 
 	public void createCars(int carNum) {
 
@@ -48,17 +46,16 @@ public class TrafficModel {
 			System.out.println("Cars are deciding");
 		}
 		for (Car car : cars) {
-			carBB.add(new BoundingBox(car.xCoord,car.yCoord,car.width,car.height));
+			carBB.add(new BoundingBox(car.xCoord,car.yCoord,car.carWidth,car.carHeight));
 		}
 
 		return carBB;
 	}
 
 	public void start(){
-	//	createCars();
+		createCars(constants.CARNUM);
 		carBB = getBB();
 		System.out.println("starting model");
-		TrafficView view = TrafficView.view;
 		view.draw();
 	}
 

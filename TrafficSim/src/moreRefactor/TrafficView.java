@@ -34,15 +34,13 @@ public class TrafficView extends PApplet {
 	 */
 
 	private static final long serialVersionUID = 1L;
-
-	int carWidth = 60; // what if we have a parameter class where all of the random dimensional info is so it
-	int carHeight = 30;
+	public TrafficConstants constants = new TrafficConstants();
+	public TrafficModel model = new TrafficModel();
+	int carWidth = constants.CARWIDTH;
+	int carHeight = constants.CARHEIGHT;
 	ArrayList<BoundingBox> carLocs = new ArrayList<BoundingBox>();
-	public static TrafficView view;
 	
 	
-	public TrafficView() {
-	}
 
 //	public void trafficViewObservers(Observable o){
 //		
@@ -55,7 +53,7 @@ public class TrafficView extends PApplet {
 	{
 		size(displayWidth, displayHeight);
 		//background(0, 255, 0);
-		view = this;
+		
 	}
 
 	// processing draw method
@@ -64,7 +62,7 @@ public class TrafficView extends PApplet {
 		System.out.println("Now drawing");
 		background(0, 255, 0);
 		createHighway();
-		carLocs = TrafficModel.model.getBB();
+		carLocs = model.getBB();
 		displayCars(carLocs);
 		//makeDecision(carLocs);
 	}
