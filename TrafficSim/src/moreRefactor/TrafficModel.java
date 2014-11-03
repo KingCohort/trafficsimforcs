@@ -7,7 +7,7 @@ import javafx.geometry.BoundingBox;
 
 public class TrafficModel
 {
-
+	
 	Car[] cars = new Car[2];
 	
 	ArrayList<BoundingBox> carBB = new ArrayList<BoundingBox>();
@@ -29,21 +29,18 @@ public class TrafficModel
 		cars[0] = new Car(0,150);
 		cars[1] = new Car(200, 150);
 	}
-
-
+	
 	// 	java has bounding boxes now yay
 	public ArrayList<BoundingBox> getBB()
-	{
-		carBB = new ArrayList<BoundingBox>();
-		
+	{	
 		for (Car car : cars)
 		{
+			car.makeDecision(carBB);	
 			carBB.add(new BoundingBox(car.xCoord,car.yCoord,car.width,car.height));
 		}
-
 		return carBB;
 	}
-
+	
 	public void start()
 	{
 		createCars();

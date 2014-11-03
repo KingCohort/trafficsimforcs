@@ -66,8 +66,6 @@ public class Car
 	void makeDecision(ArrayList<BoundingBox> carloc)
 	{		
 		move(1);
-		System.out.println("I made a decision");
-
 		if (getxCoord() > 400)
 		{
 			changeLane(1);
