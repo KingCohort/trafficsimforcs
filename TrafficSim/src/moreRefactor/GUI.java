@@ -48,6 +48,7 @@ public class GUI extends JFrame {
 						{
 							PApplet.main("moreRefactor.TrafficView");
 							//System.out.println("creating a model");
+
 						}
 					});
 					
