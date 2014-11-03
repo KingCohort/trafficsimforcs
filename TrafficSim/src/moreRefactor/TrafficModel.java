@@ -12,6 +12,7 @@ public class TrafficModel
 {
 
 	Car[] cars = new Car[2];
+	
 	ArrayList<BoundingBox> carBB = new ArrayList<BoundingBox>();
 	Boolean simulation = true;
 	public static TrafficModel model;
@@ -21,17 +22,12 @@ public class TrafficModel
 		model = this;
 	}
 
-	public void createCars() {
-
+	public void createCars()
+	{
 		System.out.println("creating cars");
 
 		cars[0] = new Car(0,150, 60, 30);
 		cars[1] = new Car(200, 150, 60, 30);
-		
-		//for(int i = 0; i < cars.length; i++){
-//		cars[0] = new Car(0,150, 60, 30);
-//		cars[1] = new Car(200, 150, 60, 30);
-		//}
 	}
 
 
@@ -44,9 +40,6 @@ public class TrafficModel
 		{
 			car.makeDecision(carBB);
 			System.out.println("Cars are deciding");
-		}
-		for (Car car : cars)
-		{
 			carBB.add(new BoundingBox((float)car.xCoord,(float)car.yCoord,(float)car.width,(float)car.height));
 		}
 
@@ -56,7 +49,9 @@ public class TrafficModel
 	public void start()
 	{
 		createCars();
-		carBB = getBB();
+		
+		//carBB = getBB();
+		
 		System.out.println("starting model");
 		TrafficView view = TrafficView.view;
 		view.draw();
