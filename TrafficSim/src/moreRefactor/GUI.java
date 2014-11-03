@@ -1,3 +1,5 @@
+
+
 package moreRefactor;
 
 import java.awt.EventQueue;
@@ -7,7 +9,6 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -18,7 +19,6 @@ import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
-
 import processing.core.PApplet;
 
 public class GUI extends JFrame {
@@ -40,11 +40,7 @@ public class GUI extends JFrame {
 			public void run()
 			{
 				try
-				{
-//					GUI frame = new GUI();
-//					frame.setVisible(true);
-					//
-					
+				{					
 					btnStart.addActionListener(new ActionListener()
 					{
 						@Override
@@ -136,7 +132,7 @@ public class GUI extends JFrame {
 		gbc_spinner_1.gridy = 3;
 		contentPane.add(carSpinner, gbc_spinner_1);
 		
-		carSpinnerValue = (Integer) carSpinner.getValue();
+		carSpinnerValue = (int) carSpinner.getValue(); // fucked
 		
 		// explanation for spinner for number of cars
 		JLabel lblChooseANumber_1 = new JLabel("Choose a number 1 - 20.");
@@ -198,22 +194,33 @@ public class GUI extends JFrame {
 		contentPane.add(btnStart, gbc_btnStart);
 
 		// create new radio button group
-		ButtonGroup radioBtnGroup = new ButtonGroup(); // this may need to be moved up above the radio buttons cause it moved the .add()'s to the radio buttons initialization 
-		radioBtnGroup.add(rdbtnHigh);
-		radioBtnGroup.add(rdbtnMedium);
-		radioBtnGroup.add(rdbtnLow);
+		ButtonGroup radioBtnGroupStateOfMind = new ButtonGroup(); // this may need to be moved up above the radio buttons cause it moved the .add()'s to the radio buttons initialization 
+		radioBtnGroupStateOfMind.add(rdbtnHigh);
+		radioBtnGroupStateOfMind.add(rdbtnMedium);
+		radioBtnGroupStateOfMind.add(rdbtnLow);
+	}	
+
+	public JSpinner getCarSpinner()
+	{
+		return carSpinner;
 	}
 
-//	public void setCarSpinner(JSpinner carSpinner)
-//	{
-//		this.carSpinner = carSpinner;
-//	}
-	
-	
+	public void setCarSpinner(JSpinner carSpinner)
+	{
+		this.carSpinner = carSpinner;
+	}
 
+	public int getCarSpinnerValue()
+	{
+		carSpinnerValue = (int) carSpinner.getValue();
+		System.out.println("get car spinner IN gui : " + carSpinnerValue);
+		return carSpinnerValue;
+	}
+	
 	public void setCarSpinnerValue(int carSpinnerValue)
 	{
 		//this.carSpinnerValue = carSpinnerValue;
+		System.out.println("set car spinner IN gui : " + carSpinnerValue);
 		this.carSpinnerValue = (int) carSpinner.getValue();
 	}
 	

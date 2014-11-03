@@ -1,9 +1,8 @@
+
+
 package moreRefactor;
 
 import java.util.ArrayList;
-//import java.util.Observable;
-//import java.util.Observer;
-
 import processing.core.PApplet;
 import javafx.geometry.BoundingBox;
 
@@ -149,7 +148,6 @@ public class TrafficView extends PApplet
 			rect(i + offset, medianYcoor, medianHor, medianSize);
 		}		
 	}
-
 }
 
 

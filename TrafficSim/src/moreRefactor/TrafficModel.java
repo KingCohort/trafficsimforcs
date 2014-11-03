@@ -3,10 +3,7 @@
 package moreRefactor;
 
 import java.util.ArrayList;
-//import java.util.Observable;
-
 import javafx.geometry.BoundingBox;
-
 
 public class TrafficModel
 {
@@ -25,6 +22,9 @@ public class TrafficModel
 	public void createCars()
 	{
 		System.out.println("creating cars");
+		
+		TrafficConstants constants = new TrafficConstants();
+		constants.getCarNumConstants();
 
 		cars[0] = new Car(0,150, 60, 30);
 		cars[1] = new Car(200, 150, 60, 30);
@@ -50,7 +50,7 @@ public class TrafficModel
 	{
 		createCars();
 		
-		//carBB = getBB();
+		carBB = getBB();
 		
 		System.out.println("starting model");
 		TrafficView view = TrafficView.view;

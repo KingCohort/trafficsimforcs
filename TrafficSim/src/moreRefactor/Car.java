@@ -3,9 +3,7 @@
 package moreRefactor;
 
 import java.util.ArrayList;
-
 import javafx.geometry.*;
-
 
 // creates a car
 // the program will create many cars to simulate real traffic
@@ -21,7 +19,6 @@ public class Car
 
 	float speed = 1;
 
-
 	public Car(double xCoord, double yCoord,double width, double height)
 	{
 		super();
@@ -31,8 +28,6 @@ public class Car
 		this.height = height;
 
 	}
-
-
 
 	public double getxCoord()
 	{
