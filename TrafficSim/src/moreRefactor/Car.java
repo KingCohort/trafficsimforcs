@@ -9,41 +9,47 @@ import javafx.geometry.*;
 // the program will create many cars to simulate real traffic
 public class Car
 {
-	float xCoord;
-	float yCoord;
+	double xCoord;
+	double yCoord;
 	double width;
 	double height;
+	int carWidth; 
+	int carHeight;
 	boolean carInOtherLane = false;
 
 	float speed = 1;
 
-	public Car(float xCoord, float yCoord)
+	public Car(double xCoord, double yCoord,double width, double height)
 	{
+		super();
 		this.xCoord = xCoord;
 		this.yCoord = yCoord;
+		this.width = width;
+		this.height = height;
+
 	}
 
-	public float getxCoord()
+	public double getxCoord()
 	{
 		return xCoord;
 	}
 
-	public void setxCoord(float f)
+	public void setxCoord(double f)
 	{
 		this.xCoord = f;
 	}
 
-	public float getyCoord()
+	public double getyCoord()
 	{
 		return yCoord;
 	}
 
-	public void setyCoord(float yCoord)
+	public void setyCoord(double yCoord)
 	{
 		this.yCoord = yCoord;
 	}
 
-	void move(float speed)
+	void move(double speed)
 	{
 		setxCoord(getxCoord() + speed);
 		//setxCoord(50);
