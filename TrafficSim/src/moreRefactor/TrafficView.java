@@ -35,8 +35,6 @@ public class TrafficView extends PApplet
 
 	private static final long serialVersionUID = 1L;
 
-	int carWidth = 60; // what if we have a parameter class where all of the random dimensional info is so it
-	int carHeight = 30;
 	ArrayList<BoundingBox> carLocs = new ArrayList<BoundingBox>();
 	public static TrafficView view;
 	
@@ -65,7 +63,6 @@ public class TrafficView extends PApplet
 		carLocs = TrafficModel.model.getBB();
 		
 		displayCars(carLocs);
-		//makeDecision(carLocs);
 	}
 
 

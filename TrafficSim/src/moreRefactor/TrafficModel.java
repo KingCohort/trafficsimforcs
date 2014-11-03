@@ -14,7 +14,7 @@ public class TrafficModel
 	Boolean simulation = true;
 	public static TrafficModel model = new TrafficModel();
 
-
+	
 	public TrafficModel()
 	{
 		model = this;
@@ -22,26 +22,29 @@ public class TrafficModel
 
 	public void createCars()
 	{
-		System.out.println("creating cars");
 		
-		TrafficConstants constants = new TrafficConstants();
-		constants.getCarNumConstants();
+		for(int i = 0; i < TrafficConstants.CARNUM/2; i++){
+			
+			if(i <= TrafficConstants.CARNUM/2){
+				cars[i] = new Car(TrafficConstants.BOTLANESTARTX, TrafficConstants.STARTY);
+			} else{
+				cars[i] = new Car(TrafficConstants.TOPLANESTARTX, TrafficConstants.STARTY);
+			}
+			
+		}
 
-		cars[0] = new Car(0,150, 60, 30);
-		cars[1] = new Car(200, 150, 60, 30);
+	//	cars[0] = new Car(0,150, 60, 30);
+	//	cars[1] = new Car(200, 150, 60, 30);
 	}
 
 
 	// 	java has bounding boxes now yay
 	public ArrayList<BoundingBox> getBB()
 	{
-		carBB = new ArrayList<BoundingBox>();
 		
 		for (Car car : cars)
 		{
-			car.makeDecision(carBB);
-			System.out.println("Cars are deciding");
-			carBB.add(new BoundingBox((float)car.xCoord,(float)car.yCoord,(float)car.width,(float)car.height));
+			carBB.add(new BoundingBox(car.xCoord,car.yCoord,car.width,car.height));
 		}
 
 		return carBB;
