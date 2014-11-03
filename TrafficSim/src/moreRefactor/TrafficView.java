@@ -51,7 +51,7 @@ public class TrafficView extends PApplet
 	public void setup()
 	{
 		size(displayWidth, displayHeight);
-		view = this;
+		TrafficModel.model.start();
 	}
 
 	// processing draw method

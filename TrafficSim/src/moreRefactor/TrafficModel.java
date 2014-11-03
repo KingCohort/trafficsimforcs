@@ -12,7 +12,7 @@ public class TrafficModel
 	
 	ArrayList<BoundingBox> carBB = new ArrayList<BoundingBox>();
 	Boolean simulation = true;
-	public static TrafficModel model;
+    public static TrafficModel model = new TrafficModel();
 
 	public TrafficModel()
 	{
@@ -49,12 +49,7 @@ public class TrafficModel
 	public void start()
 	{
 		createCars();
-		
-		carBB = getBB();
-		
-		System.out.println("starting model");
-		TrafficView view = TrafficView.view;
-		view.draw();
+		carBB = getBB();	
 	}
 
 }
