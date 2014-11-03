@@ -58,10 +58,8 @@ public class TrafficView extends PApplet
 		System.out.println("Now drawing");
 		background(0, 255, 0);
 		createHighway();
-		
 		// this line is being weird with processing and VMs
 		carLocs = TrafficModel.model.getBB();
-		
 		displayCars(carLocs);
 	}
 
@@ -71,7 +69,6 @@ public class TrafficView extends PApplet
 		System.out.println("Displaying cars");
 		fill(255, 0, 0);
 		stroke(0);
-		
 		for (BoundingBox bb : carLocs)
 		{
 			rect((float)bb.getMinX(), (float)bb.getMinY(), (float)bb.getWidth(), (float)bb.getHeight()); //

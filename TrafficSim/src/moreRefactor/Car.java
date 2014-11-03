@@ -11,10 +11,9 @@ public class Car
 {
 	double xCoord;
 	double yCoord;
-	double width;
-	double height;
+	double width = TrafficConstants.CARWIDTH;
+	double height = TrafficConstants.CARHEIGHT;
 	boolean carInOtherLane = false;
-
 	float speed = 1;
 
 	public Car(double xCoord, double yCoord)
@@ -22,6 +21,7 @@ public class Car
 		super();
 		this.xCoord = xCoord;
 		this.yCoord = yCoord;
+		
 
 	}
 

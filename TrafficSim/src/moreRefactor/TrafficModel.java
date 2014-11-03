@@ -22,13 +22,12 @@ public class TrafficModel
 
 	public void createCars()
 	{
-		System.out.println("creating cars");
 		
-		TrafficConstants constants = new TrafficConstants();
-		constants.getCarNumConstants();
+//		TrafficConstants constants = new TrafficConstants();
+//		constants.getCarNumConstants();
 
-		cars[0] = new Car(0,150, 60, 30);
-		cars[1] = new Car(200, 150, 60, 30);
+		cars[0] = new Car(0,150);
+		cars[1] = new Car(200, 150);
 	}
 
 
@@ -39,9 +38,7 @@ public class TrafficModel
 		
 		for (Car car : cars)
 		{
-			car.makeDecision(carBB);
-			System.out.println("Cars are deciding");
-			carBB.add(new BoundingBox((float)car.xCoord,(float)car.yCoord,(float)car.width,(float)car.height));
+			carBB.add(new BoundingBox(car.xCoord,car.yCoord,car.width,car.height));
 		}
 
 		return carBB;
@@ -50,13 +47,7 @@ public class TrafficModel
 	public void start()
 	{
 		createCars();
-		
-		carBB = getBB();
-		
-		System.out.println("starting model");
-//		TrafficView view = TrafficView.view;
-//		view.draw();
-		carBB = getBB();
+		carBB = getBB();	
 	}
 
 }
