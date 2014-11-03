@@ -13,19 +13,15 @@ public class Car
 	double yCoord;
 	double width;
 	double height;
-	int carWidth; 
-	int carHeight;
 	boolean carInOtherLane = false;
 
 	float speed = 1;
 
-	public Car(double xCoord, double yCoord,double width, double height)
+	public Car(double xCoord, double yCoord)
 	{
 		super();
 		this.xCoord = xCoord;
 		this.yCoord = yCoord;
-		this.width = width;
-		this.height = height;
 
 	}
 
