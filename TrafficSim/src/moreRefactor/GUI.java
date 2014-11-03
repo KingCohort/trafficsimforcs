@@ -26,6 +26,9 @@ public class GUI extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	JButton btnStart;
+	
+	JSpinner carSpinner;
+    int carSpinnerValue;
 
 	/**
 	 * Launch the application.
@@ -121,17 +124,19 @@ public class GUI extends JFrame {
 		gbc_lblNumberOfCars.gridy = 3;
 		contentPane.add(lblNumberOfCars, gbc_lblNumberOfCars);
 
-		// spinner for
-		// chanve var name
-		JSpinner spinner_1 = new JSpinner();
-		spinner_1.setModel(new SpinnerNumberModel(1, 1, 20, 1));
-		spinner_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		// spinner for number of cars
+		// change var name
+		carSpinner = new JSpinner();
+		carSpinner.setModel(new SpinnerNumberModel(1, 1, 20, 1));
+		carSpinner.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		GridBagConstraints gbc_spinner_1 = new GridBagConstraints();
 		gbc_spinner_1.anchor = GridBagConstraints.NORTH;
 		gbc_spinner_1.insets = new Insets(0, 0, 5, 5);
 		gbc_spinner_1.gridx = 4;
 		gbc_spinner_1.gridy = 3;
-		contentPane.add(spinner_1, gbc_spinner_1);
+		contentPane.add(carSpinner, gbc_spinner_1);
+		
+		carSpinnerValue = (Integer) carSpinner.getValue();
 		
 		// explanation for spinner for number of cars
 		JLabel lblChooseANumber_1 = new JLabel("Choose a number 1 - 20.");
@@ -198,6 +203,23 @@ public class GUI extends JFrame {
 		radioBtnGroup.add(rdbtnMedium);
 		radioBtnGroup.add(rdbtnLow);
 	}
+
+//	public void setCarSpinner(JSpinner carSpinner)
+//	{
+//		this.carSpinner = carSpinner;
+//	}
+	
+	
+
+	public void setCarSpinnerValue(int carSpinnerValue)
+	{
+		//this.carSpinnerValue = carSpinnerValue;
+		this.carSpinnerValue = (int) carSpinner.getValue();
+	}
+	
+	
+	
+	
 }
 
 
