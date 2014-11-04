@@ -3,20 +3,27 @@
 package moreRefactor;
 
 import java.util.ArrayList;
+
+import javax.swing.JOptionPane;
+
 import javafx.geometry.*;
 
 // creates a car
 // the program will create many cars to simulate real traffic
 public class Car
 {
-	double xCoord;
-	double yCoord;
+	float xCoord;
+	float yCoord;
 	double width = TrafficConstants.CARWIDTH;
 	double height = TrafficConstants.CARHEIGHT;
 	boolean carInOtherLane = false;
 	float speed = 1;
+	boolean changingLanes = false;
+	float nextLaneMiddle = 0;
+	boolean changeLaneTest = false;
+	ArrayList<BoundingBox> carloc;
 
-	public Car(double xCoord, double yCoord)
+	public Car(float xCoord, float yCoord)
 	{
 		super();
 		this.xCoord = xCoord;
@@ -25,30 +32,24 @@ public class Car
 
 	}
 
-	public double getxCoord()
+	public float getxCoord()
 	{
 		return xCoord;
 	}
 
-	public void setxCoord(double f)
+	public void setxCoord(float f)
 	{
 		this.xCoord = f;
 	}
 
-	public double getyCoord()
+	public float getyCoord()
 	{
 		return yCoord;
 	}
 
-	public void setyCoord(double yCoord)
+	public void setyCoord(float yCoord)
 	{
 		this.yCoord = yCoord;
-	}
-
-	void move(double speed)
-	{
-		setxCoord(getxCoord() + speed);
-		//setxCoord(50);
 	}
 
 	double computeCarLength()
@@ -63,43 +64,58 @@ public class Car
 		return carHeight;
 	}
 
-	void makeDecision(ArrayList<BoundingBox> carloc)
-	{		
-		move(1);
-		if (getxCoord() > 400)
-		{
-			changeLane(1);
-		}
-
-	}
-
-	//void move(ArrayList<BoundingBox> carloc, int speed){
-
-	//}
-
 	BoundingBox getBoundingBox()
 	{		
 		BoundingBox carBox = new BoundingBox(getxCoord(), getyCoord(), width, height);
 		return carBox;
 	}
-
-
-	void changeLane(int speed)
+	
+	void makeDecision(ArrayList<BoundingBox> carloc)
+	{		
+		this.carloc = carloc;
+		move(speed);
+		changeLane(speed, carloc);
+	}
+	
+	void move(float speed)
 	{
+		setxCoord(getxCoord() + speed);
+		//setxCoord(50);
+	}
+	
+	void slowDown(){
+		speed = (float) (speed - 0.5);
+	}
+	void speedUp(){
+		speed = (float) (speed + 0.5);
+	}
+	
+	void moveOneLaneDown(){
+		setyCoord(getyCoord() + speed);
+		
+	}
+	
+	void changeLane(float speed, ArrayList<BoundingBox> carloc)
+	{
+		boolean[] surroundingCarLocations = checkOtherCars(carloc);
+	
+		if(surroundingCarLocations[0] == true && changingLanes == false){
+			
+			System.out.println("changing lanes commenced");
+			changingLanes = true;
+			nextLaneMiddle = getyCoord() + 100;
+			speedUp();
+			}
+		if (changingLanes == true && getyCoord() < nextLaneMiddle) {
+			moveOneLaneDown();
+			System.out.println(getyCoord());
+			System.out.println(nextLaneMiddle);
+		}
+		else if (changingLanes == true && getyCoord() >= nextLaneMiddle) {
+			changingLanes = false;
+			System.out.println("I am done changing lanes");
 
-		if  (getyCoord() < 250 && carInOtherLane == false)// '/highwayYcoor-(lanesize*0.5)')
-		{
-			setyCoord(getyCoord() + speed);
 		}
-		else if (getyCoord() == 250)
-		{
-			carInOtherLane = true;
-			setxCoord(getxCoord() + speed +1);
-		}
-		if (getxCoord() > 960 && getyCoord() >= 150)
-		{
-			setyCoord(getyCoord() - speed);
-		} 
 	}
 
 
@@ -112,49 +128,70 @@ public class Car
 		for(int i = 0; i < carLoc.size(); i++)
 		{
 
-			if((getBoundingBox().getMaxX() + computeCarLength()) > carLoc.get(i).getMinX())
+			if((getBoundingBox().getMaxX() < carLoc.get(i).getMinX()))
 			{
 
 				//right direction, assignment of index 0
 				surroundingCarLocations[0] = true;
 			} 
-			else if((getBoundingBox().getMaxX() + computeCarLength()) < carLoc.get(i).getMinX())
-			{
-				//right direction, assignment of index 0
-				surroundingCarLocations[0] = false;
-			}
-			else if((getBoundingBox().getMinY() - computeCarHeight()) < carLoc.get(i).getMaxY())
+//			if((getBoundingBox().getMaxX() + computeCarLength()) < carLoc.get(i).getMinX())
+//			{
+//				//right direction, assignment of index 0
+//				surroundingCarLocations[0] = false;
+//			}
+			if((getBoundingBox().getMinY() > carLoc.get(i).getMaxY()))
 			{
 				//up direction, assignment of index 1
 				surroundingCarLocations[1] = true;
 			}
-			else if((getBoundingBox().getMinY() + computeCarHeight()) > carLoc.get(i).getMaxY())
-			{
-				//up direction, assignment of index 1
-				surroundingCarLocations[1] = false;
-			}
-			else if((getBoundingBox().getMinX() - computeCarLength()) < carLoc.get(i).getMaxX())
+//			if((getBoundingBox().getMinY() + computeCarHeight()*2) > carLoc.get(i).getMaxY())
+//			{
+//				//up direction, assignment of index 1
+//				surroundingCarLocations[1] = false;
+//			}
+			if((getBoundingBox().getMinX()) > carLoc.get(i).getMaxX())
 			{
 				//left direction, assignment of index 2
 				surroundingCarLocations[2] = true;			
 			}
-			else if((getBoundingBox().getMinX() - computeCarLength()) > carLoc.get(i).getMaxX())
-			{
-				//left direction, assignment of index 2
-				surroundingCarLocations[2] = false;	
-			}
-			else if((getBoundingBox().getMaxY() - computeCarLength() < carLoc.get(i).getMinY()))
+//			if((getBoundingBox().getMinX() - computeCarLength()) > carLoc.get(i).getMaxX())
+//			{
+//				//left direction, assignment of index 2
+//				surroundingCarLocations[2] = false;	
+//			}
+			if((getBoundingBox().getMaxY() < carLoc.get(i).getMinY()))
 			{
 				//down direction, assignment of index 3
 				surroundingCarLocations[3] = true;
 			}
-			else if((getBoundingBox().getMaxY() - computeCarLength() > carLoc.get(i).getMinY()))
-			{
-				//down direction, assignment of index 3
-				surroundingCarLocations[3] = false;
-			}			
+//			if((getBoundingBox().getMaxY() - computeCarHeight()*2 > carLoc.get(i).getMinY()))
+//			{
+//				//down direction, assignment of index 3
+//				surroundingCarLocations[3] = false;
+//			}			
 		}	
+		
 		return surroundingCarLocations;
+	}
+	
+	public boolean contains(int x, int y)
+	{
+		return (getBoundingBox().contains(x, y));
+	}
+	
+	public void debug()
+	{
+		
+		boolean[] check = checkOtherCars(carloc);
+		
+		String out = "";
+		
+		out+="right =" + check[0] + "\n";
+		out+="up=" + check[1] +"\n";
+		out+="left="+check[2]+"\n";
+		out+="down="+check[3]+"\n";
+		out+="changelane="+changingLanes+"\n";
+		JOptionPane.showMessageDialog(TrafficView.view, out);
 	}
 }
 

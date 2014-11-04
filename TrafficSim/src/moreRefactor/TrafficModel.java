@@ -27,15 +27,18 @@ public class TrafficModel
 //		constants.getCarNumConstants();
 
 		cars[0] = new Car(0,150);
-		cars[1] = new Car(200, 150);
+		cars[1] = new Car(100, 150);
+		//cars[1].slowDown();
 	}
 	
 	// 	java has bounding boxes now yay
 	public ArrayList<BoundingBox> getBB()
 	{	
+		carBB.clear();
 		for (Car car : cars)
 		{
-			car.makeDecision(carBB);	
+			car.makeDecision(carBB);
+//			cars[0].changeLane(1, carBB);
 			carBB.add(new BoundingBox(car.xCoord,car.yCoord,car.width,car.height));
 		}
 		return carBB;
@@ -45,6 +48,17 @@ public class TrafficModel
 	{
 		createCars();
 		carBB = getBB();	
+	}
+	
+	public void debugCarAt(int x, int y)
+	{
+		for (Car car : cars)
+		{
+			if (car.contains(x, y))
+			{
+				car.debug();
+			}
+		}
 	}
 
 }

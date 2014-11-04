@@ -142,6 +142,12 @@ public class TrafficView extends PApplet
 			rect(i + offset, medianYcoor, medianHor, medianSize);
 		}		
 	}
+	
+	@Override
+	public void mousePressed()
+	{
+		TrafficModel.model.debugCarAt(mouseX, mouseY);
+	}
 }
 
 
