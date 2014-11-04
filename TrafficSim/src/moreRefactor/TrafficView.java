@@ -59,7 +59,7 @@ public class TrafficView extends PApplet
 		background(0, 255, 0);
 		createHighway();
 		// this line is being weird with processing and VMs
-		carLocs = TrafficModel.model.getBB();
+		carLocs = TrafficModel.model.runSimulation();
 		displayCars(carLocs);
 	}
 
