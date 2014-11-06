@@ -100,7 +100,7 @@ public class Car
 	
 	void changeLane()
 	{	
-		if(surroundingCarLocations[0] == true && changingLanes == false){
+		if(surroundingCarLocations[0] == true && surroundingCarLocations[3] == false && changingLanes == false){
 			
 			System.out.println("changing lanes commenced");
 			changingLanes = true;
@@ -122,11 +122,17 @@ public class Car
 
 	boolean[] checkOtherCars(ArrayList<BoundingBox> carLoc)
 	{
+		//int yBuffer = 0;
 		//method that informs the car of its surroundings. Returns an array of booleans for each cardinal direction
 		//the car could attempt to move. This is called before any decision is made
+		surroundingCarLocations[0] = false;
+		surroundingCarLocations[1] = false;
+		surroundingCarLocations[2] = false;
+		surroundingCarLocations[3] = false;
 		for(int i = 0; i < carLoc.size(); i++)
 		{
-			if((getBoundingBox().getMaxX() < carLoc.get(i).getMinX()))
+			if((getBoundingBox().getMaxX() < carLoc.get(i).getMinX() && getBoundingBox().getMaxX()+width > carLoc.get(i).getMinX()
+					&& getBoundingBox().getMaxY()>=carLoc.get(i).getMinY() && getBoundingBox().getMinY() <= carLoc.get(i).getMaxY()))
 			{
 				//right direction, assignment of index 0
 				surroundingCarLocations[0] = true;
@@ -144,7 +150,8 @@ public class Car
 				surroundingCarLocations[2] = true;			
 			}
 
-			if((getBoundingBox().getMaxY() < carLoc.get(i).getMinY()))
+			if((getBoundingBox().getMaxY() < carLoc.get(i).getMinY() && getBoundingBox().getMaxY()+300 > carLoc.get(i).getMinY()
+					&& getBoundingBox().getMaxX()>=carLoc.get(i).getMinX() || getBoundingBox().getMinX() <= carLoc.get(i).getMaxX()))
 			{
 				//down direction, assignment of index 3
 				surroundingCarLocations[3] = true;

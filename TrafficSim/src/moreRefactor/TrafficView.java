@@ -55,7 +55,7 @@ public class TrafficView extends PApplet
 	// processing draw method
 	public void draw()
 	{
-		System.out.println("Now drawing");
+		//System.out.println("Now drawing");
 		background(0, 255, 0);
 		createHighway();
 		// this line is being weird with processing and VMs
@@ -66,7 +66,7 @@ public class TrafficView extends PApplet
 
 	void displayCars(ArrayList<BoundingBox> carLocs)
 	{
-		System.out.println("Displaying cars");
+		//System.out.println("Displaying cars");
 		fill(255, 0, 0);
 		stroke(0);
 		for (BoundingBox bb : carLocs)
@@ -77,7 +77,7 @@ public class TrafficView extends PApplet
 
 	void createHighway()
 	{
-		System.out.println("Displaying highway");
+		//System.out.println("Displaying highway");
 
 		int buffer = 10;
 
