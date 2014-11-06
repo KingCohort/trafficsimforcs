@@ -22,9 +22,7 @@ public class TrafficModel
 
 	public void createCars()
 	{
-		
-//		TrafficConstants constants = new TrafficConstants();
-//		constants.getCarNumConstants();
+		System.out.println("CAR NUMBER: " + TrafficConstants.getInstance().getCarNumConstants());
 
 		cars[0] = new Car(0,150);
 		cars[1] = new Car(100, 150);

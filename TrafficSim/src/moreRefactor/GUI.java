@@ -9,6 +9,7 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -19,6 +20,9 @@ import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
 import processing.core.PApplet;
 
 public class GUI extends JFrame {
@@ -130,7 +134,15 @@ public class GUI extends JFrame {
 		gbc_spinner_1.gridy = 3;
 		contentPane.add(carSpinner, gbc_spinner_1);
 		
-		carSpinnerValue = (int) carSpinner.getValue();
+		carSpinner.addChangeListener(new ChangeListener()
+		{
+			public void stateChanged(ChangeEvent e)
+			{
+				carSpinnerValue = (int) ((JSpinner)e.getSource()).getValue();
+				TrafficConstants.getInstance().setConstantsFromGUI(carSpinnerValue);
+			}
+		});
+		//TrafficConstants.getInstance().setConstantsFromGUI(carSpinnerValue);
 		
 		// explanation for spinner for number of cars
 		JLabel lblChooseANumber_1 = new JLabel("Choose a number 1 - 20.");
