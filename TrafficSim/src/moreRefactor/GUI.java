@@ -29,6 +29,7 @@ public class GUI extends JFrame {
 	
 	JSpinner carSpinner;
     int carSpinnerValue;
+    
 
 	/**
 	 * Launch the application.
@@ -47,8 +48,6 @@ public class GUI extends JFrame {
 						public void actionPerformed(ActionEvent e)
 						{
 							PApplet.main("moreRefactor.TrafficView");
-							//System.out.println("creating a model");
-
 						}
 					});
 					
@@ -131,7 +130,7 @@ public class GUI extends JFrame {
 		gbc_spinner_1.gridy = 3;
 		contentPane.add(carSpinner, gbc_spinner_1);
 		
-		carSpinnerValue = (int) carSpinner.getValue(); // fucked
+		carSpinnerValue = (int) carSpinner.getValue();
 		
 		// explanation for spinner for number of cars
 		JLabel lblChooseANumber_1 = new JLabel("Choose a number 1 - 20.");
@@ -197,34 +196,17 @@ public class GUI extends JFrame {
 		radioBtnGroupStateOfMind.add(rdbtnHigh);
 		radioBtnGroupStateOfMind.add(rdbtnMedium);
 		radioBtnGroupStateOfMind.add(rdbtnLow);
-	}	
-
-	public JSpinner getCarSpinner()
-	{
-		return carSpinner;
-	}
-
-	public void setCarSpinner(JSpinner carSpinner)
-	{
-		this.carSpinner = carSpinner;
 	}
 
 	public int getCarSpinnerValue()
 	{
-		carSpinnerValue = (int) carSpinner.getValue();
-		System.out.println("get car spinner IN gui : " + carSpinnerValue);
 		return carSpinnerValue;
 	}
-	
+
 	public void setCarSpinnerValue(int carSpinnerValue)
 	{
-		//this.carSpinnerValue = carSpinnerValue;
-		System.out.println("set car spinner IN gui : " + carSpinnerValue);
-		this.carSpinnerValue = (int) carSpinner.getValue();
+		this.carSpinnerValue = carSpinnerValue;
 	}
-	
-	
-	
 	
 }
 
