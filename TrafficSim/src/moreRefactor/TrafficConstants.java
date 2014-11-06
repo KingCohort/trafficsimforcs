@@ -24,18 +24,29 @@ class TrafficConstants
 
 //	GUI gui = new GUI();
 	int CARNUM;
+	int LANENUM;
 	int CARWIDTH = 60; 
 	int CARHEIGHT = 30;
 
 	//called by GUI on start, input the relevent data from the GUI into the constructor
-	void setConstantsFromGUI(int carNum)
+	void setCARNUM(int carNum)
 	{
 		CARNUM = carNum;
 	}
 
-	int getCarNumConstants()
+	int getCARNUM()
 	{
 		return CARNUM;
+	}
+	
+	void setLANENUM(int laneNum)
+	{
+		LANENUM = laneNum;
+	}
+
+	int getLANENUM()
+	{
+		return LANENUM;
 	}
 
 	int TOPLANESTARTX = 0;

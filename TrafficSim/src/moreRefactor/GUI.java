@@ -2,6 +2,16 @@
 
 package moreRefactor;
 
+/*
+ * 
+ * this GUI is built "windowBuilder"
+ * 		can be installed from "http://www.eclipse.org/windowbuilder/download.php"
+ * 		just how you would install another software into eclipse
+ * 			Help > Install New Softare > 
+ * 			enter this address(this is for eclipse luna 4.4 you may need another verion): http://download.eclipse.org/windowbuilder/WB/release/R201406251200/4.4/
+ * 
+ */
+
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
@@ -31,8 +41,12 @@ public class GUI extends JFrame {
 	private JPanel contentPane;
 	JButton btnStart;
 	
+	// these vars are declared here because they need to be accessed from other classes
+	//		others are declared in the GUI() because they do not change values
 	JSpinner carSpinner;
     int carSpinnerValue;
+    JSpinner laneSpinner;
+    int laneSpinnerValue;
     
 
 	/**
@@ -71,6 +85,10 @@ public class GUI extends JFrame {
 	 */
 	public GUI()
 	{
+		// sets the title of the window
+		// creates the window
+		// sets the grid type of the GUI
+		//		some of the drag and drop aspects are weird in the design view of windowBuilder
 		setTitle("Traffic Sim Menu");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 800, 550);
@@ -83,7 +101,8 @@ public class GUI extends JFrame {
 		gbl_contentPane.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		gbl_contentPane.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		contentPane.setLayout(gbl_contentPane);
-
+		
+		// LABEL: asking for the number of lanes
 		JLabel lblNumberOfLanes = new JLabel("Number of Lanes");
 		lblNumberOfLanes.setHorizontalAlignment(SwingConstants.LEFT);
 		lblNumberOfLanes.setFont(new Font("Tahoma", Font.PLAIN, 14));
@@ -94,16 +113,28 @@ public class GUI extends JFrame {
 		gbc_lblNumberOfLanes.gridy = 1;
 		contentPane.add(lblNumberOfLanes, gbc_lblNumberOfLanes);
 
-		JSpinner spinner = new JSpinner();
-		spinner.setModel(new SpinnerNumberModel(2, 2, 5, 1));
-		spinner.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		// spinner for number of lanes
+		laneSpinner = new JSpinner();
+		laneSpinner.setModel(new SpinnerNumberModel(2, 2, 5, 1));
+		laneSpinner.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		GridBagConstraints gbc_spinner = new GridBagConstraints();
 		gbc_spinner.anchor = GridBagConstraints.NORTH;
 		gbc_spinner.insets = new Insets(0, 0, 5, 5);
 		gbc_spinner.gridx = 4;
 		gbc_spinner.gridy = 1;
-		contentPane.add(spinner, gbc_spinner);
-
+		contentPane.add(laneSpinner, gbc_spinner);
+		
+		// SETTING SPINNER VALUE: sets the value of the number of lanes
+		laneSpinner.addChangeListener(new ChangeListener()
+		{
+			public void stateChanged(ChangeEvent e)
+			{
+				laneSpinnerValue = (int) ((JSpinner)e.getSource()).getValue();
+				TrafficConstants.getInstance().setLANENUM(laneSpinnerValue);
+			}
+		});
+		
+		// EXPLANATION LABEL: explaining the limits of lane choice
 		JLabel lblChooseANumber = new JLabel("Choose a number 2 - 5.");
 		lblChooseANumber.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		GridBagConstraints gbc_lblChooseANumber = new GridBagConstraints();
@@ -111,7 +142,8 @@ public class GUI extends JFrame {
 		gbc_lblChooseANumber.gridx = 6;
 		gbc_lblChooseANumber.gridy = 1;
 		contentPane.add(lblChooseANumber, gbc_lblChooseANumber);
-
+		
+		// LABEL: asking for the number of cars
 		JLabel lblNumberOfCars = new JLabel("Number of Cars");
 		lblNumberOfCars.setHorizontalAlignment(SwingConstants.LEFT);
 		lblNumberOfCars.setFont(new Font("Tahoma", Font.PLAIN, 14));
@@ -123,7 +155,6 @@ public class GUI extends JFrame {
 		contentPane.add(lblNumberOfCars, gbc_lblNumberOfCars);
 
 		// spinner for number of cars
-		// change var name
 		carSpinner = new JSpinner();
 		carSpinner.setModel(new SpinnerNumberModel(1, 1, 20, 1));
 		carSpinner.setFont(new Font("Tahoma", Font.PLAIN, 14));
@@ -134,17 +165,17 @@ public class GUI extends JFrame {
 		gbc_spinner_1.gridy = 3;
 		contentPane.add(carSpinner, gbc_spinner_1);
 		
+		// SETTING SPINNER VALUE: allows the spinner value to be called across classes
 		carSpinner.addChangeListener(new ChangeListener()
 		{
 			public void stateChanged(ChangeEvent e)
 			{
 				carSpinnerValue = (int) ((JSpinner)e.getSource()).getValue();
-				TrafficConstants.getInstance().setConstantsFromGUI(carSpinnerValue);
+				TrafficConstants.getInstance().setCARNUM(carSpinnerValue);
 			}
 		});
-		//TrafficConstants.getInstance().setConstantsFromGUI(carSpinnerValue);
 		
-		// explanation for spinner for number of cars
+		// EXPLANATION LABEL: explanation for spinner for number of cars
 		JLabel lblChooseANumber_1 = new JLabel("Choose a number 1 - 20.");
 		lblChooseANumber_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		GridBagConstraints gbc_lblChooseANumber_1 = new GridBagConstraints();
@@ -154,7 +185,7 @@ public class GUI extends JFrame {
 		gbc_lblChooseANumber_1.gridy = 3;
 		contentPane.add(lblChooseANumber_1, gbc_lblChooseANumber_1);
 
-		// asking for the state of mind of the "user" driver
+		// LABEL: asking for the state of mind of the "user" driver
 		JLabel lblStateOfMind = new JLabel("State of Mind");
 		lblStateOfMind.setHorizontalAlignment(SwingConstants.LEFT);
 		lblStateOfMind.setFont(new Font("Tahoma", Font.PLAIN, 14));
@@ -208,18 +239,7 @@ public class GUI extends JFrame {
 		radioBtnGroupStateOfMind.add(rdbtnHigh);
 		radioBtnGroupStateOfMind.add(rdbtnMedium);
 		radioBtnGroupStateOfMind.add(rdbtnLow);
-	}
-
-	public int getCarSpinnerValue()
-	{
-		return carSpinnerValue;
-	}
-
-	public void setCarSpinnerValue(int carSpinnerValue)
-	{
-		this.carSpinnerValue = carSpinnerValue;
-	}
-	
+	}	
 }
 
 
