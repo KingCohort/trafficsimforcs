@@ -9,6 +9,7 @@ package moreRefactor;
  * 		just how you would install another software into eclipse
  * 			Help > Install New Softare > 
  * 			enter this address(this is for eclipse luna 4.4 you may need another verion): http://download.eclipse.org/windowbuilder/WB/release/R201406251200/4.4/
+ * 			the windowBuilder is required and this uses Swing so get both of those
  * 
  */
 
@@ -47,7 +48,17 @@ public class GUI extends JFrame {
     int carSpinnerValue;
     JSpinner laneSpinner;
     int laneSpinnerValue;
+    JRadioButton radioButtonLow;
+    String bttnLow;
+    int bttnLowValue;
+    JRadioButton radioButtonMedium;
+    String bttnMedium;
+    int bttnMediumValue;
+    JRadioButton radioButtonHigh;
+    String bttnHigh;
+    int bttnHighValue;
     
+    String radioButtonAnswer;
 
 	/**
 	 * Launch the application.
@@ -88,7 +99,7 @@ public class GUI extends JFrame {
 		// sets the title of the window
 		// creates the window
 		// sets the grid type of the GUI
-		//		some of the drag and drop aspects are weird in the design view of windowBuilder
+		//		some of the drag and drop aspects are weird (i dont fully understand them) in the design view of windowBuilder
 		setTitle("Traffic Sim Menu");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 800, 550);
@@ -196,34 +207,67 @@ public class GUI extends JFrame {
 		contentPane.add(lblStateOfMind, gbc_lblStateOfMind);
 
 		// low radio button
-		JRadioButton rdbtnLow = new JRadioButton("Low");
-		rdbtnLow.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		radioButtonLow = new JRadioButton("Low");
+		radioButtonLow.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		GridBagConstraints gbc_rdbtnLow = new GridBagConstraints();
 		gbc_rdbtnLow.anchor = GridBagConstraints.NORTHWEST;
 		gbc_rdbtnLow.insets = new Insets(0, 0, 5, 5);
 		gbc_rdbtnLow.gridx = 2;
 		gbc_rdbtnLow.gridy = 5;
-		contentPane.add(rdbtnLow, gbc_rdbtnLow);
+		contentPane.add(radioButtonLow, gbc_rdbtnLow);
+		
+//		radioButtonLow.addChangeListener(new ChangeListener()
+//		{
+//			public void stateChanged(ChangeEvent e)
+//			{
+//				carSpinnerValue =  e.getSource().getText();
+//				TrafficConstants.getInstance().setCARNUM(carSpinnerValue);
+//			}
+//		});
 
 		// medium radio button
-		JRadioButton rdbtnMedium = new JRadioButton("Medium");
-		rdbtnMedium.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		radioButtonMedium = new JRadioButton("Medium");
+		radioButtonMedium.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		GridBagConstraints gbc_rdbtnMedium = new GridBagConstraints();
 		gbc_rdbtnMedium.anchor = GridBagConstraints.NORTHWEST;
 		gbc_rdbtnMedium.insets = new Insets(0, 0, 5, 5);
 		gbc_rdbtnMedium.gridx = 4;
 		gbc_rdbtnMedium.gridy = 5;
-		contentPane.add(rdbtnMedium, gbc_rdbtnMedium);
+		contentPane.add(radioButtonMedium, gbc_rdbtnMedium);
 
 		// high radio button
-		JRadioButton rdbtnHigh = new JRadioButton("High");
-		rdbtnHigh.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		radioButtonHigh = new JRadioButton("High");
+		radioButtonHigh.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		GridBagConstraints gbc_rdbtnHigh = new GridBagConstraints();
 		gbc_rdbtnHigh.anchor = GridBagConstraints.NORTH;
 		gbc_rdbtnHigh.insets = new Insets(0, 0, 5, 5);
 		gbc_rdbtnHigh.gridx = 6;
 		gbc_rdbtnHigh.gridy = 5;
-		contentPane.add(rdbtnHigh, gbc_rdbtnHigh);
+		contentPane.add(radioButtonHigh, gbc_rdbtnHigh);
+		
+		////////-----TESTING-----/////////////////////////////////////////////////////////
+		
+		// dont fux wit dis
+		// everything else should work
+		
+//		ActionListener actionListener = new ActionListener()
+//		{
+//			@Override
+//			public void actionPerformed(ActionEvent e)
+//			{
+//				if (e.getSource() instanceof JRadioButton)
+//				{
+//					JRadioButton radioButton = (JRadioButton) e.getSource();
+//					if (radioButton.isSelected())
+//					{
+//						radioButtonAnswer.setText(radioButton.getText());
+//					}
+//				}
+//				
+//			}
+//		};
+		
+		////////-----END TESTING-----/////////////////////////////////////////////////////
 
 		// the start button
 		btnStart = new JButton("START SIMULATION");
@@ -235,10 +279,12 @@ public class GUI extends JFrame {
 		contentPane.add(btnStart, gbc_btnStart);
 
 		// create new radio button group
-		ButtonGroup radioBtnGroupStateOfMind = new ButtonGroup(); // this may need to be moved up above the radio buttons cause it moved the .add()'s to the radio buttons initialization 
-		radioBtnGroupStateOfMind.add(rdbtnHigh);
-		radioBtnGroupStateOfMind.add(rdbtnMedium);
-		radioBtnGroupStateOfMind.add(rdbtnLow);
+		ButtonGroup radioBtnGroupStateOfMind = new ButtonGroup(); // this may jump around in the code when switching between the design and source view when things are changed (windowBuilder weirdness)
+		radioBtnGroupStateOfMind.add(radioButtonHigh);
+		radioBtnGroupStateOfMind.add(radioButtonMedium);
+		radioBtnGroupStateOfMind.add(radioButtonLow);
+		
+		
 	}	
 }
 

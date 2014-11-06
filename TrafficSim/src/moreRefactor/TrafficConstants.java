@@ -25,10 +25,12 @@ class TrafficConstants
 //	GUI gui = new GUI();
 	int CARNUM;
 	int LANENUM;
+	int AGGRESSION;
 	int CARWIDTH = 60; 
 	int CARHEIGHT = 30;
 
 	//called by GUI on start, input the relevent data from the GUI into the constructor
+	// getters and setters for all values from the GUI
 	void setCARNUM(int carNum)
 	{
 		CARNUM = carNum;
@@ -48,6 +50,16 @@ class TrafficConstants
 	{
 		return LANENUM;
 	}
+	
+	void setAGGRESSION(int aggression)
+	{
+		AGGRESSION = aggression;
+	}
+	
+	int getAGRESSION()
+	{
+		return AGGRESSION;
+	}
 
 	int TOPLANESTARTX = 0;
 	int STARTY = 150;
@@ -55,3 +67,12 @@ class TrafficConstants
 	boolean GLOBALSIMVIEW = true; //is it global view or single car data
 	float BASESPEED = 1;	
 }
+
+
+
+
+
+
+
+
+
