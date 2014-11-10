@@ -27,19 +27,24 @@ public class TrafficModel
 		System.out.println("-----LANE NUMBER: " + TrafficConstants.getInstance().getLANENUM());
 		System.out.println();
 
-		cars[0] = new Car(0,150);
-		cars[1] = new Car(100, 150);
+		cars[0] = new Car(500,TrafficConstants.getInstance().STARTY);
+		cars[1] = new Car(0, TrafficConstants.getInstance().STARTY);
+		cars[1].setSpeed(2);
 	}
 	
 	// 	java has bounding boxes now yay
 	public ArrayList<BoundingBox> runSimulation()
 	{	
 		carBB.clear();
+		
 		for (Car car : cars)
 		{
-			car.makeDecision(carBB);
+			// car.makeDecision(carBB);  //THIS IS COMMENTED OUT SO I CAN ONLY HAVE ONE CAR MOVE FOR TESTING PURPOSES - Noel 
+			cars[0].move(carBB);
+			cars[1].makeDecision(carBB);
 			carBB.add(new BoundingBox(car.xCoord,car.yCoord,car.width,car.height));
 		}
+
 		return carBB;
 	}
 	
