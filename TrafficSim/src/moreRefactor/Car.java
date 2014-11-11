@@ -23,6 +23,11 @@ public class Car
 	float nextLaneMiddle = 0;
 	boolean changeLaneTest = false;
 	boolean[] surroundingCarLocations = new boolean[4]; // 0 = right 1 = up 2 = left 3 = down
+	boolean downLeftEdge = false;
+	boolean downRightEdge = false;
+	boolean downEdges = false;
+	boolean downUpperBorder = false;
+	boolean downLowerBorder = false;
 
 	boolean checkFrontTesterBool;
 
@@ -102,7 +107,7 @@ public class Car
 		if(isChangingLanes == false && checkFront(carLoc) == false){
 			xCoord = xCoord + speed;
 		} else {
-			wantToChangeLanes = true;
+		//	wantToChangeLanes = true;
 			slowDown();
 		}
 		
@@ -131,19 +136,19 @@ public class Car
 	{	
 		if(surroundingCarLocations[RIGHT] == true && surroundingCarLocations[LEFT] == false && isChangingLanes == false){
 
-			System.out.println("changing lanes commenced");
+//			System.out.println("changing lanes commenced");
 			isChangingLanes = true;
 			nextLaneMiddle = getyCoord() + 100;
 			speedUp();
 		}
 		if (isChangingLanes == true && getyCoord() < nextLaneMiddle) {
 			moveOneLaneDown();
-			System.out.println(getyCoord());
-			System.out.println(nextLaneMiddle);
+//			System.out.println(getyCoord());
+//			System.out.println(nextLaneMiddle);
 		}
 		else if (isChangingLanes == true && getyCoord() >= nextLaneMiddle) {
 			isChangingLanes = false;
-			System.out.println("I am done changing lanes");
+//			System.out.println("I am done changing lanes");
 
 		}
 	}
@@ -175,32 +180,64 @@ public class Car
 		surroundingCarLocations[UP] = false;
 		surroundingCarLocations[LEFT] = false;
 		surroundingCarLocations[DOWN] = false;
+		downLeftEdge = false;
+		downRightEdge = false;
+		downEdges = false;
+		downUpperBorder = false;
+		downLowerBorder = false;
 		for(int i = 0; i < carLoc.size(); i++)
 		{
-			if((getBoundingBox().getMaxX() < carLoc.get(i).getMinX() && getBoundingBox().getMaxX()+width > carLoc.get(i).getMinX()
-					&& getBoundingBox().getMaxY()>=carLoc.get(i).getMinY() && getBoundingBox().getMinY() <= carLoc.get(i).getMaxY()))
+			//TESTS FOR DOWN DIRECTION
+			if (getBoundingBox().getMaxX()>=carLoc.get(i).getMinX() && getBoundingBox().getMinX() <= carLoc.get(i).getMinX()) {
+				downLeftEdge = true;
+			}
+			
+			if (getBoundingBox().getMinX() <= carLoc.get(i).getMaxX() && getBoundingBox().getMaxX()>= carLoc.get(i).getMaxX()) {
+				downRightEdge = true;
+			}
+			
+			if (downLeftEdge==true || downRightEdge==true)
+			{
+				downEdges = true;
+				System.out.println("car's left/right edge is within my left&right edge");
+			}
+			
+			System.out.println("car bottom edge: " + getBoundingBox().getMaxY());	
+			System.out.println("other car top edge: " + carLoc.get(i).getMinY());
+			if (getBoundingBox().getMaxY() < carLoc.get(i).getMinY()) {
+				downUpperBorder = true;
+				System.out.println("other car's upper edge is below my bottom edge");
+			}
+			
+			if (getBoundingBox().getMaxY()+300 >= carLoc.get(i).getMinY()) {
+				downLowerBorder = true;
+				System.out.println("other car's upper edge is above my bottom edge + 300");
+			}
+			if (getBoundingBox().getMaxX() < carLoc.get(i).getMinX() && getBoundingBox().getMaxX()+width > carLoc.get(i).getMinX()
+					&& getBoundingBox().getMaxY()>=carLoc.get(i).getMinY() && getBoundingBox().getMinY() <= carLoc.get(i).getMaxY())
 			{
 				//right direction, assignment of index 0
 				surroundingCarLocations[RIGHT] = true;
 			} 
 
-			if((getBoundingBox().getMinY() > carLoc.get(i).getMaxY()))
+			if (getBoundingBox().getMinY() > carLoc.get(i).getMaxY())
 			{
 				//up direction, assignment of index 1
 				surroundingCarLocations[UP] = true;
 			}
 
-			if((getBoundingBox().getMinX()) > carLoc.get(i).getMaxX())
+			if (getBoundingBox().getMinX() > carLoc.get(i).getMaxX() && getBoundingBox().getMinX()-width < carLoc.get(i).getMaxX()
+					&& getBoundingBox().getMaxY()>=carLoc.get(i).getMinY() && getBoundingBox().getMinY() <= carLoc.get(i).getMaxY())
 			{
 				//left direction, assignment of index 2
 				surroundingCarLocations[LEFT] = true;			
 			}
 
-			if((getBoundingBox().getMaxY() < carLoc.get(i).getMinY() && getBoundingBox().getMaxY()+300 > carLoc.get(i).getMinY()
-					&& getBoundingBox().getMaxX()>=carLoc.get(i).getMinX() || getBoundingBox().getMinX() <= carLoc.get(i).getMaxX()))
+			if (downUpperBorder==true && downLowerBorder==true && downEdges == true)
 			{
 				//down direction, assignment of index 3
 				surroundingCarLocations[DOWN] = true;
+				System.out.println("setting DOWN to TRUE!");
 			}
 
 		}	
@@ -220,6 +257,9 @@ public class Car
 		out+="right =" + surroundingCarLocations[RIGHT] + "\n";
 		out+="up=" + surroundingCarLocations[UP] +"\n";
 		out+="left="+surroundingCarLocations[LEFT]+"\n";
+		out+="downUpperBorder="+downUpperBorder+"\n";
+		out+="downLowerBorder="+downLowerBorder+"\n";
+		out+="downEdges="+downEdges+"\n";
 		out+="down="+surroundingCarLocations[DOWN]+"\n";
 		out+="changelane="+isChangingLanes+"\n";
 		out+= "XY Coord=" + getxCoord() + "," + getyCoord()+"\n";
