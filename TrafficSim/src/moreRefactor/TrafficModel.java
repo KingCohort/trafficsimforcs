@@ -27,6 +27,19 @@ public class TrafficModel
 		System.out.println("-----LANE NUMBER: " + TrafficConstants.getInstance().getLANENUM());
 		System.out.println();
 
+	/*	for(int i = 0; i < TrafficConstants.getInstance().CARNUM; i++){
+			
+			if(i < (TrafficConstants.getInstance().CARNUM/2)){
+				
+				cars[i] = new Car(TrafficConstants.getInstance().BOTLANESTARTX, TrafficConstants.getInstance().STARTY);
+				
+			}else {
+				
+				cars[i] = new Car(TrafficConstants.getInstance().TOPLANESTARTX, TrafficConstants.getInstance().STARTY);
+			}
+			
+		} */ 
+		
 		cars[0] = new Car(500,TrafficConstants.getInstance().STARTY);
 		cars[1] = new Car(0, TrafficConstants.getInstance().STARTY);
 		cars[1].setSpeed(2);
@@ -36,7 +49,6 @@ public class TrafficModel
 	public ArrayList<BoundingBox> runSimulation()
 	{	
 		carBB.clear();
-		
 		for (Car car : cars)
 		{
 			// car.makeDecision(carBB);  //THIS IS COMMENTED OUT SO I CAN ONLY HAVE ONE CAR MOVE FOR TESTING PURPOSES - Noel 
