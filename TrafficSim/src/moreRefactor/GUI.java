@@ -21,12 +21,10 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JRadioButton;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
@@ -40,6 +38,7 @@ public class GUI extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
+	
 	JButton btnStart;
 	
 	// these vars are declared here because they need to be accessed from other classes
@@ -48,17 +47,8 @@ public class GUI extends JFrame {
     int carSpinnerValue;
     JSpinner laneSpinner;
     int laneSpinnerValue;
-    JRadioButton radioButtonLow;
-    String bttnLow;
-    int bttnLowValue;
-    JRadioButton radioButtonMedium;
-    String bttnMedium;
-    int bttnMediumValue;
-    JRadioButton radioButtonHigh;
-    String bttnHigh;
-    int bttnHighValue;
-    
-    String radioButtonAnswer;
+    JSpinner aggressionSpinner;
+    int aggressionSpinnerValue;
 
 	/**
 	 * Launch the application.
@@ -102,13 +92,14 @@ public class GUI extends JFrame {
 		//		some of the drag and drop aspects are weird (i dont fully understand them) in the design view of windowBuilder
 		setTitle("Traffic Sim Menu");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 800, 550);
+		setBounds(100, 100, 650, 600);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		GridBagLayout gbl_contentPane = new GridBagLayout();
-		gbl_contentPane.columnWidths = new int[]{104, 65, 51, 56, 73, 57, 150, 95, 131, 0};
-		gbl_contentPane.rowHeights = new int[]{35, 22, 35, 22, 48, 25, 258, 23, 0};
+		// the spacing with the layout creates a padding of 5 pixels between each cell 
+		gbl_contentPane.columnWidths = new int[]{200, 25, 75, 25, 200, 0}; // {label area, padding, spinner area, padding, explaination area, 0(weirdness with swing??)}
+		gbl_contentPane.rowHeights = new int[]{30, 30, 30, 30, 30, 30, 30, 30, 0}; // all the rows are the same height, the last 0 is weirdness with swing i dont understand
 		gbl_contentPane.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		gbl_contentPane.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		contentPane.setLayout(gbl_contentPane);
@@ -118,24 +109,24 @@ public class GUI extends JFrame {
 		lblNumberOfLanes.setHorizontalAlignment(SwingConstants.LEFT);
 		lblNumberOfLanes.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		GridBagConstraints gbc_lblNumberOfLanes = new GridBagConstraints();
-		gbc_lblNumberOfLanes.gridwidth = 2;
+		gbc_lblNumberOfLanes.anchor = GridBagConstraints.WEST;
 		gbc_lblNumberOfLanes.insets = new Insets(0, 0, 5, 5);
 		gbc_lblNumberOfLanes.gridx = 0;
 		gbc_lblNumberOfLanes.gridy = 1;
 		contentPane.add(lblNumberOfLanes, gbc_lblNumberOfLanes);
-
+		
 		// spinner for number of lanes
 		laneSpinner = new JSpinner();
 		laneSpinner.setModel(new SpinnerNumberModel(2, 2, 5, 1));
 		laneSpinner.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		GridBagConstraints gbc_spinner = new GridBagConstraints();
-		gbc_spinner.anchor = GridBagConstraints.NORTH;
+		gbc_spinner.anchor = GridBagConstraints.WEST;
 		gbc_spinner.insets = new Insets(0, 0, 5, 5);
-		gbc_spinner.gridx = 4;
+		gbc_spinner.gridx = 2;
 		gbc_spinner.gridy = 1;
 		contentPane.add(laneSpinner, gbc_spinner);
 		
-		// SETTING SPINNER VALUE: sets the value of the number of lanes
+		// SETTING SPINNER VALUE: sets the value of the number of lanes, allows the spinner value to be called across classes
 		laneSpinner.addChangeListener(new ChangeListener()
 		{
 			public void stateChanged(ChangeEvent e)
@@ -149,8 +140,9 @@ public class GUI extends JFrame {
 		JLabel lblChooseANumber = new JLabel("Choose a number 2 - 5.");
 		lblChooseANumber.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		GridBagConstraints gbc_lblChooseANumber = new GridBagConstraints();
+		gbc_lblChooseANumber.anchor = GridBagConstraints.WEST;
 		gbc_lblChooseANumber.insets = new Insets(0, 0, 5, 5);
-		gbc_lblChooseANumber.gridx = 6;
+		gbc_lblChooseANumber.gridx = 4;
 		gbc_lblChooseANumber.gridy = 1;
 		contentPane.add(lblChooseANumber, gbc_lblChooseANumber);
 		
@@ -159,24 +151,24 @@ public class GUI extends JFrame {
 		lblNumberOfCars.setHorizontalAlignment(SwingConstants.LEFT);
 		lblNumberOfCars.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		GridBagConstraints gbc_lblNumberOfCars = new GridBagConstraints();
-		gbc_lblNumberOfCars.gridwidth = 2;
+		gbc_lblNumberOfCars.anchor = GridBagConstraints.WEST;
 		gbc_lblNumberOfCars.insets = new Insets(0, 0, 5, 5);
 		gbc_lblNumberOfCars.gridx = 0;
 		gbc_lblNumberOfCars.gridy = 3;
 		contentPane.add(lblNumberOfCars, gbc_lblNumberOfCars);
-
+		
 		// spinner for number of cars
 		carSpinner = new JSpinner();
 		carSpinner.setModel(new SpinnerNumberModel(1, 1, 20, 1));
 		carSpinner.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		GridBagConstraints gbc_spinner_1 = new GridBagConstraints();
-		gbc_spinner_1.anchor = GridBagConstraints.NORTH;
+		gbc_spinner_1.anchor = GridBagConstraints.WEST;
 		gbc_spinner_1.insets = new Insets(0, 0, 5, 5);
-		gbc_spinner_1.gridx = 4;
+		gbc_spinner_1.gridx = 2;
 		gbc_spinner_1.gridy = 3;
 		contentPane.add(carSpinner, gbc_spinner_1);
 		
-		// SETTING SPINNER VALUE: allows the spinner value to be called across classes
+		// SETTING SPINNER VALUE: sets the value of the number of cars, allows the spinner value to be called across classes
 		carSpinner.addChangeListener(new ChangeListener()
 		{
 			public void stateChanged(ChangeEvent e)
@@ -192,99 +184,58 @@ public class GUI extends JFrame {
 		GridBagConstraints gbc_lblChooseANumber_1 = new GridBagConstraints();
 		gbc_lblChooseANumber_1.anchor = GridBagConstraints.WEST;
 		gbc_lblChooseANumber_1.insets = new Insets(0, 0, 5, 5);
-		gbc_lblChooseANumber_1.gridx = 6;
+		gbc_lblChooseANumber_1.gridx = 4;
 		gbc_lblChooseANumber_1.gridy = 3;
 		contentPane.add(lblChooseANumber_1, gbc_lblChooseANumber_1);
-
-		// LABEL: asking for the state of mind of the "user" driver
-		JLabel lblStateOfMind = new JLabel("State of Mind");
-		lblStateOfMind.setHorizontalAlignment(SwingConstants.LEFT);
-		lblStateOfMind.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		GridBagConstraints gbc_lblStateOfMind = new GridBagConstraints();
-		gbc_lblStateOfMind.insets = new Insets(0, 0, 5, 5);
-		gbc_lblStateOfMind.gridx = 0;
-		gbc_lblStateOfMind.gridy = 5;
-		contentPane.add(lblStateOfMind, gbc_lblStateOfMind);
-
-		// low radio button
-		radioButtonLow = new JRadioButton("Low");
-		radioButtonLow.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		GridBagConstraints gbc_rdbtnLow = new GridBagConstraints();
-		gbc_rdbtnLow.anchor = GridBagConstraints.NORTHWEST;
-		gbc_rdbtnLow.insets = new Insets(0, 0, 5, 5);
-		gbc_rdbtnLow.gridx = 2;
-		gbc_rdbtnLow.gridy = 5;
-		contentPane.add(radioButtonLow, gbc_rdbtnLow);
 		
-//		radioButtonLow.addChangeListener(new ChangeListener()
-//		{
-//			public void stateChanged(ChangeEvent e)
-//			{
-//				carSpinnerValue =  e.getSource().getText();
-//				TrafficConstants.getInstance().setCARNUM(carSpinnerValue);
-//			}
-//		});
-
-		// medium radio button
-		radioButtonMedium = new JRadioButton("Medium");
-		radioButtonMedium.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		GridBagConstraints gbc_rdbtnMedium = new GridBagConstraints();
-		gbc_rdbtnMedium.anchor = GridBagConstraints.NORTHWEST;
-		gbc_rdbtnMedium.insets = new Insets(0, 0, 5, 5);
-		gbc_rdbtnMedium.gridx = 4;
-		gbc_rdbtnMedium.gridy = 5;
-		contentPane.add(radioButtonMedium, gbc_rdbtnMedium);
-
-		// high radio button
-		radioButtonHigh = new JRadioButton("High");
-		radioButtonHigh.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		GridBagConstraints gbc_rdbtnHigh = new GridBagConstraints();
-		gbc_rdbtnHigh.anchor = GridBagConstraints.NORTH;
-		gbc_rdbtnHigh.insets = new Insets(0, 0, 5, 5);
-		gbc_rdbtnHigh.gridx = 6;
-		gbc_rdbtnHigh.gridy = 5;
-		contentPane.add(radioButtonHigh, gbc_rdbtnHigh);
+		// LABEL: asking for the aggression of the driver
+		JLabel lblDriverAggression = new JLabel("Driver Aggression");
+		lblDriverAggression.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		GridBagConstraints gbc_lblDriverAggression = new GridBagConstraints();
+		gbc_lblDriverAggression.anchor = GridBagConstraints.WEST;
+		gbc_lblDriverAggression.insets = new Insets(0, 0, 5, 5);
+		gbc_lblDriverAggression.gridx = 0;
+		gbc_lblDriverAggression.gridy = 5;
+		contentPane.add(lblDriverAggression, gbc_lblDriverAggression);
 		
-		////////-----TESTING-----/////////////////////////////////////////////////////////
+		// spinner to choose the aggression of the drivers
+		aggressionSpinner = new JSpinner();
+		aggressionSpinner.setModel(new SpinnerNumberModel(1, 1, 5, 1));
+		aggressionSpinner.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		GridBagConstraints gbc_spinner_2 = new GridBagConstraints();
+		gbc_spinner_2.anchor = GridBagConstraints.WEST;
+		gbc_spinner_2.insets = new Insets(0, 0, 5, 5);
+		gbc_spinner_2.gridx = 2;
+		gbc_spinner_2.gridy = 5;
+		contentPane.add(aggressionSpinner, gbc_spinner_2);
 		
-		// dont fux wit dis
-		// everything else should work
+		// SETTING SPINNER VALUE: sets the aggression of all the drivers, allows the spinner value to be called across classes
+		aggressionSpinner.addChangeListener(new ChangeListener()
+		{
+			public void stateChanged(ChangeEvent e)
+			{
+				aggressionSpinnerValue = (int) ((JSpinner)e.getSource()).getValue();
+				TrafficConstants.getInstance().setAGGRESSION(aggressionSpinnerValue);
+			}
+		});
+				
+		// EXPLANATION LABEL: explanation for the aggression of drivers
+		JLabel lblThisIsThe = new JLabel("This is the aggression of the drivers 1 - 5");
+		lblThisIsThe.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		GridBagConstraints gbc_lblThisIsThe = new GridBagConstraints();
+		gbc_lblThisIsThe.anchor = GridBagConstraints.WEST;
+		gbc_lblThisIsThe.insets = new Insets(0, 0, 5, 5);
+		gbc_lblThisIsThe.gridx = 4;
+		gbc_lblThisIsThe.gridy = 5;
+		contentPane.add(lblThisIsThe, gbc_lblThisIsThe);
 		
-//		ActionListener actionListener = new ActionListener()
-//		{
-//			@Override
-//			public void actionPerformed(ActionEvent e)
-//			{
-//				if (e.getSource() instanceof JRadioButton)
-//				{
-//					JRadioButton radioButton = (JRadioButton) e.getSource();
-//					if (radioButton.isSelected())
-//					{
-//						radioButtonAnswer.setText(radioButton.getText());
-//					}
-//				}
-//				
-//			}
-//		};
-		
-		////////-----END TESTING-----/////////////////////////////////////////////////////
-
-		// the start button
+		// the start button, starts the simulation
 		btnStart = new JButton("START SIMULATION");
 		GridBagConstraints gbc_btnStart = new GridBagConstraints();
-		gbc_btnStart.gridwidth = 2;
-		gbc_btnStart.anchor = GridBagConstraints.NORTHWEST;
-		gbc_btnStart.gridx = 7;
+		gbc_btnStart.insets = new Insets(0, 0, 0, 5);
+		gbc_btnStart.gridx = 4;
 		gbc_btnStart.gridy = 7;
-		contentPane.add(btnStart, gbc_btnStart);
-
-		// create new radio button group
-		ButtonGroup radioBtnGroupStateOfMind = new ButtonGroup(); // this may jump around in the code when switching between the design and source view when things are changed (windowBuilder weirdness)
-		radioBtnGroupStateOfMind.add(radioButtonHigh);
-		radioBtnGroupStateOfMind.add(radioButtonMedium);
-		radioBtnGroupStateOfMind.add(radioButtonLow);
-		
-		
+		contentPane.add(btnStart, gbc_btnStart);		
 	}	
 }
 

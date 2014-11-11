@@ -23,8 +23,9 @@ public class TrafficModel
 	public void createCars()
 	{
 		System.out.println();
-		System.out.println("-----CAR NUMBER: " + TrafficConstants.getInstance().getCARNUM());
-		System.out.println("-----LANE NUMBER: " + TrafficConstants.getInstance().getLANENUM());
+		System.out.println("----- CAR NUMBER: " + TrafficConstants.getInstance().getCARNUM());
+		System.out.println("----- LANE NUMBER: " + TrafficConstants.getInstance().getLANENUM());
+		System.out.println("----- AGGRESSION NUMBER: " + TrafficConstants.getInstance().getAGGRESSION());
 		System.out.println();
 
 	/*	for(int i = 0; i < TrafficConstants.getInstance().CARNUM; i++){
