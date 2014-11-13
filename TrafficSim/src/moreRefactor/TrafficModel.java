@@ -53,10 +53,14 @@ public class TrafficModel
 		carBB.clear();
 		for (Car car : cars)
 		{
-			// car.makeDecision(carBB);  //THIS IS COMMENTED OUT SO I CAN ONLY HAVE ONE CAR MOVE FOR TESTING PURPOSES - Noel 
-			cars[0].move(carBB);
-			cars[1].makeDecision(carBB);
+		
 			carBB.add(new BoundingBox(car.xCoord,car.yCoord,car.width,car.height));
+		}
+		
+		for(Car car: cars){
+			
+			car.makeDecision(carBB); 
+			
 		}
 
 		return carBB;
