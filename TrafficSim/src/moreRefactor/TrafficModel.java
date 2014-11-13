@@ -10,7 +10,6 @@ public class TrafficModel
 	
 	//Car[] cars = new Car[2];
 	Car[] cars = new Car[TrafficConstants.getInstance().getCARNUM()];
-	
 	ArrayList<BoundingBox> carBB = new ArrayList<BoundingBox>();
 	Boolean simulation = true;
 	public static TrafficModel model = new TrafficModel();
@@ -25,18 +24,20 @@ public class TrafficModel
 	{
 		System.out.println();
 		System.out.println("----- CAR NUMBER: " + TrafficConstants.getInstance().getCARNUM());
-		//System.out.println("----- LANE NUMBER: " + TrafficConstants.getInstance().getLANENUM());
-		//System.out.println("----- AGGRESSION NUMBER: " + TrafficConstants.getInstance().getAGGRESSION());
+		System.out.println("----- LANE NUMBER: " + TrafficConstants.getInstance().getLANENUM());
+		System.out.println("----- AGGRESSION NUMBER: " + TrafficConstants.getInstance().getAGGRESSION());
 		System.out.println();
 
 		for(int i = 0; i < TrafficConstants.getInstance().getCARNUM(); i++)
 		{
 			if(i < (TrafficConstants.getInstance().getCARNUM() / 2))
 			{
+				System.out.println("----- CAR NUMBER: " + TrafficConstants.getInstance().getCARNUM() + " i: " + i);
 				cars[i] = new Car(TrafficConstants.getInstance().BOTLANESTARTX, TrafficConstants.getInstance().STARTY);
 			}
 			else
 			{
+				System.out.println("----- CAR NUMBER: " + TrafficConstants.getInstance().getCARNUM() + " i: " + i);
 				cars[i] = new Car(TrafficConstants.getInstance().TOPLANESTARTX, TrafficConstants.getInstance().STARTY);
 			}
 		}  
