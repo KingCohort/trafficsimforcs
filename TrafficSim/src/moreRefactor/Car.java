@@ -28,13 +28,14 @@ public class Car
 	boolean downEdges = false;
 	boolean downUpperBorder = false;
 	boolean downLowerBorder = false;
+	ArrayList<BoundingBox> carSurroundingBB = new ArrayList<BoundingBox>();
 
 	boolean checkFrontTesterBool;
 
 	//The beginnings of personality paramaterization.
 	// I was trying to make a car stop when coming within a set distance of the car infront of it. So I just made the section now - Noel 
 
-	float followingDistance = 15;
+	float followingDistance = 25;
 	float speed = 1;
 
 
@@ -52,7 +53,7 @@ public class Car
 		return xCoord;
 	}
 
-	 void setxCoord(float f)
+	void setxCoord(float f)
 	{
 		this.xCoord = f;
 	}
@@ -62,18 +63,18 @@ public class Car
 		return yCoord;
 	}
 
-	 void setyCoord(float yCoord)
+	void setyCoord(float yCoord)
 	{
 		this.yCoord = yCoord;
 	}
 
 	void setSpeed(float speed){
-		
+
 		this.speed = speed;
-		
+
 	}
-	
-	
+
+
 	double computeCarLength()
 	{
 		double carLength = (getxCoord() + width);
@@ -94,27 +95,28 @@ public class Car
 
 	void makeDecision(ArrayList<BoundingBox> carLoc)
 	{	
-		checkOtherCars(carLoc);
+		surroundingCarLocations = checkOtherCars(carLoc);
 		move(carLoc);
 		if(wantToChangeLanes){
-		changeLane();
+			changeLane();
 		}
 
 	}
+	
 
 	void move(ArrayList<BoundingBox> carLoc)
 	{
 		if(isChangingLanes == false && checkFront(carLoc) == false){
 			xCoord = xCoord + speed;
 		} else {
-		//	wantToChangeLanes = true;
+			//	wantToChangeLanes = true;
 			slowDown();
 		}
-		
+
 		if(isChangingLanes == true){
 			changeLane();
 		}
-		//setxCoord(50);
+
 	}
 
 	void slowDown(){
@@ -136,19 +138,19 @@ public class Car
 	{	
 		if(surroundingCarLocations[RIGHT] == true && surroundingCarLocations[LEFT] == false && isChangingLanes == false){
 
-//			System.out.println("changing lanes commenced");
+			//			System.out.println("changing lanes commenced");
 			isChangingLanes = true;
 			nextLaneMiddle = getyCoord() + 100;
 			speedUp();
 		}
 		if (isChangingLanes == true && getyCoord() < nextLaneMiddle) {
 			moveOneLaneDown();
-//			System.out.println(getyCoord());
-//			System.out.println(nextLaneMiddle);
+			//			System.out.println(getyCoord());
+			//			System.out.println(nextLaneMiddle);
 		}
 		else if (isChangingLanes == true && getyCoord() >= nextLaneMiddle) {
 			isChangingLanes = false;
-//			System.out.println("I am done changing lanes");
+			//			System.out.println("I am done changing lanes");
 
 		}
 	}
@@ -162,16 +164,63 @@ public class Car
 			if(carLoc.get(i).contains(plus, getyCoord())){
 				checkFrontTesterBool = true;
 				return true;
-
 			}
-
 		}
-
-
 		return false;
 	}
 
-	boolean[] checkOtherCars(ArrayList<BoundingBox> carLoc)
+	ArrayList<BoundingBox> getSurroundingBoundingBoxs(){
+		
+		carSurroundingBB.clear();
+		carSurroundingBB.add(new BoundingBox(getBoundingBox().getMaxX(), getBoundingBox().getMinY(), width, height)); // right
+		carSurroundingBB.add(new BoundingBox(getBoundingBox().getMinX(), (getBoundingBox().getMinY() - height*2), width, height*2)); //up
+		carSurroundingBB.add(new BoundingBox(getBoundingBox().getMinX() - height, getBoundingBox().getMinY(), width, height)); // left
+		carSurroundingBB.add(new BoundingBox(getBoundingBox().getMinX(), getBoundingBox().getMaxY(), width, height*2)); // down
+	//	System.out.println(" Min X: " + carSurroundingBB.get(0).getMinX() + " Min y: " + carSurroundingBB.get(0).getMinY());
+		return carSurroundingBB;
+
+	}
+	
+
+	boolean[] checkOtherCars(ArrayList<BoundingBox> carLoc){
+		
+		surroundingCarLocations[RIGHT] = false;
+		surroundingCarLocations[UP] = false;
+		surroundingCarLocations[LEFT] = false;
+		surroundingCarLocations[DOWN] = false;
+		carSurroundingBB = getSurroundingBoundingBoxs();
+		System.out.println("checkOtherCars has been run");
+		System.out.println(carSurroundingBB.get(0).getMinX());
+		for(int i = 0; i < carLoc.size(); i++){
+			
+			if(carSurroundingBB.get(RIGHT).intersects(carLoc.get(i))){
+				
+				surroundingCarLocations[RIGHT] = true;
+				
+			}
+			if(carSurroundingBB.get(UP).intersects(carLoc.get(i))){
+				
+				surroundingCarLocations[UP] = true;
+				
+			}
+			if(carSurroundingBB.get(LEFT).intersects(carLoc.get(i))){
+				
+				surroundingCarLocations[LEFT] = true;
+			}
+			
+			if(carSurroundingBB.get(DOWN).intersects(carLoc.get(i))){
+				
+				surroundingCarLocations[DOWN] = true;
+				
+			}
+		}
+		
+		return surroundingCarLocations;
+		
+	}
+	
+	
+	/* 	boolean[] checkOtherCars(ArrayList<BoundingBox> carLoc)
 	{
 		//int yBuffer = 0;
 		//method that informs the car of its surroundings. Returns an array of booleans for each cardinal direction
@@ -191,24 +240,24 @@ public class Car
 			if (getBoundingBox().getMaxX()>=carLoc.get(i).getMinX() && getBoundingBox().getMinX() <= carLoc.get(i).getMinX()) {
 				downLeftEdge = true;
 			}
-			
+
 			if (getBoundingBox().getMinX() <= carLoc.get(i).getMaxX() && getBoundingBox().getMaxX()>= carLoc.get(i).getMaxX()) {
 				downRightEdge = true;
 			}
-			
+
 			if (downLeftEdge==true || downRightEdge==true)
 			{
 				downEdges = true;
 				System.out.println("car's left/right edge is within my left&right edge");
 			}
-			
+
 			System.out.println("car bottom edge: " + getBoundingBox().getMaxY());	
 			System.out.println("other car top edge: " + carLoc.get(i).getMinY());
 			if (getBoundingBox().getMaxY() < carLoc.get(i).getMinY()) {
 				downUpperBorder = true;
 				System.out.println("other car's upper edge is below my bottom edge");
 			}
-			
+
 			if (getBoundingBox().getMaxY()+300 >= carLoc.get(i).getMinY()) {
 				downLowerBorder = true;
 				System.out.println("other car's upper edge is above my bottom edge + 300");
@@ -243,7 +292,9 @@ public class Car
 		}	
 
 		return surroundingCarLocations;
-	}
+	}*/
+
+
 
 	public boolean contains(int x, int y)
 	{
@@ -257,13 +308,14 @@ public class Car
 		out+="right =" + surroundingCarLocations[RIGHT] + "\n";
 		out+="up=" + surroundingCarLocations[UP] +"\n";
 		out+="left="+surroundingCarLocations[LEFT]+"\n";
-		out+="downUpperBorder="+downUpperBorder+"\n";
-		out+="downLowerBorder="+downLowerBorder+"\n";
-		out+="downEdges="+downEdges+"\n";
+	//	out+="downUpperBorder="+downUpperBorder+"\n";
+	//	out+="downLowerBorder="+downLowerBorder+"\n";
+	//	out+="downEdges="+downEdges+"\n";
 		out+="down="+surroundingCarLocations[DOWN]+"\n";
 		out+="changelane="+isChangingLanes+"\n";
 		out+= "XY Coord=" + getxCoord() + "," + getyCoord()+"\n";
 		out+="The checkFront method is outputting: " + checkFrontTesterBool;
+
 		JOptionPane.showMessageDialog(TrafficView.view, out);
 	}
 }
