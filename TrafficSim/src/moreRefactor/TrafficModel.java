@@ -8,7 +8,8 @@ import javafx.geometry.BoundingBox;
 public class TrafficModel
 {
 	
-	Car[] cars = new Car[2];
+	//Car[] cars = new Car[2];
+	Car[] cars = new Car[TrafficConstants.getInstance().getCARNUM()];
 	
 	ArrayList<BoundingBox> carBB = new ArrayList<BoundingBox>();
 	Boolean simulation = true;
@@ -24,26 +25,25 @@ public class TrafficModel
 	{
 		System.out.println();
 		System.out.println("----- CAR NUMBER: " + TrafficConstants.getInstance().getCARNUM());
-		System.out.println("----- LANE NUMBER: " + TrafficConstants.getInstance().getLANENUM());
-		System.out.println("----- AGGRESSION NUMBER: " + TrafficConstants.getInstance().getAGGRESSION());
+		//System.out.println("----- LANE NUMBER: " + TrafficConstants.getInstance().getLANENUM());
+		//System.out.println("----- AGGRESSION NUMBER: " + TrafficConstants.getInstance().getAGGRESSION());
 		System.out.println();
 
-	/*	for(int i = 0; i < TrafficConstants.getInstance().CARNUM; i++){
-			
-			if(i < (TrafficConstants.getInstance().CARNUM/2)){
-				
+		for(int i = 0; i < TrafficConstants.getInstance().getCARNUM(); i++)
+		{
+			if(i < (TrafficConstants.getInstance().getCARNUM() / 2))
+			{
 				cars[i] = new Car(TrafficConstants.getInstance().BOTLANESTARTX, TrafficConstants.getInstance().STARTY);
-				
-			}else {
-				
+			}
+			else
+			{
 				cars[i] = new Car(TrafficConstants.getInstance().TOPLANESTARTX, TrafficConstants.getInstance().STARTY);
 			}
-			
-		} */ 
+		}  
 		
-		cars[0] = new Car(500,TrafficConstants.getInstance().STARTY);
-		cars[1] = new Car(0, TrafficConstants.getInstance().STARTY);
-		cars[1].setSpeed(2);
+//		cars[0] = new Car(500,TrafficConstants.getInstance().STARTY);
+//		cars[1] = new Car(0, TrafficConstants.getInstance().STARTY);
+//		cars[1].setSpeed(2);
 	}
 	
 	// 	java has bounding boxes now yay

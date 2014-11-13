@@ -23,7 +23,7 @@ class TrafficConstants
 	}
 
 //	GUI gui = new GUI();
-	int CARNUM;
+	int CARNUM = 2;
 	int LANENUM;
 	int AGGRESSION;
 	int CARWIDTH = 60; 
@@ -63,7 +63,7 @@ class TrafficConstants
 
 	int TOPLANESTARTX = 0;
 	int STARTY = 150;
-	int BOTLANESTARTX = 200;
+	int BOTLANESTARTX = -200; // negative to start off screen
 	boolean GLOBALSIMVIEW = true; //is it global view or single car data
 	float BASESPEED = 1;	
 }

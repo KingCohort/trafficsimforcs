@@ -100,8 +100,8 @@ public class GUI extends JFrame {
 		// the spacing with the layout creates a padding of 5 pixels between each cell 
 		gbl_contentPane.columnWidths = new int[]{200, 25, 75, 25, 200, 0}; // {label area, padding, spinner area, padding, explaination area, 0(weirdness with swing??)}
 		gbl_contentPane.rowHeights = new int[]{30, 30, 30, 30, 30, 30, 30, 30, 0}; // all the rows are the same height, the last 0 is weirdness with swing i dont understand
-		gbl_contentPane.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-		gbl_contentPane.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_contentPane.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0}; // auto generated (unused)
+		gbl_contentPane.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE}; // auto generated (unused)
 		contentPane.setLayout(gbl_contentPane);
 		
 		// LABEL: asking for the number of lanes
@@ -159,7 +159,7 @@ public class GUI extends JFrame {
 		
 		// spinner for number of cars
 		carSpinner = new JSpinner();
-		carSpinner.setModel(new SpinnerNumberModel(1, 1, 20, 1));
+		carSpinner.setModel(new SpinnerNumberModel(2, 2, 20, 1));
 		carSpinner.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		GridBagConstraints gbc_spinner_1 = new GridBagConstraints();
 		gbc_spinner_1.anchor = GridBagConstraints.WEST;
@@ -179,7 +179,7 @@ public class GUI extends JFrame {
 		});
 		
 		// EXPLANATION LABEL: explanation for spinner for number of cars
-		JLabel lblChooseANumber_1 = new JLabel("Choose a number 1 - 20.");
+		JLabel lblChooseANumber_1 = new JLabel("Choose a number 2 - 20.");
 		lblChooseANumber_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		GridBagConstraints gbc_lblChooseANumber_1 = new GridBagConstraints();
 		gbc_lblChooseANumber_1.anchor = GridBagConstraints.WEST;
