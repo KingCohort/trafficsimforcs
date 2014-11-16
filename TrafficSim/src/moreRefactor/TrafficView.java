@@ -49,7 +49,7 @@ public class TrafficView extends PApplet
 	public void setup()
 	{
 		size(1920, 1080);
-		frameRate(25);
+		//frameRate(25);
 		view = this;
 	}
 

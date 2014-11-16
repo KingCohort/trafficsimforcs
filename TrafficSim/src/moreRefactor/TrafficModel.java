@@ -8,8 +8,8 @@ import javafx.geometry.BoundingBox;
 public class TrafficModel
 {
 	
-	//Car[] cars = new Car[2];
-	Car[] cars = new Car[TrafficConstants.getInstance().getCARNUM()];
+	Car[] cars = new Car[2];
+	//Car[] cars = new Car[TrafficConstants.getInstance().getCARNUM()];
 	ArrayList<BoundingBox> carBB = new ArrayList<BoundingBox>();
 	Boolean simulation = true;
 	public static TrafficModel model = new TrafficModel();
@@ -27,24 +27,30 @@ public class TrafficModel
 		System.out.println("----- LANE NUMBER: " + TrafficConstants.getInstance().getLANENUM());
 		System.out.println("----- AGGRESSION NUMBER: " + TrafficConstants.getInstance().getAGGRESSION());
 		System.out.println();
+		
+		//WHEN TESTING MAKE SURE THE CARS ARE NOT ON TOP OF EACHOTHER, WE HAVENT FIXED THAT YET
 
-		for(int i = 0; i < TrafficConstants.getInstance().getCARNUM(); i++)
+	/*	for(int i = 0; i < TrafficConstants.getInstance().getCARNUM(); i++)
 		{
 			if(i < (TrafficConstants.getInstance().getCARNUM() / 2))
 			{
 				System.out.println("----- CAR NUMBER: " + TrafficConstants.getInstance().getCARNUM() + " i: " + i);
-				cars[i] = new Car(TrafficConstants.getInstance().BOTLANESTARTX, TrafficConstants.getInstance().STARTY);
+				cars[i] = new Car(TrafficConstants.getInstance().STARTX, TrafficConstants.getInstance().TOPLANESTARTY, i);
 			}
 			else
 			{
 				System.out.println("----- CAR NUMBER: " + TrafficConstants.getInstance().getCARNUM() + " i: " + i);
-				cars[i] = new Car(TrafficConstants.getInstance().TOPLANESTARTX, TrafficConstants.getInstance().STARTY);
+				cars[i] = new Car(TrafficConstants.getInstance().STARTX, TrafficConstants.getInstance().BOTLANESTARTY, i);
 			}
 		}  
 		
-//		cars[0] = new Car(500,TrafficConstants.getInstance().STARTY);
-//		cars[1] = new Car(0, TrafficConstants.getInstance().STARTY);
-//		cars[1].setSpeed(2);
+		*/
+		
+		cars[0] = new Car(TrafficConstants.getInstance().STARTX + 200, TrafficConstants.getInstance().BOTLANESTARTY, 0);
+		cars[1] = new Car(TrafficConstants.getInstance().STARTX, TrafficConstants.getInstance().BOTLANESTARTY, 1);
+		cars[1].setSpeed(2);
+		
+		
 	}
 	
 	// 	java has bounding boxes now yay

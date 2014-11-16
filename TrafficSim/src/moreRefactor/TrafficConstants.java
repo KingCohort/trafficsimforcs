@@ -26,8 +26,8 @@ class TrafficConstants
 	int CARNUM = 2;
 	int LANENUM;
 	int AGGRESSION;
-	int CARWIDTH = 60; 
-	int CARHEIGHT = 30;
+	int CARWIDTH = 80; 
+	int CARHEIGHT = 40;
 
 	//called by GUI on start, input the relevent data from the GUI into the constructor
 	// getters and setters for all values from the GUI
@@ -61,9 +61,9 @@ class TrafficConstants
 		return AGGRESSION;
 	}
 
-	int TOPLANESTARTX = 0;
-	int STARTY = 150;
-	int BOTLANESTARTX = -200; // negative to start off screen
+	int TOPLANESTARTY = 150;
+	int BOTLANESTARTY = 250;
+	int STARTX = 0; // negative to start off screen
 	boolean GLOBALSIMVIEW = true; //is it global view or single car data
 	float BASESPEED = 1;	
 }
