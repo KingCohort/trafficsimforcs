@@ -64,6 +64,7 @@ class TrafficConstants
 	int TOPLANESTARTY = 150;
 	int BOTLANESTARTY = 250;
 	int STARTX = 0; // negative to start off screen
+	int UPPERBOUND = 101;
 	boolean GLOBALSIMVIEW = true; //is it global view or single car data
 	float BASESPEED = 1;	
 }

@@ -3,6 +3,7 @@
 package moreRefactor;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import javax.swing.JOptionPane;
 
@@ -14,7 +15,7 @@ public class Car
 {
 	float xCoord;
 	float yCoord;
-	int UP = 1, DOWN = 3, LEFT = 2, RIGHT = 0;
+	int UP = 1, DOWN = 3, LEFT = 2, RIGHT = 0, FRONT = 4;
 	double width = TrafficConstants.getInstance().CARWIDTH;
 	double height = TrafficConstants.getInstance().CARHEIGHT;
 	boolean carInOtherLane = false;
@@ -22,7 +23,8 @@ public class Car
 	boolean wantToChangeLanes = false; //true when car is going to attempt a lane change
 	float nextLaneMiddle = 0;
 	boolean changeLaneTest = false;
-	boolean[] surroundingCarLocations = new boolean[4]; // 0 = right 1 = up 2 = left 3 = down
+	boolean[] surroundingCarLocations = new boolean[5]; // 0 = right 1 = up 2 = left 3 = down
+	Random statBehaviorCheck = new Random(); // statBehaviorCheck.nextInt(TrafficConstants.getInstance().UPPERBOUND) to get the next random number.
 	BoundingBox myBoundingBox = getBoundingBox();
 
 	int arrayValue;
@@ -32,19 +34,26 @@ public class Car
 
 	//The beginnings of personality paramaterization.
 	// I was trying to make a car stop when coming within a set distance of the car infront of it. So I just made the section now - Noel 
+	//NOTES:::: THE CAR CLASS DOES NOT SUPPORT THE USE OF WHILE LOOPS. MAY GOD HAVE MERCY ON YOUR SOUL. Just use an if statement 
+	//				take a look at the moving lanes methods for an example.
 
+	float aggression = 30;
+	float attention = 40;
+	float decisionMaking = 50;
 	float followingDistance = 30;
-	float speed = 1;
+	float reactionTime = 2;
+	float comfortableSpeed;
+	float currentSpeed = 1;
 
 
-	public Car(float xCoord, float yCoord, int arrayValue)
+
+	public Car(float xCoord, float yCoord, int arrayValue, float speed)
 	{
 
 		this.xCoord = xCoord;
 		this.yCoord = yCoord;
 		this.arrayValue = arrayValue;
-
-
+		this.comfortableSpeed = speed;
 	}
 
 	public float getxCoord()
@@ -67,29 +76,10 @@ public class Car
 		this.yCoord = yCoord;
 	}
 
-	void setSpeed(float speed){
+	void setComfortableSpeed(float speed){
 
-		this.speed = speed;
+		this.comfortableSpeed = speed;
 
-	}
-
-	// this is weird
-//	double computeCarLength()
-//	{
-//		double carLength = (getxCoord() + width);
-//		return carLength;
-//	}
-//
-//	double computeCarHeight()
-//	{
-//		double carHeight = (getyCoord() + height);
-//		return carHeight;
-//	}
-
-	BoundingBox getBoundingBox()
-	{		
-		BoundingBox carBox = new BoundingBox(getxCoord(), getyCoord(), width, height);
-		return carBox;
 	}
 
 	void makeDecision(ArrayList<BoundingBox> carLoc)
@@ -97,65 +87,100 @@ public class Car
 		surroundingCarLocations = checkOtherCars(carLoc);
 		checkFront(carLoc);
 		
-		if(wantToChangeLanes){
-			
+		if(checkFrontTesterBool == true){			
+			if(statBehaviorCheck.nextInt(TrafficConstants.getInstance().UPPERBOUND) > aggression){
+				
+				wantToChangeLanes = true;
+				
+			} else{
+				
+				move();
+			}	
+		}
+	
+		if(wantToChangeLanes){	
 			changeLanes();
 			move();
-			
-		} else if(checkFrontTesterBool == true){
-			
+		} 
+		if(checkFrontTesterBool == true){
 			slowDown();
+			checkFront(carLoc);
+			if(checkFrontTesterBool == false){			
+				move();
+			} else{
+				slowDown();	
+			}
+		} 
+		
+		if(surroundingCarLocations[RIGHT]== false){
+			normalizeSpeed();
 		}
-			
+	
 		move();
 	}
 
 
+	BoundingBox getBoundingBox()
+	{		
+		BoundingBox carBox = new BoundingBox(getxCoord(), getyCoord(), width, height);
+		return carBox;
+	}
+
+	//CAR BEHAVIOR METHODS START HERE
+
+
 	void move()
 	{
-		xCoord = xCoord + speed;
+		xCoord = xCoord + currentSpeed;
 	}
 
 	void slowDown(){
-		if(speed != 0){
-			speed = (float) (speed - 0.5);
+		if(currentSpeed != 0){
+			currentSpeed = (float) (currentSpeed - 0.1);
+			xCoord = xCoord + currentSpeed;
 		}
 	}
 
 	void speedUp(){
-		speed = (float) (speed + 0.5);
+		currentSpeed = (float) (currentSpeed + 0.1);
+		xCoord = xCoord + currentSpeed;
 	}
 
 
 	void changeLanes(){
 
 		if(surroundingCarLocations[UP] == false){
-			
+
 			moveUpOneLane();
 
-			
 		} else if (surroundingCarLocations[DOWN] == false){
-			
+
 			moveDownOneLane();
 
-			
+		}
+	}
+	
+	void normalizeSpeed(){ //makes the car prefer its comfort speed
+		
+		if(currentSpeed < comfortableSpeed){			
+			speedUp();
+		} else if (currentSpeed > comfortableSpeed){			
+			slowDown();			
+		} else{		
+			move();
 		}
 	}
 
-
 	void moveDownOneLane(){
-		if(getyCoord() < TrafficConstants.getInstance().BOTLANESTARTY){
-			
-			
+		if(getyCoord() < TrafficConstants.getInstance().BOTLANESTARTY){		
+
 			yCoord = yCoord + 2;
-			xCoord = xCoord + 1;
-			
+			xCoord = xCoord + 1;		
 
 		} else{
 			wantToChangeLanes = false;
 			return;
 		}
-
 	}
 
 	void moveUpOneLane(){
@@ -163,26 +188,26 @@ public class Car
 
 			yCoord = yCoord - 2;
 			xCoord = xCoord + 1;
-				
+
 		} else{
 			wantToChangeLanes = false;
 			return;
 		}			
-
 	}
 
 	public void checkFront(ArrayList<BoundingBox> carLoc){
 
-		BoundingBox myBB = getBoundingBox();
-		BoundingBox frontCheckBB = new BoundingBox(myBB.getMaxX() + followingDistance, getyCoord(), 1, height);
 		for(int i = 0; i < carLoc.size(); i++){
 			//if(carLoc.get(i).contains(plus, getyCoord())){
-			if(carLoc.get(i).intersects(frontCheckBB)){
-				checkFrontTesterBool = true;
-	
+			if(carLoc.get(i).intersects(getSurroundingBoundingBoxs().get(FRONT))){
+				checkFrontTesterBool = true;	
+				return;
+			}else{
+
+				checkFrontTesterBool = false;
+
 			}
-		}
-		checkFrontTesterBool = false;
+		} 
 	}
 
 	ArrayList<BoundingBox> getSurroundingBoundingBoxs(){
@@ -192,6 +217,7 @@ public class Car
 		carSurroundingBB.add(new BoundingBox(getBoundingBox().getMinX(), (getBoundingBox().getMinY() - height*2), width, height*2)); //up
 		carSurroundingBB.add(new BoundingBox(getBoundingBox().getMinX() - height, getBoundingBox().getMinY(), width, height)); // left
 		carSurroundingBB.add(new BoundingBox(getBoundingBox().getMinX(), getBoundingBox().getMaxY(), width, height*2)); // down
+		carSurroundingBB.add(new BoundingBox(getBoundingBox().getMaxX() + followingDistance, getyCoord(), 1, height));
 		//	System.out.println(" Min X: " + carSurroundingBB.get(0).getMinX() + " Min y: " + carSurroundingBB.get(0).getMinY());
 		return carSurroundingBB;
 
@@ -242,7 +268,7 @@ public class Car
 
 
 
-
+	//DEBUG METHODS
 
 
 	public boolean contains(int x, int y)
@@ -253,7 +279,6 @@ public class Car
 	public void debug()
 	{
 		String out = "";
-
 		out+="right =" + surroundingCarLocations[RIGHT] + "\n";
 		out+="up=" + surroundingCarLocations[UP] +"\n";
 		out+="left="+surroundingCarLocations[LEFT]+"\n";
@@ -265,6 +290,7 @@ public class Car
 
 		JOptionPane.showMessageDialog(TrafficView.view, out);
 	}
+
 }
 
 

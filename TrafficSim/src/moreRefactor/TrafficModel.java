@@ -46,9 +46,9 @@ public class TrafficModel
 		
 		*/
 		
-		cars[0] = new Car(TrafficConstants.getInstance().STARTX + 200, TrafficConstants.getInstance().BOTLANESTARTY, 0);
-		cars[1] = new Car(TrafficConstants.getInstance().STARTX, TrafficConstants.getInstance().BOTLANESTARTY, 1);
-		cars[1].setSpeed(2);
+		cars[0] = new Car(TrafficConstants.getInstance().STARTX, TrafficConstants.getInstance().BOTLANESTARTY, 0, 1);
+		cars[1] = new Car(TrafficConstants.getInstance().STARTX, TrafficConstants.getInstance().TOPLANESTARTY, 1, 1);
+	
 		
 		
 	}
@@ -71,6 +71,16 @@ public class TrafficModel
 
 		return carBB;
 	}
+	
+//	boolean[] checkLaneCarStart(){
+		
+//		for(BoundingBox bb : ArrayList<BoundingBox> carBB){
+			
+			
+//		}
+		
+		
+//	}
 	
 	public void start()
 	{
