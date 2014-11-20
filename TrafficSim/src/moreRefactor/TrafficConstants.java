@@ -22,9 +22,10 @@ class TrafficConstants
 
 	}
 
-//	GUI gui = new GUI();
+	// from GUI, vars may need to be initialized to an actual number because when pulled 
+	// 		from gui and not changed there is no default value
 	int CARNUM = 2;
-	int LANENUM;
+	int LANENUM = 2;
 	int AGGRESSION;
 	int CARWIDTH = 80; 
 	int CARHEIGHT = 40;

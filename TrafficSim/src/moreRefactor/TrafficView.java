@@ -3,6 +3,7 @@
 package moreRefactor;
 
 import java.util.ArrayList;
+
 import processing.core.PApplet;
 import javafx.geometry.BoundingBox;
 
@@ -78,71 +79,119 @@ public class TrafficView extends PApplet
 
 	void createHighway()
 	{
-		//System.out.println("Displaying highway");
-
-		int buffer = 10;
-
-		// highway coords
-		int highwayXcoor = 0;
-		int highwayYcoor = 100;
-
-		// lane bound coordinates
-		int topBoundXcoor = 0;
-		int topBoundYcoor = highwayYcoor + buffer;
-		int bottomBoundXcoor = 0;
-
-		// extra white line outer bounds
-		int topBoundSize = 10;
-		int bottomBoundSize = topBoundSize; // the boundary lines should be the same size
-		int boundHor = displayWidth;
-
+		System.out.println("----- LANE NUMBER IN VIEW: " + TrafficConstants.getInstance().getLANENUM());
+		
+		// the highway is drawn in layers 
+		// the bottom is drawn first then other layers added on top of that
+		// the background (technically the first layer) is drawn in the draw method
+		
+		// marker vars
+		int gutter = 20; // far edges of the highway, where you would pull over
+		int markerHeight = 10; // height (y-axis) of white lines, lane markers, and median
+		int gutterMarkerWidth = displayWidth; // width (x-axis) of the gutter markers
+		int medianMarkerWidth = 30; // width (x-axis) of the median stripes
+		//int theHighwayOffsetVariable = 50;		// the amount of pixels the highway is drawn down the y-axis from the (0, 0) point
+		
+		// lane vars
+		int laneNumber = TrafficConstants.getInstance().getLANENUM(); // get lane number from gui
+		int laneHeight = 100; // height (y-axis) of the lane
+		//int laneWidth = displayWidth; // width (x-axis) of the lane
+		
+		// first layer of the highway
+		int highwayBaseHeight = ( (gutter * 2) + (markerHeight * 2) + (laneNumber * laneHeight) + (markerHeight * (laneNumber - 1)) ); // height (y-axis) of the first layer of the highway (road part, grey part)
+					// ( (two gutters) + (two edge markers) + (number of lanes) + (medians) )
+		int highwayBaseWidth = displayWidth; // width (x-axis) of the first layer of the highway (road part, grey part)
+		int highwayBaseXcoord = 0; // where the highway should be placed
+		int highwayBaseYcoord = 100; // where the highway should be placed
+		//System.out.println("HEIGHT OF THE HIGHWAY: " + highwayBaseHeight);
+		
+		// marker placement
+		int upperGutterMarkerXcoord = 0;
+		int upperGutterMarkerYcoord = highwayBaseYcoord + gutter;
+		int lowerGutterMarkerXcoord = 0;
+		int lowerGutterMarkerYcoord = ( (highwayBaseYcoord + highwayBaseHeight) - gutter - ( markerHeight * (laneNumber - 1) ) );
+		
 		// median
-		int medianSize = 10;
-		int medianHor = 40;
-		int medianXcoor;
 		int offset = 0;
 		int medianSpeed = 0;
-
-		// lanes
-		int laneSize = 100;
-		int laneHor = displayWidth;
-		int numLanes = 2;
-
-		// base highway
-		int highwaySize = (buffer * 2) + ( topBoundSize + bottomBoundSize ) + ( medianSize ) + ( ( laneSize ) * (numLanes) ); 
-		// the horizontal size of the road
-		int highwayHor = displayWidth; // width of the road
-
-		// bottom lane coord declared here for other vars info
-		int bottomBoundYcoor = ( buffer ) + ( topBoundYcoor ) + ( ( laneSize ) * (numLanes) ) + ( medianSize );
-		int medianYcoor = ( highwayYcoor ) + ( buffer ) + ( topBoundSize ) + ( laneSize );
-
-		// rect(X, Y, WIDTH, HEIGHT), how to use rect
-
-		// base road
+		int medianHeight = markerHeight;
+		int medianWidth = medianMarkerWidth;
+		// no x coord
+		// y coord(s) below
+		
+		// ----- actually draw the highway -----
+		
+		// base
 		fill(51);
 		stroke(0);
-		rect(highwayXcoor, highwayYcoor, highwayHor, highwaySize);
-
-		// top outer road line
+		rect(highwayBaseXcoord, highwayBaseYcoord, highwayBaseWidth, highwayBaseHeight);
+		
+		// edge markers
 		fill(255);
 		stroke(0);
-		rect(topBoundXcoor, topBoundYcoor, boundHor, topBoundSize);
-		//bottom outer road line
-		fill(255);
-		stroke(0);
-		rect(bottomBoundXcoor, bottomBoundYcoor, boundHor, topBoundSize);
-
-		// median
+		// upper
+		rect(upperGutterMarkerXcoord, upperGutterMarkerYcoord, gutterMarkerWidth, markerHeight);
+		// lower
+		rect(lowerGutterMarkerXcoord, lowerGutterMarkerYcoord, gutterMarkerWidth, markerHeight);
+		
+		// medians (lane dividers)
 		fill(255);
 		stroke(0); 
 		offset = offset - medianSpeed;
-
-		for (int i = 0; i < displayWidth; i+=100)
+		int medianYcoord_1;
+		int medianYcoord_2;
+		int medianYcoord_3;
+		int medianYcoord_4;
+		
+		if (laneNumber == 5) // five lanes
 		{
-			rect(i + offset, medianYcoor, medianHor, medianSize);
-		}		
-	}
+			medianYcoord_1 = ( (highwayBaseYcoord) + (gutter) + (laneHeight) );
+			medianYcoord_2 = ( (highwayBaseYcoord) + (gutter) + (laneHeight * 2) );
+			medianYcoord_3 = ( (highwayBaseYcoord) + (gutter) + (laneHeight * 3) );
+			medianYcoord_4 = ( (highwayBaseYcoord) + (gutter) + (laneHeight * 4) );
+			
+			for (int i = 0; i < displayWidth; i += 100)
+			{
+				rect(i + offset, medianYcoord_1, medianWidth, medianHeight);
+				rect(i + offset, medianYcoord_2, medianWidth, medianHeight);
+				rect(i + offset, medianYcoord_3, medianWidth, medianHeight);
+				rect(i + offset, medianYcoord_4, medianWidth, medianHeight);
+			}
+		}
+		else if (laneNumber == 4) // four lanes
+		{
+			medianYcoord_1 = ( (highwayBaseYcoord) + (gutter) + (laneHeight) );
+			medianYcoord_2 = ( (highwayBaseYcoord) + (gutter) + (laneHeight * 2) );
+			medianYcoord_3 = ( (highwayBaseYcoord) + (gutter) + (laneHeight * 3) );
+			
+			for (int i = 0; i < displayWidth; i += 100)
+			{
+				rect(i + offset, medianYcoord_1, medianWidth, medianHeight);
+				rect(i + offset, medianYcoord_2, medianWidth, medianHeight);
+				rect(i + offset, medianYcoord_3, medianWidth, medianHeight);
+			}
+		}
+		else if (laneNumber == 3) // three lanes
+		{
+			medianYcoord_1 = ( (highwayBaseYcoord) + (gutter) + (laneHeight) );
+			medianYcoord_2 = ( (highwayBaseYcoord) + (gutter) + (laneHeight * 2) );
+			
+			for (int i = 0; i < displayWidth; i += 100)
+			{
+				rect(i + offset, medianYcoord_1, medianWidth, medianHeight);
+				rect(i + offset, medianYcoord_2, medianWidth, medianHeight);
+			}
+		}
+		else // two lanes
+		{
+			medianYcoord_1 = ( (highwayBaseYcoord) + (gutter) + (laneHeight) );
+			
+			for (int i = 0; i < displayWidth; i += 100)
+			{
+				rect(i + offset, medianYcoord_1, medianWidth, medianHeight);
+			}
+		}
+	} // end createHighway()
 	
 	@Override
 	public void mousePressed()
