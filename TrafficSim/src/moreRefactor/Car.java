@@ -15,7 +15,7 @@ public class Car
 {
 	float xCoord;
 	float yCoord;
-	int UP = 1, DOWN = 3, LEFT = 2, RIGHT = 0, FRONT = 4;
+	int UP = 1, DOWN = 3, LEFT = 2, RIGHT = 0;
 	double width = TrafficConstants.getInstance().CARWIDTH;
 	double height = TrafficConstants.getInstance().CARHEIGHT;
 	boolean carInOtherLane = false;
@@ -24,6 +24,8 @@ public class Car
 	float nextLaneMiddle = 0;
 	boolean changeLaneTest = false;
 	boolean[] surroundingCarLocations = new boolean[5]; // 0 = right 1 = up 2 = left 3 = down
+	BoundingBox[] myPersonalBubble = new BoundingBox[4];
+	boolean[] personalBubbleCheckerBools = new boolean[4];
 	Random statBehaviorCheck = new Random(); // statBehaviorCheck.nextInt(TrafficConstants.getInstance().UPPERBOUND) to get the next random number.
 	BoundingBox myBoundingBox = getBoundingBox();
 
@@ -37,13 +39,14 @@ public class Car
 	//NOTES:::: THE CAR CLASS DOES NOT SUPPORT THE USE OF WHILE LOOPS. MAY GOD HAVE MERCY ON YOUR SOUL. Just use an if statement 
 	//				take a look at the moving lanes methods for an example.
 
-	float aggression = 30;
+	float aggression = 0;
 	float attention = 40;
 	float decisionMaking = 50;
-	float followingDistance = 30;
+	float followingDistanceMin = 30;
+	float comfortBubble = 10;
 	float reactionTime = 2;
 	float comfortableSpeed;
-	float currentSpeed = 1;
+	float currentSpeed = comfortableSpeed;
 
 
 
@@ -85,19 +88,54 @@ public class Car
 	void makeDecision(ArrayList<BoundingBox> carLoc)
 	{	
 		surroundingCarLocations = checkOtherCars(carLoc);
-		checkFront(carLoc);
-		
-		if(checkFrontTesterBool == true){			
-			if(statBehaviorCheck.nextInt(TrafficConstants.getInstance().UPPERBOUND) > aggression){
+		personalBubbleMaker();
+		personalBubbleViolation(carLoc);
+		if(!isCrashed(carLoc)){
+			
+			move();
+			
+			if(personalBubbleCheckerBools[RIGHT] = true){
 				
-				wantToChangeLanes = true;
+				slowDown();
 				
 			} else{
 				
-				move();
-			}	
+				normalizeSpeed();
+			}
+			
+		}else{
+
+			
 		}
-	
+
+
+		/*	if(personalBubbleCheckerBools[UP]){
+
+			yCoord = yCoord - 1;
+
+		}
+
+		if(personalBubbleCheckerBools[DOWN]){
+
+			xCoord = xCoord - 1;
+
+		} 
+
+		if(personalBubbleCheckerBools[RIGHT]){
+			speedUp();
+			move();
+		}else{
+
+			normalizeSpeed();
+
+		}
+
+		if(personalBubbleCheckerBools[LEFT]){				
+			slowDown();
+			move();
+		}
+
+
 		if(wantToChangeLanes){	
 			changeLanes();
 			move();
@@ -110,14 +148,9 @@ public class Car
 			} else{
 				slowDown();	
 			}
-		} 
-		
-		if(surroundingCarLocations[RIGHT]== false){
-			normalizeSpeed();
-		}
-	
-		move();
-	}
+		} */
+
+	} 
 
 
 	BoundingBox getBoundingBox()
@@ -135,9 +168,11 @@ public class Car
 	}
 
 	void slowDown(){
-		if(currentSpeed != 0){
+		if(currentSpeed > 0){
 			currentSpeed = (float) (currentSpeed - 0.1);
 			xCoord = xCoord + currentSpeed;
+		}else{
+			speedUp();
 		}
 	}
 
@@ -159,9 +194,9 @@ public class Car
 
 		}
 	}
-	
+
 	void normalizeSpeed(){ //makes the car prefer its comfort speed
-		
+
 		if(currentSpeed < comfortableSpeed){			
 			speedUp();
 		} else if (currentSpeed > comfortableSpeed){			
@@ -195,7 +230,7 @@ public class Car
 		}			
 	}
 
-	public void checkFront(ArrayList<BoundingBox> carLoc){
+/*	public void checkFront(ArrayList<BoundingBox> carLoc){
 
 		for(int i = 0; i < carLoc.size(); i++){
 			//if(carLoc.get(i).contains(plus, getyCoord())){
@@ -208,7 +243,7 @@ public class Car
 
 			}
 		} 
-	}
+	}*/
 
 	ArrayList<BoundingBox> getSurroundingBoundingBoxs(){
 
@@ -217,12 +252,50 @@ public class Car
 		carSurroundingBB.add(new BoundingBox(getBoundingBox().getMinX(), (getBoundingBox().getMinY() - height*2), width, height*2)); //up
 		carSurroundingBB.add(new BoundingBox(getBoundingBox().getMinX() - height, getBoundingBox().getMinY(), width, height)); // left
 		carSurroundingBB.add(new BoundingBox(getBoundingBox().getMinX(), getBoundingBox().getMaxY(), width, height*2)); // down
-		carSurroundingBB.add(new BoundingBox(getBoundingBox().getMaxX() + followingDistance, getyCoord(), 1, height));
+		carSurroundingBB.add(new BoundingBox(getBoundingBox().getMaxX() + followingDistanceMin, getyCoord(), 1, height)); // directly in front of car
+		//carSurroundingBB.add(new BoundingBox(getBoundingBox().getMinX() - comfortBubble, getBoundingBox().getMinY() - comfortBubble, width + (2*comfortBubble), height + (2*comfortBubble)));
 		//	System.out.println(" Min X: " + carSurroundingBB.get(0).getMinX() + " Min y: " + carSurroundingBB.get(0).getMinY());
+
+
 		return carSurroundingBB;
 
 	}
 
+	
+
+	void personalBubbleMaker(){
+
+		myPersonalBubble[UP] = new BoundingBox(getBoundingBox().getMinX() - comfortBubble, getBoundingBox().getMinY() - comfortBubble, width + (2*comfortBubble), 1); 
+		myPersonalBubble[LEFT] = new BoundingBox(getBoundingBox().getMinX() - comfortBubble, getBoundingBox().getMinY() - comfortBubble, 1, height + (2*comfortBubble));
+		myPersonalBubble[RIGHT] = new BoundingBox(getBoundingBox().getMaxX() + comfortBubble, getBoundingBox().getMinY() - comfortBubble, 1, height + (2*comfortBubble));
+		myPersonalBubble[DOWN] = new BoundingBox(getBoundingBox().getMinX() - comfortBubble, getBoundingBox().getMaxY() + comfortBubble, width + (2*comfortBubble), 1 );
+		
+		//Making the BBs drawn on the view so I can see them and ensure they're right 
+		/*TrafficModel.model.carBB.add(myPersonalBubble[UP]);
+		TrafficModel.model.carBB.add(myPersonalBubble[DOWN]);
+		TrafficModel.model.carBB.add(myPersonalBubble[LEFT]);
+		TrafficModel.model.carBB.add(myPersonalBubble[RIGHT]);*/
+	}
+
+	void personalBubbleViolation(ArrayList<BoundingBox> carLoc){
+
+		for(int i = 0; i < carLoc.size(); i++){
+
+			for(int j = 0; j < myPersonalBubble.length; j++){
+
+				if(myPersonalBubble[j].intersects(carLoc.get(i))){
+
+					personalBubbleCheckerBools[j] = true;
+
+				} else{
+
+					personalBubbleCheckerBools[j] = false;
+
+				}		
+			}	
+		}	
+	} 
+	
 
 	boolean[] checkOtherCars(ArrayList<BoundingBox> carLoc){
 
@@ -266,6 +339,22 @@ public class Car
 
 	}
 
+	boolean isCrashed(ArrayList<BoundingBox> carLocs){
+
+		for(int i = 0; i < carLocs.size(); i++){
+			
+			if(i == arrayValue){
+				//Not checking myself dog
+				
+			}else if(getBoundingBox().intersects(carLocs.get(i))){
+
+				return true;
+			}
+		}
+		return false;
+	}
+
+
 
 
 	//DEBUG METHODS
@@ -279,14 +368,22 @@ public class Car
 	public void debug()
 	{
 		String out = "";
-		out+="right =" + surroundingCarLocations[RIGHT] + "\n";
-		out+="up=" + surroundingCarLocations[UP] +"\n";
-		out+="left="+surroundingCarLocations[LEFT]+"\n";
-		out+="down="+surroundingCarLocations[DOWN]+"\n";
+		out+="Vision Check Right =" + surroundingCarLocations[RIGHT] + "\n";
+		out+="Vision Check Up =" + surroundingCarLocations[UP] +"\n";
+		out+="Vision Check Left ="+surroundingCarLocations[LEFT]+"\n";
+		out+="Vision Check Down ="+surroundingCarLocations[DOWN]+"\n";
+		out+="/////////////////////////////////\n";
+		out+="Personal Bubble Top is " + personalBubbleCheckerBools[UP]+"\n" ;
+		out+="Personal Bubble Right is " + personalBubbleCheckerBools[RIGHT]+"\n";
+		out+="Personal Bubble bottom is " + personalBubbleCheckerBools[DOWN]+"\n";
+		out+="Personal Bubble left is " + personalBubbleCheckerBools[LEFT]+"\n";
+		out+="///////////////////////////////////\n";
 		out+="changelane="+isChangingLanes+"\n";
 		out+= "XY Coord=" + getxCoord() + "," + getyCoord()+"\n";
 		out+= "Cars number in the cars Array: " +  arrayValue + "\n";
 		out+="The checkFront method is outputting: " + checkFrontTesterBool + "\n";
+		out+="Have I crashed? " + isCrashed(TrafficModel.model.carBB) + "\n";
+		out+="Car's preferred speed is " + comfortableSpeed + " and the current speed is " + currentSpeed + "/n";
 
 		JOptionPane.showMessageDialog(TrafficView.view, out);
 	}
