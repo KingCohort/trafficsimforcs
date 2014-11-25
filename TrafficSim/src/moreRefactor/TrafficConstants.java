@@ -57,6 +57,7 @@ class TrafficConstants
 		AGGRESSION = aggression;
 	}
 	
+	
 	int getAGGRESSION()
 	{
 		return AGGRESSION;

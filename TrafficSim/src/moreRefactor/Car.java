@@ -16,6 +16,7 @@ public class Car
 	float xCoord;
 	float yCoord;
 	int UP = 1, DOWN = 3, LEFT = 2, RIGHT = 0;
+	int AGGRESSION = 0, COMFORTABLESPEED = 1, DECISIONMAKING = 2, REACTIONTIME = 3;
 	double width = TrafficConstants.getInstance().CARWIDTH;
 	double height = TrafficConstants.getInstance().CARHEIGHT;
 	boolean carInOtherLane = false;
@@ -39,24 +40,26 @@ public class Car
 	//NOTES:::: THE CAR CLASS DOES NOT SUPPORT THE USE OF WHILE LOOPS. MAY GOD HAVE MERCY ON YOUR SOUL. Just use an if statement 
 	//				take a look at the moving lanes methods for an example.
 
-	float aggression = 0;
-	float attention = 40;
-	float decisionMaking = 50;
+	int aggression;
+	int attention = 40;
+	int decisionMaking = 50;
+
 	float followingDistanceMin = 30;
-	float comfortBubble = 10;
+	float comfortBubble = 15;
 	float reactionTime = 2;
-	float comfortableSpeed;
+	float comfortableSpeed = 2;
 	float currentSpeed = comfortableSpeed;
 
 
 
-	public Car(float xCoord, float yCoord, int arrayValue, float speed)
+	public Car(float xCoord, float yCoord, int arrayValue, ArrayList personalityValues)
 	{
 
 		this.xCoord = xCoord;
 		this.yCoord = yCoord;
 		this.arrayValue = arrayValue;
-		this.comfortableSpeed = speed;
+		aggression = (int) personalityValues.get(AGGRESSION);
+
 	}
 
 	public float getxCoord()
@@ -85,72 +88,55 @@ public class Car
 
 	}
 
+
+
 	void makeDecision(ArrayList<BoundingBox> carLoc)
 	{	
 		surroundingCarLocations = checkOtherCars(carLoc);
 		personalBubbleMaker();
 		personalBubbleViolation(carLoc);
 		if(!isCrashed(carLoc)){
-			
+
 			move();
-			
-			if(personalBubbleCheckerBools[RIGHT] = true){
-				
+
+			if(personalBubbleCheckerBools[RIGHT] == true){
+
 				slowDown();
-				
+
 			} else{
-				
+
 				normalizeSpeed();
 			}
 			
-		}else{
+			if(personalBubbleCheckerBools[UP]){
 
-			
-		}
+				yCoord = yCoord - 1;
 
-
-		/*	if(personalBubbleCheckerBools[UP]){
-
-			yCoord = yCoord - 1;
-
-		}
-
-		if(personalBubbleCheckerBools[DOWN]){
-
-			xCoord = xCoord - 1;
-
-		} 
-
-		if(personalBubbleCheckerBools[RIGHT]){
-			speedUp();
-			move();
-		}else{
-
-			normalizeSpeed();
-
-		}
-
-		if(personalBubbleCheckerBools[LEFT]){				
-			slowDown();
-			move();
-		}
-
-
-		if(wantToChangeLanes){	
-			changeLanes();
-			move();
-		} 
-		if(checkFrontTesterBool == true){
-			slowDown();
-			checkFront(carLoc);
-			if(checkFrontTesterBool == false){			
-				move();
-			} else{
-				slowDown();	
 			}
-		} */
 
-	} 
+			if(personalBubbleCheckerBools[DOWN]){
+
+				xCoord = xCoord - 1;
+			} 
+
+
+			if(personalBubbleCheckerBools[LEFT]){				
+				slowDown();
+				move();
+			}
+
+
+			if(wantToChangeLanes){	
+				changeLanes();
+				move();
+			} 
+
+		}else{
+
+			currentSpeed = 0;
+			comfortableSpeed = 0;
+		}
+	}
 
 
 	BoundingBox getBoundingBox()
@@ -171,8 +157,8 @@ public class Car
 		if(currentSpeed > 0){
 			currentSpeed = (float) (currentSpeed - 0.1);
 			xCoord = xCoord + currentSpeed;
-		}else{
-			speedUp();
+		} else{
+			currentSpeed = 1;
 		}
 	}
 
@@ -230,7 +216,7 @@ public class Car
 		}			
 	}
 
-/*	public void checkFront(ArrayList<BoundingBox> carLoc){
+	/*	public void checkFront(ArrayList<BoundingBox> carLoc){
 
 		for(int i = 0; i < carLoc.size(); i++){
 			//if(carLoc.get(i).contains(plus, getyCoord())){
@@ -261,7 +247,7 @@ public class Car
 
 	}
 
-	
+
 
 	void personalBubbleMaker(){
 
@@ -269,7 +255,7 @@ public class Car
 		myPersonalBubble[LEFT] = new BoundingBox(getBoundingBox().getMinX() - comfortBubble, getBoundingBox().getMinY() - comfortBubble, 1, height + (2*comfortBubble));
 		myPersonalBubble[RIGHT] = new BoundingBox(getBoundingBox().getMaxX() + comfortBubble, getBoundingBox().getMinY() - comfortBubble, 1, height + (2*comfortBubble));
 		myPersonalBubble[DOWN] = new BoundingBox(getBoundingBox().getMinX() - comfortBubble, getBoundingBox().getMaxY() + comfortBubble, width + (2*comfortBubble), 1 );
-		
+
 		//Making the BBs drawn on the view so I can see them and ensure they're right 
 		/*TrafficModel.model.carBB.add(myPersonalBubble[UP]);
 		TrafficModel.model.carBB.add(myPersonalBubble[DOWN]);
@@ -279,23 +265,25 @@ public class Car
 
 	void personalBubbleViolation(ArrayList<BoundingBox> carLoc){
 
+		personalBubbleCheckerBools[RIGHT] = false;
+		personalBubbleCheckerBools[LEFT] = false;
+		personalBubbleCheckerBools[UP] = false;
+		personalBubbleCheckerBools[DOWN] = false;
+
+
 		for(int i = 0; i < carLoc.size(); i++){
 
-			for(int j = 0; j < myPersonalBubble.length; j++){
+			for(int j = 0; j < personalBubbleCheckerBools.length; j++){
 
 				if(myPersonalBubble[j].intersects(carLoc.get(i))){
+					if(i != arrayValue)
+						personalBubbleCheckerBools[j] = true; //right returns true 100% of the time for some reason
 
-					personalBubbleCheckerBools[j] = true;
-
-				} else{
-
-					personalBubbleCheckerBools[j] = false;
-
-				}		
+				}
 			}	
 		}	
 	} 
-	
+
 
 	boolean[] checkOtherCars(ArrayList<BoundingBox> carLoc){
 
@@ -307,9 +295,8 @@ public class Car
 		for(int i = 0; i < carLoc.size(); i++){
 
 			if(i == arrayValue){
-
 				//I can't check myself here! 
-				System.out.print("Not checking myself so I am not wrecking myself");
+				System.out.println("Not checking myself so I am not wrecking myself");
 
 			} else{
 				if(carSurroundingBB.get(RIGHT).intersects(carLoc.get(i))){
@@ -342,10 +329,10 @@ public class Car
 	boolean isCrashed(ArrayList<BoundingBox> carLocs){
 
 		for(int i = 0; i < carLocs.size(); i++){
-			
+
 			if(i == arrayValue){
 				//Not checking myself dog
-				
+
 			}else if(getBoundingBox().intersects(carLocs.get(i))){
 
 				return true;
