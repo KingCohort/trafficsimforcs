@@ -24,9 +24,9 @@ class TrafficConstants
 
 	// from GUI, vars may need to be initialized to an actual number because when pulled 
 	// 		from gui and not changed there is no default value
-	int CARNUM = 2;
-	int LANENUM = 2;
-	int AGGRESSION;
+	int CARNUM = 2; // defaults to 2 cars
+	int LANENUM = 2; // defaults to 2 lanes
+	int AGGRESSION = 50; // defaults to an average aggression of a moderate amount, 50 is the middle value
 	int CARWIDTH = 80; 
 	int CARHEIGHT = 40;
 

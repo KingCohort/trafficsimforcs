@@ -60,6 +60,19 @@ public class TrafficModel
 		
 	}
 	
+//	public int aggressionConverter()
+//	{
+//		int orgAggression = TrafficConstants.getInstance().getAGGRESSION();
+//		int actualAggression = 50; // 
+//		
+//		if (orgAggression == 1)
+//		{
+//			actualAggression = 10;
+//			return actualAggression;
+//		}
+//		return actualAggression;
+//	}
+	
 	// 	java has bounding boxes now yay
 	public ArrayList<BoundingBox> runSimulation()
 	{	

@@ -79,7 +79,7 @@ public class TrafficView extends PApplet
 
 	void createHighway()
 	{
-		System.out.println("----- LANE NUMBER IN VIEW: " + TrafficConstants.getInstance().getLANENUM());
+		//System.out.println("----- LANE NUMBER IN VIEW: " + TrafficConstants.getInstance().getLANENUM());
 		
 		// the highway is drawn in layers 
 		// the bottom is drawn first then other layers added on top of that

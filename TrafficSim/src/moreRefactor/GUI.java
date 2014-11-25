@@ -92,7 +92,7 @@ public class GUI extends JFrame {
 		//		some of the drag and drop aspects are weird (i dont fully understand them) in the design view of windowBuilder
 		setTitle("Traffic Sim Menu");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 650, 600);
+		setBounds(100, 100, 750, 600);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -200,7 +200,7 @@ public class GUI extends JFrame {
 		
 		// spinner to choose the aggression of the drivers
 		aggressionSpinner = new JSpinner();
-		aggressionSpinner.setModel(new SpinnerNumberModel(1, 1, 5, 1));
+		aggressionSpinner.setModel(new SpinnerNumberModel(0, 0, 100, 5));
 		aggressionSpinner.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		GridBagConstraints gbc_spinner_2 = new GridBagConstraints();
 		gbc_spinner_2.anchor = GridBagConstraints.WEST;
@@ -220,7 +220,7 @@ public class GUI extends JFrame {
 		});
 				
 		// EXPLANATION LABEL: explanation for the aggression of drivers
-		JLabel lblThisIsThe = new JLabel("This is the aggression of the drivers 1 - 5");
+		JLabel lblThisIsThe = new JLabel("Choost the average aggression of the drivers 1 - 100");
 		lblThisIsThe.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		GridBagConstraints gbc_lblThisIsThe = new GridBagConstraints();
 		gbc_lblThisIsThe.anchor = GridBagConstraints.WEST;
