@@ -18,7 +18,8 @@ public class TrafficModel
 	Boolean simulation = true;
 	public static TrafficModel model = new TrafficModel();
 	public Car debuggedCar;
-	public ArrayList<Object> personalityValues = new ArrayList<Object>(); 
+	public Object[] personalityValues = new Object[2];
+ 
 
 	Random guassian = new Random();
 
@@ -51,27 +52,12 @@ public class TrafficModel
 		
 		cars[0] = new Car(TrafficConstants.getInstance().STARTX, TrafficConstants.getInstance().BOTLANESTARTY, 0, PersonalityGenerator());
 		cars[1] = new Car(TrafficConstants.getInstance().STARTX, TrafficConstants.getInstance().TOPLANESTARTY, 1, PersonalityGenerator());
-		cars[1].setComfortableSpeed(3);
 		cars[2] = new Car(TrafficConstants.getInstance().STARTX + 100, TrafficConstants.getInstance().BOTLANESTARTY, 2, PersonalityGenerator());
-		cars[2].setComfortableSpeed(2);
 		cars[3] = new Car(TrafficConstants.getInstance().STARTX + 100, TrafficConstants.getInstance().TOPLANESTARTY, 3, PersonalityGenerator());
-		
 		
 		
 	}
 	
-//	public int aggressionConverter()
-//	{
-//		int orgAggression = TrafficConstants.getInstance().getAGGRESSION();
-//		int actualAggression = 50; // 
-//		
-//		if (orgAggression == 1)
-//		{
-//			actualAggression = 10;
-//			return actualAggression;
-//		}
-//		return actualAggression;
-//	}
 	
 	// 	java has bounding boxes now yay
 	public ArrayList<BoundingBox> runSimulation()
@@ -92,9 +78,16 @@ public class TrafficModel
 		return carBB;
 	}
 	
-	public ArrayList<Object> PersonalityGenerator(){ // We're using THIS method to get the values http://www.javamex.com/tutorials/random_numbers/gaussian_distribution_2.shtml
+	public Object[] PersonalityGenerator(){ // We're using THIS method to get the values http://www.javamex.com/tutorials/random_numbers/gaussian_distribution_2.shtml
 		
-		personalityValues.add(AGGRESSION, guassian.nextGaussian() + TrafficConstants.getInstance().getAGGRESSION());
+		/* personalityValues.add(AGGRESSION,((float)guassian.nextGaussian() + TrafficConstants.getInstance().getAGGRESSION()));
+		float comfortableSpeed = (personalityValues.indexOf(AGGRESSION) / 10);
+		personalityValues.add(COMFORTABLESPEED, comfortableSpeed); */
+		
+		int aggression = (int) (guassian.nextGaussian() + TrafficConstants.getInstance().getAGGRESSION());
+		personalityValues[AGGRESSION] = aggression;
+		float comfortableSpeed = (aggression / 10);
+		personalityValues[COMFORTABLESPEED] = comfortableSpeed;
 		
 		return personalityValues;
 	}
