@@ -5,6 +5,7 @@ package moreRefactor;
 import java.util.ArrayList;
 
 import processing.core.PApplet;
+import processing.core.PImage;
 import javafx.geometry.BoundingBox;
 
 public class TrafficView extends PApplet
@@ -38,8 +39,9 @@ public class TrafficView extends PApplet
 
 	ArrayList<BoundingBox> carLocs = new ArrayList<BoundingBox>();
 	public static TrafficView view;
-	
-	
+	PImage photo;
+
+
 	public TrafficView()
 	{
 		TrafficModel.model.start();
@@ -52,17 +54,23 @@ public class TrafficView extends PApplet
 		size(1920, 1080);
 		frameRate(25);
 		view = this;
+		photo = loadImage("ajax-loader.gif");
 	}
 
 	// processing draw method
 	public void draw()
 	{
-		//System.out.println("Now drawing");
-		background(0, 255, 0);
-		createHighway();
-		// this line is being weird with processing and VMs
-		carLocs = TrafficModel.model.runSimulation();
-		displayCars(carLocs);
+		if(TrafficConstants.getInstance().isModelReady == false){
+			background(0, 0, 0);
+			image(photo, 1920/2, 1080/2);
+
+		} else{
+			//System.out.println("Now drawing");
+			background(0, 255, 0);
+			createHighway();
+			carLocs = TrafficModel.model.runSimulation();
+			displayCars(carLocs);
+		}
 	}
 
 
@@ -80,37 +88,37 @@ public class TrafficView extends PApplet
 	void createHighway()
 	{
 		//System.out.println("----- LANE NUMBER IN VIEW: " + TrafficConstants.getInstance().getLANENUM());
-		
+
 		// the highway is drawn in layers 
 		// the bottom is drawn first then other layers added on top of that
 		// the background (technically the first layer) is drawn in the draw method
-		
+
 		// marker vars
 		int gutter = 20; // far edges of the highway, where you would pull over
 		int markerHeight = 10; // height (y-axis) of white lines, lane markers, and median
 		int gutterMarkerWidth = displayWidth; // width (x-axis) of the gutter markers
 		int medianMarkerWidth = 30; // width (x-axis) of the median stripes
 		//int theHighwayOffsetVariable = 50;		// the amount of pixels the highway is drawn down the y-axis from the (0, 0) point
-		
+
 		// lane vars
 		int laneNumber = TrafficConstants.getInstance().getLANENUM(); // get lane number from gui
 		int laneHeight = 100; // height (y-axis) of the lane
 		//int laneWidth = displayWidth; // width (x-axis) of the lane
-		
+
 		// first layer of the highway
 		int highwayBaseHeight = ( (gutter * 2) + (markerHeight * 2) + (laneNumber * laneHeight) + (markerHeight * (laneNumber - 1)) ); // height (y-axis) of the first layer of the highway (road part, grey part)
-					// ( (two gutters) + (two edge markers) + (number of lanes) + (medians) )
+		// ( (two gutters) + (two edge markers) + (number of lanes) + (medians) )
 		int highwayBaseWidth = displayWidth; // width (x-axis) of the first layer of the highway (road part, grey part)
 		int highwayBaseXcoord = 0; // where the highway should be placed
 		int highwayBaseYcoord = 100; // where the highway should be placed
 		//System.out.println("HEIGHT OF THE HIGHWAY: " + highwayBaseHeight);
-		
+
 		// marker placement
 		int upperGutterMarkerXcoord = 0;
 		int upperGutterMarkerYcoord = highwayBaseYcoord + gutter;
 		int lowerGutterMarkerXcoord = 0;
 		int lowerGutterMarkerYcoord = ( (highwayBaseYcoord + highwayBaseHeight) - gutter - ( markerHeight * (laneNumber - 1) ) );
-		
+
 		// median
 		int offset = 0;
 		int medianSpeed = 0;
@@ -118,14 +126,14 @@ public class TrafficView extends PApplet
 		int medianWidth = medianMarkerWidth;
 		// no x coord
 		// y coord(s) below
-		
+
 		// ----- actually draw the highway -----
-		
+
 		// base
 		fill(51);
 		stroke(0);
 		rect(highwayBaseXcoord, highwayBaseYcoord, highwayBaseWidth, highwayBaseHeight);
-		
+
 		// edge markers
 		fill(255);
 		stroke(0);
@@ -133,7 +141,7 @@ public class TrafficView extends PApplet
 		rect(upperGutterMarkerXcoord, upperGutterMarkerYcoord, gutterMarkerWidth, markerHeight);
 		// lower
 		rect(lowerGutterMarkerXcoord, lowerGutterMarkerYcoord, gutterMarkerWidth, markerHeight);
-		
+
 		// medians (lane dividers)
 		fill(255);
 		stroke(0); 
@@ -142,14 +150,14 @@ public class TrafficView extends PApplet
 		int medianYcoord_2;
 		int medianYcoord_3;
 		int medianYcoord_4;
-		
+
 		if (laneNumber == 5) // five lanes
 		{
 			medianYcoord_1 = ( (highwayBaseYcoord) + (gutter) + (laneHeight) );
 			medianYcoord_2 = ( (highwayBaseYcoord) + (gutter) + (laneHeight * 2) );
 			medianYcoord_3 = ( (highwayBaseYcoord) + (gutter) + (laneHeight * 3) );
 			medianYcoord_4 = ( (highwayBaseYcoord) + (gutter) + (laneHeight * 4) );
-			
+
 			for (int i = 0; i < displayWidth; i += 100)
 			{
 				rect(i + offset, medianYcoord_1, medianWidth, medianHeight);
@@ -163,7 +171,7 @@ public class TrafficView extends PApplet
 			medianYcoord_1 = ( (highwayBaseYcoord) + (gutter) + (laneHeight) );
 			medianYcoord_2 = ( (highwayBaseYcoord) + (gutter) + (laneHeight * 2) );
 			medianYcoord_3 = ( (highwayBaseYcoord) + (gutter) + (laneHeight * 3) );
-			
+
 			for (int i = 0; i < displayWidth; i += 100)
 			{
 				rect(i + offset, medianYcoord_1, medianWidth, medianHeight);
@@ -175,7 +183,7 @@ public class TrafficView extends PApplet
 		{
 			medianYcoord_1 = ( (highwayBaseYcoord) + (gutter) + (laneHeight) );
 			medianYcoord_2 = ( (highwayBaseYcoord) + (gutter) + (laneHeight * 2) );
-			
+
 			for (int i = 0; i < displayWidth; i += 100)
 			{
 				rect(i + offset, medianYcoord_1, medianWidth, medianHeight);
@@ -185,14 +193,14 @@ public class TrafficView extends PApplet
 		else // two lanes
 		{
 			medianYcoord_1 = ( (highwayBaseYcoord) + (gutter) + (laneHeight) );
-			
+
 			for (int i = 0; i < displayWidth; i += 100)
 			{
 				rect(i + offset, medianYcoord_1, medianWidth, medianHeight);
 			}
 		}
 	} // end createHighway()
-	
+
 	@Override
 	public void mousePressed()
 	{

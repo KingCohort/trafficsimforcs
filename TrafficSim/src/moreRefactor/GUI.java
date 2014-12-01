@@ -38,17 +38,17 @@ public class GUI extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	
+
 	JButton btnStart;
-	
+
 	// these vars are declared here because they need to be accessed from other classes
 	//		others are declared in the GUI() because they do not change values
 	JSpinner carSpinner;
-    int carSpinnerValue;
-    JSpinner laneSpinner;
-    int laneSpinnerValue;
-    JSpinner aggressionSpinner;
-    int aggressionSpinnerValue;
+	int carSpinnerValue;
+	JSpinner laneSpinner;
+	int laneSpinnerValue;
+	JSpinner aggressionSpinner;
+	int aggressionSpinnerValue;
 
 	/**
 	 * Launch the application.
@@ -66,12 +66,14 @@ public class GUI extends JFrame {
 						@Override
 						public void actionPerformed(ActionEvent e)
 						{
+
 							PApplet.main("moreRefactor.TrafficView");
+
 						}
 					});
-					
+
 					setVisible(true);
-					
+
 				}
 				catch (Exception e)
 				{
@@ -103,7 +105,7 @@ public class GUI extends JFrame {
 		gbl_contentPane.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0}; // auto generated (unused)
 		gbl_contentPane.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE}; // auto generated (unused)
 		contentPane.setLayout(gbl_contentPane);
-		
+
 		// LABEL: asking for the number of lanes
 		JLabel lblNumberOfLanes = new JLabel("Number of Lanes");
 		lblNumberOfLanes.setHorizontalAlignment(SwingConstants.LEFT);
@@ -114,7 +116,7 @@ public class GUI extends JFrame {
 		gbc_lblNumberOfLanes.gridx = 0;
 		gbc_lblNumberOfLanes.gridy = 1;
 		contentPane.add(lblNumberOfLanes, gbc_lblNumberOfLanes);
-		
+
 		// spinner for number of lanes
 		laneSpinner = new JSpinner();
 		laneSpinner.setModel(new SpinnerNumberModel(2, 2, 5, 1));
@@ -125,7 +127,7 @@ public class GUI extends JFrame {
 		gbc_spinner.gridx = 2;
 		gbc_spinner.gridy = 1;
 		contentPane.add(laneSpinner, gbc_spinner);
-		
+
 		// SETTING SPINNER VALUE: sets the value of the number of lanes, allows the spinner value to be called across classes
 		laneSpinner.addChangeListener(new ChangeListener()
 		{
@@ -135,7 +137,7 @@ public class GUI extends JFrame {
 				TrafficConstants.getInstance().setLANENUM(laneSpinnerValue);
 			}
 		});
-		
+
 		// EXPLANATION LABEL: explaining the limits of lane choice
 		JLabel lblChooseANumber = new JLabel("Choose a number 2 - 5.");
 		lblChooseANumber.setFont(new Font("Tahoma", Font.PLAIN, 14));
@@ -145,7 +147,7 @@ public class GUI extends JFrame {
 		gbc_lblChooseANumber.gridx = 4;
 		gbc_lblChooseANumber.gridy = 1;
 		contentPane.add(lblChooseANumber, gbc_lblChooseANumber);
-		
+
 		// LABEL: asking for the number of cars
 		JLabel lblNumberOfCars = new JLabel("Number of Cars");
 		lblNumberOfCars.setHorizontalAlignment(SwingConstants.LEFT);
@@ -156,7 +158,7 @@ public class GUI extends JFrame {
 		gbc_lblNumberOfCars.gridx = 0;
 		gbc_lblNumberOfCars.gridy = 3;
 		contentPane.add(lblNumberOfCars, gbc_lblNumberOfCars);
-		
+
 		// spinner for number of cars
 		carSpinner = new JSpinner();
 		carSpinner.setModel(new SpinnerNumberModel(2, 2, 20, 1));
@@ -167,7 +169,7 @@ public class GUI extends JFrame {
 		gbc_spinner_1.gridx = 2;
 		gbc_spinner_1.gridy = 3;
 		contentPane.add(carSpinner, gbc_spinner_1);
-		
+
 		// SETTING SPINNER VALUE: sets the value of the number of cars, allows the spinner value to be called across classes
 		carSpinner.addChangeListener(new ChangeListener()
 		{
@@ -177,7 +179,7 @@ public class GUI extends JFrame {
 				TrafficConstants.getInstance().setCARNUM(carSpinnerValue);
 			}
 		});
-		
+
 		// EXPLANATION LABEL: explanation for spinner for number of cars
 		JLabel lblChooseANumber_1 = new JLabel("Choose a number 2 - 20.");
 		lblChooseANumber_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
@@ -187,7 +189,7 @@ public class GUI extends JFrame {
 		gbc_lblChooseANumber_1.gridx = 4;
 		gbc_lblChooseANumber_1.gridy = 3;
 		contentPane.add(lblChooseANumber_1, gbc_lblChooseANumber_1);
-		
+
 		// LABEL: asking for the aggression of the driver
 		JLabel lblDriverAggression = new JLabel("Driver Aggression");
 		lblDriverAggression.setFont(new Font("Tahoma", Font.PLAIN, 14));
@@ -197,7 +199,7 @@ public class GUI extends JFrame {
 		gbc_lblDriverAggression.gridx = 0;
 		gbc_lblDriverAggression.gridy = 5;
 		contentPane.add(lblDriverAggression, gbc_lblDriverAggression);
-		
+
 		// spinner to choose the aggression of the drivers
 		aggressionSpinner = new JSpinner();
 		aggressionSpinner.setModel(new SpinnerNumberModel(0, 0, 100, 5));
@@ -208,7 +210,7 @@ public class GUI extends JFrame {
 		gbc_spinner_2.gridx = 2;
 		gbc_spinner_2.gridy = 5;
 		contentPane.add(aggressionSpinner, gbc_spinner_2);
-		
+
 		// SETTING SPINNER VALUE: sets the aggression of all the drivers, allows the spinner value to be called across classes
 		aggressionSpinner.addChangeListener(new ChangeListener()
 		{
@@ -218,7 +220,7 @@ public class GUI extends JFrame {
 				TrafficConstants.getInstance().setAGGRESSION(aggressionSpinnerValue);
 			}
 		});
-				
+
 		// EXPLANATION LABEL: explanation for the aggression of drivers
 		JLabel lblThisIsThe = new JLabel("Choost the average aggression of the drivers 1 - 100");
 		lblThisIsThe.setFont(new Font("Tahoma", Font.PLAIN, 14));
@@ -228,7 +230,7 @@ public class GUI extends JFrame {
 		gbc_lblThisIsThe.gridx = 4;
 		gbc_lblThisIsThe.gridy = 5;
 		contentPane.add(lblThisIsThe, gbc_lblThisIsThe);
-		
+
 		// the start button, starts the simulation
 		btnStart = new JButton("START SIMULATION");
 		GridBagConstraints gbc_btnStart = new GridBagConstraints();

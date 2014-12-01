@@ -9,24 +9,25 @@ import javax.swing.JOptionPane;
 
 import javafx.geometry.*;
 
-// creates a car
-// the program will create many cars to simulate real traffic
+// The car class that creates the car object 
+//NOTES:::: THE CAR CLASS DOES NOT SUPPORT THE USE OF WHILE LOOPS. MAY GOD HAVE MERCY ON YOUR SOUL. Just use an if statement 
+//				take a look at the moving lanes methods for an example.
+
 public class Car
 {
 	float xCoord;
 	float yCoord;
 	int UP = 1, DOWN = 3, LEFT = 2, RIGHT = 0;
-	int AGGRESSION = 0, COMFORTABLESPEED = 1, DECISIONMAKING = 2, REACTIONTIME = 3;
+	int AGGRESSION = 0, COMFORTABLESPEED = 1, DECISIONMAKING = 3, ATTENTION = 2, BUBBLESIZE = 4;
 	double width = TrafficConstants.getInstance().CARWIDTH;
 	double height = TrafficConstants.getInstance().CARHEIGHT;
-	boolean carInOtherLane = false;
 	boolean isChangingLanes = false; // true during the act of lane change
 	boolean wantToChangeLanes = false; //true when car is going to attempt a lane change
-	float nextLaneMiddle = 0;
 	boolean changeLaneTest = false;
 	boolean[] surroundingCarLocations = new boolean[5]; // 0 = right 1 = up 2 = left 3 = down
 	BoundingBox[] myPersonalBubble = new BoundingBox[4];
 	boolean[] personalBubbleCheckerBools = new boolean[4];
+	boolean testerAttention = false;
 	Random statBehaviorCheck = new Random(); // statBehaviorCheck.nextInt(TrafficConstants.getInstance().UPPERBOUND) to get the next random number.
 	BoundingBox myBoundingBox = getBoundingBox();
 
@@ -36,19 +37,15 @@ public class Car
 	boolean checkFrontTesterBool;
 
 	//The beginnings of personality paramaterization.
-	// I was trying to make a car stop when coming within a set distance of the car infront of it. So I just made the section now - Noel 
-	//NOTES:::: THE CAR CLASS DOES NOT SUPPORT THE USE OF WHILE LOOPS. MAY GOD HAVE MERCY ON YOUR SOUL. Just use an if statement 
-	//				take a look at the moving lanes methods for an example.
 
-	int aggression;
-	int attention = 40;
+	double aggression;
+	int attention;
 	int decisionMaking = 50;
 
-	float followingDistanceMin = 30;
-	float comfortBubble = 15;
+	double comfortBubble;
 	float reactionTime = 2;
 	float comfortableSpeed;
-	float currentSpeed = comfortableSpeed;
+	float currentSpeed = 1;
 
 
 
@@ -58,8 +55,10 @@ public class Car
 		this.xCoord = xCoord;
 		this.yCoord = yCoord;
 		this.arrayValue = arrayValue;
-		aggression = (Integer)personalityValues[AGGRESSION];
+		aggression = (Double)personalityValues[AGGRESSION];
 		comfortableSpeed = (Float)personalityValues[COMFORTABLESPEED];
+		attention = (Integer)personalityValues[ATTENTION];
+		comfortBubble = (Double)personalityValues[BUBBLESIZE];
 
 	}
 
@@ -94,40 +93,55 @@ public class Car
 	void makeDecision(ArrayList<BoundingBox> carLoc)
 	{	
 		surroundingCarLocations = checkOtherCars(carLoc);
-		personalBubbleMaker();
-		personalBubbleViolation(carLoc);
+		if(attention > statBehaviorCheck.nextInt(TrafficConstants.getInstance().UPPERBOUND)){
+			testerAttention = true;
+			personalBubbleMaker();
+			personalBubbleViolation(carLoc);
+		} else{
+			testerAttention = false;
+		}
 		if(!isCrashed(carLoc)){
 
 			move();
 
-			if(personalBubbleCheckerBools[RIGHT] == true){
+			if(personalBubbleCheckerBools[RIGHT]){
 				slowDown();
-				move();
+				if(aggression < statBehaviorCheck.nextInt(TrafficConstants.getInstance().UPPERBOUND)){
+
+					wantToChangeLanes = true;
+
+				}
+
 			} else{
 
 				normalizeSpeed();
 			}
-			
+
 			if(personalBubbleCheckerBools[UP]){
 
-				yCoord = yCoord - 1;
+				moveDownOneLane();
 			}
 
 			if(personalBubbleCheckerBools[DOWN]){
 
-				yCoord = yCoord + 1;
+				moveUpOneLane();
 			} 
 
 			if(personalBubbleCheckerBools[LEFT]){				
 				speedUp();
-				move();
-			} else{
-				normalizeSpeed();
-			}
+				
+				if(aggression > statBehaviorCheck.nextInt(TrafficConstants.getInstance().UPPERBOUND)){
+					
+					wantToChangeLanes = true;
+					
+				}
+
+
+			} 
 
 			if(wantToChangeLanes){	
 				changeLanes();
-				move();
+
 			} 
 
 		}else{
@@ -135,6 +149,7 @@ public class Car
 			currentSpeed = 0;
 			comfortableSpeed = 0;
 		}
+
 	}
 
 
@@ -159,13 +174,7 @@ public class Car
 		} else{
 			currentSpeed = 1;
 		}
-		
-		if(aggression < statBehaviorCheck.nextInt()){
-			
-			wantToChangeLanes = true;
-			
-		}
-		
+
 	}
 
 	void speedUp(){
@@ -230,7 +239,6 @@ public class Car
 		carSurroundingBB.add(new BoundingBox(getBoundingBox().getMinX(), (getBoundingBox().getMinY() - height*2), width, height*2)); //up
 		carSurroundingBB.add(new BoundingBox(getBoundingBox().getMinX() - height, getBoundingBox().getMinY(), width, height)); // left
 		carSurroundingBB.add(new BoundingBox(getBoundingBox().getMinX(), getBoundingBox().getMaxY(), width, height*2)); // down
-		carSurroundingBB.add(new BoundingBox(getBoundingBox().getMaxX() + followingDistanceMin, getyCoord(), 1, height)); // directly in front of car
 		//carSurroundingBB.add(new BoundingBox(getBoundingBox().getMinX() - comfortBubble, getBoundingBox().getMinY() - comfortBubble, width + (2*comfortBubble), height + (2*comfortBubble)));
 		//	System.out.println(" Min X: " + carSurroundingBB.get(0).getMinX() + " Min y: " + carSurroundingBB.get(0).getMinY());
 
@@ -249,10 +257,10 @@ public class Car
 		myPersonalBubble[DOWN] = new BoundingBox(getBoundingBox().getMinX() - comfortBubble, getBoundingBox().getMaxY() + comfortBubble, width + (2*comfortBubble), 1 );
 
 		//Making the BBs drawn on the view so I can see them and ensure they're right. LEaving in for debugging purposes 
-		/*TrafficModel.model.carBB.add(myPersonalBubble[UP]);
+		/* TrafficModel.model.carBB.add(myPersonalBubble[UP]);
 		TrafficModel.model.carBB.add(myPersonalBubble[DOWN]);
 		TrafficModel.model.carBB.add(myPersonalBubble[LEFT]);
-		TrafficModel.model.carBB.add(myPersonalBubble[RIGHT]);*/
+		TrafficModel.model.carBB.add(myPersonalBubble[RIGHT]); */
 	}
 
 	void personalBubbleViolation(ArrayList<BoundingBox> carLoc){
@@ -341,24 +349,26 @@ public class Car
 	public void debug()
 	{
 		String out = "";
+		out+="//////////////ABOUT THIS CAR/////////////////////////\n";
 		out+="Car Number " + arrayValue + "\n";
+		out+= "XY Coord=" + getxCoord() + "," + getyCoord()+"\n";	
+		out+="Have I crashed? " + isCrashed(TrafficModel.model.carBB) + "\n";
+		out+="Am I paying attention?" + testerAttention + "\n";
+		out+="Am I changing Lanes? ="+isChangingLanes+"\n";
+		out+="Aggression value is " + aggression + "\n";
+		out+="Comfortable Speed is " + comfortableSpeed + "\n";
+		out+="Current Speed is " + currentSpeed + "\n";
+		out+="Personal Bubble Values is " + comfortBubble + "\n";
+		out+="//////////////VISION CHECK////////////////////////////\n";
 		out+="Vision Check Right =" + surroundingCarLocations[RIGHT] + "\n";
 		out+="Vision Check Up =" + surroundingCarLocations[UP] +"\n";
 		out+="Vision Check Left ="+surroundingCarLocations[LEFT]+"\n";
 		out+="Vision Check Down ="+surroundingCarLocations[DOWN]+"\n";
-		out+="/////////////////////////////////\n";
+		out+="/////////////PERSONAL BUBBLE CHECK////////////////////\n";
 		out+="Personal Bubble Top is " + personalBubbleCheckerBools[UP]+"\n" ;
 		out+="Personal Bubble Right is " + personalBubbleCheckerBools[RIGHT]+"\n";
 		out+="Personal Bubble bottom is " + personalBubbleCheckerBools[DOWN]+"\n";
 		out+="Personal Bubble left is " + personalBubbleCheckerBools[LEFT]+"\n";
-		out+="///////////////////////////////////\n";
-		out+="changelane="+isChangingLanes+"\n";
-		out+= "XY Coord=" + getxCoord() + "," + getyCoord()+"\n";
-		out+="Have I crashed? " + isCrashed(TrafficModel.model.carBB) + "\n";
-		out+="///////////////////Personality Values//////////////////////////////\n";
-		out+="Aggression value is " + aggression + "\n";
-		out+="Comfortable Speed is " + comfortableSpeed + "\n";
-		out+="Current Speed is " + currentSpeed + "\n";
 
 		JOptionPane.showMessageDialog(TrafficView.view, out);
 	}
