@@ -77,15 +77,15 @@ public class TrafficModel
 		//These lines involving firstCarPosition and firstCarDifference are intended to
 		//make the other cars move in relation to the first car moving horizontally if the view is fixed on it.
 		//If the first car moves forward, the other cars will move backwards an equal amount, and vice versa.
-		int firstCarPosition = 0;
+		float firstCarPosition = 0;
 		if (TrafficConstants.getInstance().GLOBALSIMVIEW==false) {
-			firstCarPosition = (int) carBB.get(0).getMinX();
+			firstCarPosition = cars[0].getxCoord();
 		}
 		for(Car car: cars){
 			car.makeDecision(carBB); 
 		}
 		if (TrafficConstants.getInstance().GLOBALSIMVIEW==false) {
-			int firstCarDifference = firstCarPosition - (int) carBB.get(0).getMinX();
+			float firstCarDifference = firstCarPosition - cars[0].getxCoord();
 			for(Car car: cars) {
 				car.setxCoord(car.getxCoord() + firstCarDifference);
 			}
