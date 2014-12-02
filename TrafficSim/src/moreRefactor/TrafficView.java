@@ -40,11 +40,16 @@ public class TrafficView extends PApplet
 	ArrayList<BoundingBox> carLocs = new ArrayList<BoundingBox>();
 	public static TrafficView view;
 	PImage photo;
+	int offset = 0;
 
 
 	public TrafficView()
 	{
 		TrafficModel.model.start();
+		//If the view is fixed over one car, start the median moving.
+		if (TrafficConstants.getInstance().GLOBALSIMVIEW==false) {
+			TrafficConstants.getInstance().setMEDIANSPEED(10);
+		}
 	}
 
 
@@ -120,8 +125,6 @@ public class TrafficView extends PApplet
 		int lowerGutterMarkerYcoord = ( (highwayBaseYcoord + highwayBaseHeight) - gutter - ( markerHeight * (laneNumber - 1) ) );
 
 		// median
-		int offset = 0;
-		int medianSpeed = 0;
 		int medianHeight = markerHeight;
 		int medianWidth = medianMarkerWidth;
 		// no x coord
@@ -145,7 +148,11 @@ public class TrafficView extends PApplet
 		// medians (lane dividers)
 		fill(255);
 		stroke(0); 
-		offset = offset - medianSpeed;
+		//Offset for moving median when fixed view is on. Resets to 0 if below -100 to make sure we don't run out of rectangles.
+		offset = offset - TrafficConstants.getInstance().MEDIANSPEED;
+		if (offset < -100) {
+			offset = 0;
+		}
 		int medianYcoord_1;
 		int medianYcoord_2;
 		int medianYcoord_3;
@@ -158,7 +165,7 @@ public class TrafficView extends PApplet
 			medianYcoord_3 = ( (highwayBaseYcoord) + (gutter) + (laneHeight * 3) );
 			medianYcoord_4 = ( (highwayBaseYcoord) + (gutter) + (laneHeight * 4) );
 
-			for (int i = 0; i < displayWidth; i += 100)
+			for (int i = 0; i < displayWidth+100; i += 100)
 			{
 				rect(i + offset, medianYcoord_1, medianWidth, medianHeight);
 				rect(i + offset, medianYcoord_2, medianWidth, medianHeight);
@@ -172,7 +179,7 @@ public class TrafficView extends PApplet
 			medianYcoord_2 = ( (highwayBaseYcoord) + (gutter) + (laneHeight * 2) );
 			medianYcoord_3 = ( (highwayBaseYcoord) + (gutter) + (laneHeight * 3) );
 
-			for (int i = 0; i < displayWidth; i += 100)
+			for (int i = 0; i < displayWidth+100; i += 100)
 			{
 				rect(i + offset, medianYcoord_1, medianWidth, medianHeight);
 				rect(i + offset, medianYcoord_2, medianWidth, medianHeight);
@@ -184,7 +191,7 @@ public class TrafficView extends PApplet
 			medianYcoord_1 = ( (highwayBaseYcoord) + (gutter) + (laneHeight) );
 			medianYcoord_2 = ( (highwayBaseYcoord) + (gutter) + (laneHeight * 2) );
 
-			for (int i = 0; i < displayWidth; i += 100)
+			for (int i = 0; i < displayWidth+100; i += 100)
 			{
 				rect(i + offset, medianYcoord_1, medianWidth, medianHeight);
 				rect(i + offset, medianYcoord_2, medianWidth, medianHeight);
@@ -194,7 +201,7 @@ public class TrafficView extends PApplet
 		{
 			medianYcoord_1 = ( (highwayBaseYcoord) + (gutter) + (laneHeight) );
 
-			for (int i = 0; i < displayWidth; i += 100)
+			for (int i = 0; i < displayWidth+100; i += 100)
 			{
 				rect(i + offset, medianYcoord_1, medianWidth, medianHeight);
 			}

@@ -46,20 +46,53 @@ public class Car
 	float reactionTime = 2;
 	float comfortableSpeed;
 	float currentSpeed = 1;
+	//SpeedAdjust is the number used to adjust all cars' base speeds when the view is fixed over one car.
+	//Since all cars move relative to the first car, all car comfortable speeds are reduced by the first car's comfortable speed
+	//in the constructors below.
+	float speedAdjust = 0;
 
 
-
-	public Car(float xCoord, float yCoord, int arrayValue, Object[] personalityValues)
+	//Fixed-location constructor.
+	public Car(float xCoord, float yCoord, int arrayValue, Object[] personalityValues, float speedAdjust)
 	{
 
 		this.xCoord = xCoord;
 		this.yCoord = yCoord;
 		this.arrayValue = arrayValue;
+		this.speedAdjust = speedAdjust;
 		aggression = (Double)personalityValues[AGGRESSION];
 		comfortableSpeed = (Float)personalityValues[COMFORTABLESPEED];
 		attention = (Integer)personalityValues[ATTENTION];
 		comfortBubble = (Double)personalityValues[BUBBLESIZE];
-
+		if (TrafficConstants.getInstance().GLOBALSIMVIEW==false) {
+			//Fixed-location cars start towards the middle of the highway, to better see cars around them.
+			this.xCoord += 960;
+			comfortableSpeed = comfortableSpeed - speedAdjust;
+		}
+	}
+	
+	//Random-location constructor.
+	public Car(int arrayValue, Object[] personalityValues, float speedAdjust)
+	{
+		//Creates the car just offscreen, then sets its starting Y to the middle of a random lane based on how many are available.
+		//Y coordinate must be hardcoded since the lane height and highway start Y are only accessible from within TrafficView at the moment.
+		this.xCoord = TrafficConstants.getInstance().STARTX-TrafficConstants.getInstance().CARWIDTH;
+		Random randomStartLane = new Random();
+		int startLane = randomStartLane.nextInt(TrafficConstants.getInstance().getLANENUM());
+		this.yCoord = 150 + (startLane*100);
+		this.arrayValue = arrayValue;
+		this.speedAdjust = speedAdjust;
+		aggression = (Double)personalityValues[AGGRESSION];
+		comfortableSpeed = (Float)personalityValues[COMFORTABLESPEED];
+		attention = (Integer)personalityValues[ATTENTION];
+		comfortBubble = (Double)personalityValues[BUBBLESIZE];
+		if (TrafficConstants.getInstance().GLOBALSIMVIEW==false) {
+			if (this.arrayValue == 0) {
+				//If this is the first car, have it start at the middle of the highway, to better see cars around it.
+				this.xCoord += 960;
+			}
+			comfortableSpeed = comfortableSpeed - speedAdjust;
+		}
 	}
 
 	public float getxCoord()
@@ -145,9 +178,9 @@ public class Car
 			} 
 
 		}else{
-
-			currentSpeed = 0;
-			comfortableSpeed = 0;
+			currentSpeed = 0-TrafficConstants.getInstance().MEDIANSPEED;
+			comfortableSpeed = 0-TrafficConstants.getInstance().MEDIANSPEED;
+			move();
 		}
 
 	}

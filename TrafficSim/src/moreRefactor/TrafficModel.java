@@ -11,7 +11,7 @@ import javafx.geometry.BoundingBox;
 public class TrafficModel
 {
 
-	Car[] cars = new Car[4];
+	Car[] cars = new Car[5];
 	//Car[] cars = new Car[TrafficConstants.getInstance().getCARNUM()];
 	ArrayList<BoundingBox> carBB = new ArrayList<BoundingBox>();
 	int AGGRESSION = 0, COMFORTABLESPEED = 1, DECISIONMAKING = 3, ATTENTION = 2, BUBBLESIZE = 4;
@@ -50,11 +50,18 @@ public class TrafficModel
 
 		 */
 
-		cars[0] = new Car(TrafficConstants.getInstance().STARTX, TrafficConstants.getInstance().BOTLANESTARTY, 0, PersonalityGenerator());
-		cars[1] = new Car(TrafficConstants.getInstance().STARTX, TrafficConstants.getInstance().TOPLANESTARTY, 1, PersonalityGenerator());
-		cars[2] = new Car(TrafficConstants.getInstance().STARTX + 100, TrafficConstants.getInstance().BOTLANESTARTY, 2, PersonalityGenerator());
-		cars[3] = new Car(TrafficConstants.getInstance().STARTX + 100, TrafficConstants.getInstance().TOPLANESTARTY, 3, PersonalityGenerator());
-
+		Object[] firstCarPersonality = PersonalityGenerator();
+		float speedAdjust = 0;
+		if (TrafficConstants.getInstance().GLOBALSIMVIEW==false) {
+			speedAdjust = (float) firstCarPersonality[COMFORTABLESPEED];
+		}
+		cars[0] = new Car(TrafficConstants.getInstance().STARTX+50, TrafficConstants.getInstance().BOTLANESTARTY, 0, firstCarPersonality, speedAdjust);
+		cars[1] = new Car(TrafficConstants.getInstance().STARTX+50, TrafficConstants.getInstance().TOPLANESTARTY, 1, PersonalityGenerator(), speedAdjust);
+		cars[2] = new Car(TrafficConstants.getInstance().STARTX + 150, TrafficConstants.getInstance().BOTLANESTARTY, 2, PersonalityGenerator(), speedAdjust);
+		cars[3] = new Car(TrafficConstants.getInstance().STARTX + 150, TrafficConstants.getInstance().TOPLANESTARTY, 3, PersonalityGenerator(), speedAdjust);
+		//The fifth car below demonstrates the new random-location car constructor.
+		cars[4] = new Car(4, PersonalityGenerator(), speedAdjust);
+		
 		TrafficConstants.getInstance().isModelReady = true;
 	}
 
@@ -65,16 +72,24 @@ public class TrafficModel
 		carBB.clear();
 		for (Car car : cars)
 		{
-
 			carBB.add(new BoundingBox(car.xCoord,car.yCoord,car.width,car.height));
 		}
-
-		for(Car car: cars){
-
-			car.makeDecision(carBB); 
-
+		//These lines involving firstCarPosition and firstCarDifference are intended to
+		//make the other cars move in relation to the first car moving horizontally if the view is fixed on it.
+		//If the first car moves forward, the other cars will move backwards an equal amount, and vice versa.
+		int firstCarPosition = 0;
+		if (TrafficConstants.getInstance().GLOBALSIMVIEW==false) {
+			firstCarPosition = (int) carBB.get(0).getMinX();
 		}
-
+		for(Car car: cars){
+			car.makeDecision(carBB); 
+		}
+		if (TrafficConstants.getInstance().GLOBALSIMVIEW==false) {
+			int firstCarDifference = firstCarPosition - (int) carBB.get(0).getMinX();
+			for(Car car: cars) {
+				car.setxCoord(car.getxCoord() + firstCarDifference);
+			}
+		}
 		return carBB;
 	}
 
