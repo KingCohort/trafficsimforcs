@@ -181,6 +181,9 @@ public class Car
 			currentSpeed = 0-TrafficConstants.getInstance().MEDIANSPEED;
 			comfortableSpeed = 0-TrafficConstants.getInstance().MEDIANSPEED;
 			move();
+			if (arrayValue == 0) {
+				TrafficConstants.getInstance().setMEDIANSPEED(0);
+			}
 		}
 
 	}
