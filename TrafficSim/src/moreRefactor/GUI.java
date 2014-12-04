@@ -33,6 +33,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import processing.core.PApplet;
+import javax.swing.JCheckBox;
 
 public class GUI extends JFrame {
 
@@ -49,6 +50,11 @@ public class GUI extends JFrame {
 	int laneSpinnerValue;
 	JSpinner aggressionSpinner;
 	int aggressionSpinnerValue;
+	
+	JCheckBox followCheckBox;
+	JCheckBox loopCheckBox;
+	boolean falseSet = false;
+	boolean trueSet = true;
 
 	/**
 	 * Launch the application.
@@ -66,6 +72,25 @@ public class GUI extends JFrame {
 						@Override
 						public void actionPerformed(ActionEvent e)
 						{
+							// set view
+							if (followCheckBox.isSelected())
+							{
+								TrafficConstants.getInstance().setGLOBALSIMVIEW(falseSet);
+							}
+							else
+							{
+								TrafficConstants.getInstance().setGLOBALSIMVIEW(trueSet);
+							}
+							
+//							// set loop
+//							if ()
+//							{
+//								
+//							}
+//							else
+//							{
+//								
+//							}
 
 							PApplet.main("moreRefactor.TrafficView");
 
@@ -101,9 +126,9 @@ public class GUI extends JFrame {
 		GridBagLayout gbl_contentPane = new GridBagLayout();
 		// the spacing with the layout creates a padding of 5 pixels between each cell 
 		gbl_contentPane.columnWidths = new int[]{200, 25, 75, 25, 200, 0}; // {label area, padding, spinner area, padding, explaination area, 0(weirdness with swing??)}
-		gbl_contentPane.rowHeights = new int[]{30, 30, 30, 30, 30, 30, 30, 30, 0}; // all the rows are the same height, the last 0 is weirdness with swing i dont understand
+		gbl_contentPane.rowHeights = new int[]{30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 0}; // all the rows are the same height, the last 0 is weirdness with swing i dont understand
 		gbl_contentPane.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0}; // auto generated (unused)
-		gbl_contentPane.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE}; // auto generated (unused)
+		gbl_contentPane.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE}; // auto generated (unused)
 		contentPane.setLayout(gbl_contentPane);
 
 		// LABEL: asking for the number of lanes
@@ -222,7 +247,7 @@ public class GUI extends JFrame {
 		});
 
 		// EXPLANATION LABEL: explanation for the aggression of drivers
-		JLabel lblThisIsThe = new JLabel("Choost the average aggression of the drivers 1 - 100");
+		JLabel lblThisIsThe = new JLabel("Choose the average aggression of the drivers 1 - 100");
 		lblThisIsThe.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		GridBagConstraints gbc_lblThisIsThe = new GridBagConstraints();
 		gbc_lblThisIsThe.anchor = GridBagConstraints.WEST;
@@ -230,13 +255,80 @@ public class GUI extends JFrame {
 		gbc_lblThisIsThe.gridx = 4;
 		gbc_lblThisIsThe.gridy = 5;
 		contentPane.add(lblThisIsThe, gbc_lblThisIsThe);
-
+				
+		JLabel lblNewLabel = new JLabel("View");
+		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
+		gbc_lblNewLabel.anchor = GridBagConstraints.WEST;
+		gbc_lblNewLabel.insets = new Insets(0, 0, 5, 5);
+		gbc_lblNewLabel.gridx = 0;
+		gbc_lblNewLabel.gridy = 7;
+		contentPane.add(lblNewLabel, gbc_lblNewLabel);
+		
+		followCheckBox = new JCheckBox("Follow"); // maybe class var
+		followCheckBox.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		GridBagConstraints gbc_chckbxNewCheckBox = new GridBagConstraints();
+		gbc_chckbxNewCheckBox.anchor = GridBagConstraints.WEST;
+		gbc_chckbxNewCheckBox.insets = new Insets(0, 0, 5, 5);
+		gbc_chckbxNewCheckBox.gridx = 2;
+		gbc_chckbxNewCheckBox.gridy = 7;
+		contentPane.add(followCheckBox, gbc_chckbxNewCheckBox);
+		
+		
+		
+		// EXPLANATION LABEL: explain fixed
+		JLabel lblNewLabel_1 = new JLabel("Fixed maintains a vew of a section of the road");
+		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		GridBagConstraints gbc_lblNewLabel_1 = new GridBagConstraints();
+		gbc_lblNewLabel_1.anchor = GridBagConstraints.WEST;
+		gbc_lblNewLabel_1.insets = new Insets(0, 0, 5, 5);
+		gbc_lblNewLabel_1.gridx = 4;
+		gbc_lblNewLabel_1.gridy = 7;
+		contentPane.add(lblNewLabel_1, gbc_lblNewLabel_1);
+		
+		// EXPLANATION LABEL: explain follow
+		JLabel lblNewLabel_2 = new JLabel("Follow will follow the first car created (checked)");
+		lblNewLabel_2.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		GridBagConstraints gbc_lblNewLabel_2 = new GridBagConstraints();
+		gbc_lblNewLabel_2.anchor = GridBagConstraints.WEST;
+		gbc_lblNewLabel_2.insets = new Insets(0, 0, 5, 5);
+		gbc_lblNewLabel_2.gridx = 4;
+		gbc_lblNewLabel_2.gridy = 8;
+		contentPane.add(lblNewLabel_2, gbc_lblNewLabel_2);
+		
+		JLabel lblLoopSimulation = new JLabel("Loop Simulation");
+		lblLoopSimulation.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		GridBagConstraints gbc_lblLoopSimulation = new GridBagConstraints();
+		gbc_lblLoopSimulation.anchor = GridBagConstraints.WEST;
+		gbc_lblLoopSimulation.insets = new Insets(0, 0, 5, 5);
+		gbc_lblLoopSimulation.gridx = 0;
+		gbc_lblLoopSimulation.gridy = 10;
+		contentPane.add(lblLoopSimulation, gbc_lblLoopSimulation);
+		
+		loopCheckBox = new JCheckBox("Loop"); // maybe class var
+		loopCheckBox.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		GridBagConstraints gbc_chckbxLoop = new GridBagConstraints();
+		gbc_chckbxLoop.anchor = GridBagConstraints.WEST;
+		gbc_chckbxLoop.insets = new Insets(0, 0, 5, 5);
+		gbc_chckbxLoop.gridx = 2;
+		gbc_chckbxLoop.gridy = 10;
+		contentPane.add(loopCheckBox, gbc_chckbxLoop);
+		
+		JLabel lblThisWillContinue = new JLabel("This will continue to generate cars off screen");
+		lblThisWillContinue.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		GridBagConstraints gbc_lblThisWillContinue = new GridBagConstraints();
+		gbc_lblThisWillContinue.anchor = GridBagConstraints.WEST;
+		gbc_lblThisWillContinue.insets = new Insets(0, 0, 5, 5);
+		gbc_lblThisWillContinue.gridx = 4;
+		gbc_lblThisWillContinue.gridy = 10;
+		contentPane.add(lblThisWillContinue, gbc_lblThisWillContinue);
+		
 		// the start button, starts the simulation
 		btnStart = new JButton("START SIMULATION");
 		GridBagConstraints gbc_btnStart = new GridBagConstraints();
 		gbc_btnStart.insets = new Insets(0, 0, 0, 5);
 		gbc_btnStart.gridx = 4;
-		gbc_btnStart.gridy = 7;
+		gbc_btnStart.gridy = 13;
 		contentPane.add(btnStart, gbc_btnStart);		
 	}	
 }

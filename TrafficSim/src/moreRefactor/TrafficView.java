@@ -3,10 +3,10 @@
 package moreRefactor;
 
 import java.util.ArrayList;
-
 import processing.core.PApplet;
 import processing.core.PImage;
 import javafx.geometry.BoundingBox;
+import java.util.Random;
 
 public class TrafficView extends PApplet
 {
@@ -39,7 +39,14 @@ public class TrafficView extends PApplet
 
 	ArrayList<BoundingBox> carLocs = new ArrayList<BoundingBox>();
 	public static TrafficView view;
-	PImage photo;
+	PImage loadGif;
+	PImage blueCarImage = loadImage("blueCar.png");
+	PImage redCarImage = loadImage("redCar.png");
+	PImage greenCarImage = loadImage("greenCar.png");
+	
+	ArrayList<PImage> images = new ArrayList<PImage>();
+	
+	public Car imageCar;
 	int offset = 0;
 
 
@@ -47,7 +54,7 @@ public class TrafficView extends PApplet
 	{
 		TrafficModel.model.start();
 		//If the view is fixed over one car, start the median moving.
-		if (TrafficConstants.getInstance().GLOBALSIMVIEW==false) {
+		if (TrafficConstants.getInstance().getGLOBALSIMVIEW()==false){
 			TrafficConstants.getInstance().setMEDIANSPEED(10);
 		}
 	}
@@ -59,7 +66,7 @@ public class TrafficView extends PApplet
 		size(1920, 1080);
 		frameRate(25);
 		view = this;
-		photo = loadImage("ajax-loader.gif");
+		loadGif = loadImage("ajax-loader.gif");
 	}
 
 	// processing draw method
@@ -67,12 +74,13 @@ public class TrafficView extends PApplet
 	{
 		if(TrafficConstants.getInstance().isModelReady == false){
 			background(0, 0, 0);
-			image(photo, 1920/2, 1080/2);
+			image(loadGif, 123, 123);
 
 		} else{
 			//System.out.println("Now drawing");
 			background(0, 255, 0);
 			createHighway();
+			//image(carImage, imageCar.getxCoord(), imageCar.getyCoord());
 			carLocs = TrafficModel.model.runSimulation();
 			displayCars(carLocs);
 		}
@@ -82,11 +90,22 @@ public class TrafficView extends PApplet
 	void displayCars(ArrayList<BoundingBox> carLocs)
 	{
 		//System.out.println("Displaying cars");
-		fill(255, 0, 0);
+		//fill(255, 0, 0);
+		
+		images.add(blueCarImage);
+		images.add(redCarImage);
+		images.add(greenCarImage);
+		Random randomGenerator = new Random();
+		
+		int index = randomGenerator.nextInt(images.size());
+        PImage RAVE = images.get(index);
+		
 		stroke(0);
+		
 		for (BoundingBox bb : carLocs)
 		{
-			rect((float)bb.getMinX(), (float)bb.getMinY(), (float)bb.getWidth(), (float)bb.getHeight()); //
+			//rect((float)bb.getMinX(), (float)bb.getMinY(), (float)bb.getWidth(), (float)bb.getHeight()); //
+			image(RAVE, (float)bb.getMinX(), (float)bb.getMinY());
 		}
 	}
 
