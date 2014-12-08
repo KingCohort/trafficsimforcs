@@ -413,7 +413,7 @@ public class Car
 		String out = "";
 		out+="//////////////ABOUT THIS CAR/////////////////////////\n";
 		out+="Car Number " + arrayValue + "\n";
-		out+= methodRunning + "\n";
+		out+= "Method being run: " + methodRunning + "\n";
 		out+= "XY Coord=" + getxCoord() + "," + getyCoord()+"\n";	
 		out+="Have I crashed? " + isCrashed(TrafficModel.model.carBB) + "\n";
 		out+="Am I paying attention?" + testerAttention + "\n";
