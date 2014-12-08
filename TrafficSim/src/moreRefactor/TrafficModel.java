@@ -11,14 +11,16 @@ import javafx.geometry.BoundingBox;
 public class TrafficModel
 {
 
-	Car[] cars = new Car[5];
+	Car[] cars = new Car[4];
 	//Car[] cars = new Car[TrafficConstants.getInstance().getCARNUM()];
 	ArrayList<BoundingBox> carBB = new ArrayList<BoundingBox>();
-	int AGGRESSION = 0, COMFORTABLESPEED = 1, DECISIONMAKING = 3, ATTENTION = 2, BUBBLESIZE = 4;
+	int AGGRESSION = 0, COMFORTABLESPEED = 1, DECISIONMAKING = 3, ATTENTION = 2, BUBBLESIZE = 4, STARTINGLANE = 5;
 	Boolean simulation = true;
 	public static TrafficModel model = new TrafficModel();
 	public Car debuggedCar;
-	public Object[] personalityValues = new Object[5];
+	public Object[] personalityValues = new Object[6];
+	public BoundingBox[] startingLocs = new BoundingBox[TrafficConstants.getInstance().LANENUM];
+	public boolean[] isOpen = new boolean[TrafficConstants.getInstance().LANENUM];
 
 
 	Random r = new Random();
@@ -49,18 +51,27 @@ public class TrafficModel
 		}  
 
 		 */
-
+		
+		for(int i = 0; i < TrafficConstants.getInstance().getCARNUM(); i++){
+			
+			
+						
+			
+		}
+			
+			
 		Object[] firstCarPersonality = PersonalityGenerator();
 		float speedAdjust = 0;
 		if (TrafficConstants.getInstance().GLOBALSIMVIEW==false) {
 			speedAdjust = (float) firstCarPersonality[COMFORTABLESPEED];
 		}
-		cars[0] = new Car(TrafficConstants.getInstance().STARTX+50, TrafficConstants.getInstance().BOTLANESTARTY, 0, firstCarPersonality, speedAdjust);
-		cars[1] = new Car(TrafficConstants.getInstance().STARTX+50, TrafficConstants.getInstance().TOPLANESTARTY, 1, PersonalityGenerator(), speedAdjust);
-		cars[2] = new Car(TrafficConstants.getInstance().STARTX + 150, TrafficConstants.getInstance().BOTLANESTARTY, 2, PersonalityGenerator(), speedAdjust);
-		cars[3] = new Car(TrafficConstants.getInstance().STARTX + 150, TrafficConstants.getInstance().TOPLANESTARTY, 3, PersonalityGenerator(), speedAdjust);
+		cars[0] = new Car(0, firstCarPersonality, speedAdjust);
+		cars[1] = new Car(1, PersonalityGenerator(), speedAdjust);
+		cars[2] = new Car(2, PersonalityGenerator(), speedAdjust);
+		cars[3] = new Car(3, PersonalityGenerator(), speedAdjust);
+		cars[3].wantToChangeLanes = true;
 		//The fifth car below demonstrates the new random-location car constructor.
-		cars[4] = new Car(4, PersonalityGenerator(), speedAdjust);
+		//cars[4] = new Car(4, PersonalityGenerator(), speedAdjust);
 		
 		TrafficConstants.getInstance().isModelReady = true;
 	}
@@ -92,6 +103,56 @@ public class TrafficModel
 		}
 		return carBB;
 	}
+	
+	private int chooseStartLane() {
+		int startLane = r.nextInt(TrafficConstants.getInstance().getLANENUM());
+		return startLane;
+		
+	}
+	
+	/*void makeStartingLocBB(){
+		
+		for(int i = 0; i < TrafficConstants.getInstance().LANENUM; i++){
+			
+			startingLocs[i] = new BoundingBox(-TrafficConstants.getInstance().CARWIDTH, ((i+1)*100) + 50, TrafficConstants.getInstance().CARWIDTH, TrafficConstants.getInstance().CARHEIGHT);
+			
+		}
+		
+		
+	}
+	
+
+	boolean isOpen(int laneNum){
+		
+		for(Car car: cars){
+			
+			for(int i = 0; i < TrafficConstants.getInstance().LANENUM; i++){
+				
+				if(car.getBoundingBox().intersects(startingLocs[i])){
+					
+					isOpen[i] = true;
+					
+				} else{
+					
+					isOpen[i] = false;
+				}
+				
+			}
+			
+			
+		}
+		
+		if(isOpen[laneNum] == true){
+			
+			return true;
+		} else{
+			
+			return false;
+		}
+			
+		
+	}
+		*/
 
 	public Object[] PersonalityGenerator(){ // We're using THIS method to get the values http://www.javamex.com/tutorials/random_numbers/gaussian_distribution_2.shtml
 
@@ -123,6 +184,8 @@ public class TrafficModel
 		
 		personalityValues[BUBBLESIZE] = bubbleSize;
 		
+		personalityValues[STARTINGLANE] = chooseStartLane();
+		
 		return personalityValues;
 	}
 
@@ -136,32 +199,6 @@ public class TrafficModel
 	
 	}
 	
-	public boolean personalityValueChecker(int personalityTrait, int value){
-		
-		if(personalityTrait == AGGRESSION){
-			
-			if(value > 100 || value < 0){
-				
-				return false;
-			} 
-			
-		} else if (personalityTrait == ATTENTION){
-			
-			if(value > 100 || value < 85){
-				
-				return false;
-				
-			}
-		} else if(personalityTrait == COMFORTABLESPEED){
-			
-			
-		} else if(personalityTrait == BUBBLESIZE){
-			
-			
-		}
-		
-		return true;
-	}
 
 	public void debugCarAt(int x, int y)
 	{
@@ -174,6 +211,9 @@ public class TrafficModel
 			}
 		}
 	}
+	
+	
+	
 
 }
 
