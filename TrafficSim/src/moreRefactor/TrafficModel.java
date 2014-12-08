@@ -21,6 +21,7 @@ public class TrafficModel
 	public Object[] personalityValues = new Object[6];
 	public BoundingBox[] startingLocs = new BoundingBox[TrafficConstants.getInstance().LANENUM];
 	public boolean[] isOpen = new boolean[TrafficConstants.getInstance().LANENUM];
+	public float speedAdjust = 0;
 
 
 	Random r = new Random();
@@ -61,7 +62,6 @@ public class TrafficModel
 			
 			
 		Object[] firstCarPersonality = PersonalityGenerator();
-		float speedAdjust = 0;
 		if (TrafficConstants.getInstance().GLOBALSIMVIEW==false) {
 			speedAdjust = (float) firstCarPersonality[COMFORTABLESPEED];
 		}
@@ -99,6 +99,14 @@ public class TrafficModel
 			float firstCarDifference = firstCarPosition - cars[0].getxCoord();
 			for(Car car: cars) {
 				car.setxCoord(car.getxCoord() + firstCarDifference);
+			}
+			if (cars[0].isCrashed(carBB) == true) {
+				TrafficConstants.getInstance().setMEDIANSPEED(0);
+				TrafficConstants.getInstance().setGLOBALSIMVIEW(true);
+				for (Car car: cars) {
+					car.comfortableSpeed += speedAdjust;
+					car.currentSpeed += speedAdjust;
+				}
 			}
 		}
 		return carBB;

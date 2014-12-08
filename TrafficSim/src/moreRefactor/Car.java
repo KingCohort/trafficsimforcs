@@ -71,12 +71,13 @@ public class Car
 		whatLane = (Integer)personalityValues[STARTINGLANE];
 		yCoord = 150 + (Integer)personalityValues[STARTINGLANE]* 100;
 		if (TrafficConstants.getInstance().GLOBALSIMVIEW==false) {
+			
 			//Fixed-location cars start towards the middle of the highway, to better see cars around them.
 			this.xCoord += 960;
 			comfortableSpeed = comfortableSpeed - speedAdjust;
 		}
 	}
-	
+
 	//Random-location constructor.
 	public Car(int arrayValue, Object[] personalityValues, float speedAdjust)
 	{
@@ -91,7 +92,7 @@ public class Car
 		comfortableSpeed = (Float)personalityValues[COMFORTABLESPEED];
 		attention = (Integer)personalityValues[ATTENTION];
 		comfortBubble = (Double)personalityValues[BUBBLESIZE];
-		
+
 		if (TrafficConstants.getInstance().GLOBALSIMVIEW==false) {
 			if (this.arrayValue == 0) {
 				//If this is the first car, have it start at the middle of the highway, to better see cars around it.
@@ -102,7 +103,7 @@ public class Car
 	}
 
 
-	
+
 	public float getxCoord()
 	{
 		return xCoord;
@@ -128,7 +129,7 @@ public class Car
 		this.comfortableSpeed = speed;
 
 	}
-	
+
 
 
 
@@ -166,48 +167,43 @@ public class Car
 
 			if(personalBubbleCheckerBools[LEFT]){				
 
-				
+
 				if(currentSpeed + 1 < comfortableSpeed){
-					
+
 					wantToChangeLanes = true;
-					
+
 				}
-				
+
 				if(aggression > statBehaviorCheck.nextInt(TrafficConstants.getInstance().UPPERBOUND)){
-					
+
 					speedUp();
-					
-	
+
+
 				} else{
-					
+
 					normalizeSpeed();
 				}
 
 			} 
 
 			if(wantToChangeLanes){	
-				
+
 				if(aggression > statBehaviorCheck.nextInt(TrafficConstants.getInstance().UPPERBOUND)){
-					
+
 					speedUp();
-					
+
 				} else{
-					
+
 					slowDown();
 				}
-				
+
 				changeLanes();
 			} 
 
 		}else{
 			currentSpeed = 0-TrafficConstants.getInstance().MEDIANSPEED;
 			comfortableSpeed = 0-TrafficConstants.getInstance().MEDIANSPEED;
-
-			if (arrayValue == 0) {
-				TrafficConstants.getInstance().setMEDIANSPEED(0);
-			}
 		}
-
 	}
 
 
@@ -222,6 +218,10 @@ public class Car
 
 	void move()
 	{
+		//If looping mode is on, return car to start of highway once it disappears off right edge.
+		if (TrafficConstants.getInstance().LOOPING == true && getxCoord() > 1920) {
+			xCoord = TrafficConstants.getInstance().STARTX-TrafficConstants.getInstance().CARWIDTH;
+		}
 		xCoord = xCoord + currentSpeed;
 	}
 
@@ -232,7 +232,7 @@ public class Car
 		} else{
 			currentSpeed = 1;
 		}
-		
+
 		methodRunning += "- slowing Down";
 
 	}
@@ -249,7 +249,7 @@ public class Car
 		if(surroundingCarLocations[UP] == false && whatLane != 0){
 
 			whatLane = whatLane + 1;
-			
+
 			moveUpOneLane();
 
 		} else if (surroundingCarLocations[DOWN] == false && whatLane != 4){
