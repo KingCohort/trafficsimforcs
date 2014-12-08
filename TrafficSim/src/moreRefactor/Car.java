@@ -233,14 +233,14 @@ public class Car
 			currentSpeed = 1;
 		}
 		
-		methodRunning = "slow Down";
+		methodRunning += "- slowing Down";
 
 	}
 
 	void speedUp(){
 		currentSpeed = (float) (currentSpeed + 0.1);
 		xCoord = xCoord + currentSpeed;
-		methodRunning = "speed Up";
+		methodRunning += "- speeding Up";
 	}
 
 
@@ -269,7 +269,7 @@ public class Car
 	}
 
 	void moveDownOneLane(){
-		methodRunning = "Moving down one lane";
+		methodRunning += ": Moving down one lane";
 		if(getyCoord() < 150 + whatLane * 100){		
 
 			yCoord = yCoord + 2;
@@ -282,7 +282,7 @@ public class Car
 	}
 
 	void moveUpOneLane(){
-		methodRunning = "Moving up one lane";
+		methodRunning += ": Moving up one lane";
 		if(getyCoord() > 150 + whatLane * 100){
 
 			yCoord = yCoord - 2;
