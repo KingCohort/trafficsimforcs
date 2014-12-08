@@ -37,6 +37,7 @@ class TrafficConstants
 	int CARWIDTH = 80; 
 	int CARHEIGHT = 40;
 	boolean GLOBALSIMVIEW = true; //is it global view or single car data, when false is follow view, true is fixed
+	boolean LOOPING=false;
 
 	//called by GUI on start, input the relevent data from the GUI into the constructor
 	// getters and setters for all values from the GUI

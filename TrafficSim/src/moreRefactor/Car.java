@@ -435,6 +435,8 @@ public class Car
 
 		JOptionPane.showMessageDialog(TrafficView.view, out);
 	}
+	
+	
 
 }
 
