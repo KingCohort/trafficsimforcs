@@ -2,6 +2,9 @@
 
 package moreRefactor;
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -199,6 +202,12 @@ public class TrafficModel
 
 	public void start()
 	{
+		try {
+			clearFile();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		createCars();
 		do{
 
@@ -221,7 +230,13 @@ public class TrafficModel
 	}
 	
 	
-	
+	public void clearFile()throws IOException{
+		FileWriter write = new FileWriter("log.txt", false);
+		PrintWriter print = new PrintWriter(write);
+		print.printf("","");
+		print.close();
+
+	}
 
 }
 

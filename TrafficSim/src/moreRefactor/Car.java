@@ -4,6 +4,9 @@ package moreRefactor;
 
 import java.util.ArrayList;
 import java.util.Random;
+import java.io.FileWriter;
+import java.io.PrintWriter;
+import java.io.IOException;
 
 import javax.swing.JOptionPane;
 
@@ -223,6 +226,13 @@ public class Car
 			xCoord = TrafficConstants.getInstance().STARTX-TrafficConstants.getInstance().CARWIDTH;
 		}
 		xCoord = xCoord + currentSpeed;
+		
+		try {
+			writeToFile("Car " + arrayValue + " has moved");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	void slowDown(){
@@ -234,13 +244,24 @@ public class Car
 		}
 
 		methodRunning += "- slowing Down";
-
+		try {
+			writeToFile("Car " + arrayValue + " has slowed");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	void speedUp(){
 		currentSpeed = (float) (currentSpeed + 0.1);
 		xCoord = xCoord + currentSpeed;
 		methodRunning += "- speeding Up";
+		try {
+			writeToFile("Car " + arrayValue + " has sped up");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 
@@ -436,8 +457,18 @@ public class Car
 		JOptionPane.showMessageDialog(TrafficView.view, out);
 	}
 	
+//	private String carLog;
+//	private boolean append_to_file = false;
 	
+	public void writeToFile(String TextLine) throws IOException{
+		FileWriter write = new FileWriter("log.txt", true);
+		PrintWriter print = new PrintWriter(write);
+		
+		print.printf("%s"+"%n",TextLine);
+		print.close();
+	}
 
+	
 }
 
 
