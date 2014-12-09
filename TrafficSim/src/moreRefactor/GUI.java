@@ -53,8 +53,8 @@ public class GUI extends JFrame {
 	
 	JCheckBox followCheckBox;
 	JCheckBox loopCheckBox;
-	boolean falseSet = false;
-	boolean trueSet = true;
+	boolean setFalse = false;
+	boolean setTrue = true;
 
 	/**
 	 * Launch the application.
@@ -75,22 +75,22 @@ public class GUI extends JFrame {
 							// set view
 							if (followCheckBox.isSelected())
 							{
-								TrafficConstants.getInstance().setGLOBALSIMVIEW(falseSet);
+								TrafficConstants.getInstance().setGLOBALSIMVIEW(setFalse);
 							}
 							else
 							{
-								TrafficConstants.getInstance().setGLOBALSIMVIEW(trueSet);
+								TrafficConstants.getInstance().setGLOBALSIMVIEW(setTrue);
 							}
 							
-//							// set loop
-//							if ()
-//							{
-//								
-//							}
-//							else
-//							{
-//								
-//							}
+							// set loop
+							if (loopCheckBox.isSelected())
+							{
+								TrafficConstants.getInstance().setLOOPING(setFalse);
+							}
+							else
+							{
+								TrafficConstants.getInstance().setLOOPING(setTrue);
+							}
 
 							PApplet.main("moreRefactor.TrafficView");
 
@@ -295,6 +295,7 @@ public class GUI extends JFrame {
 		gbc_lblNewLabel_2.gridx = 4;
 		gbc_lblNewLabel_2.gridy = 8;
 		contentPane.add(lblNewLabel_2, gbc_lblNewLabel_2);
+		
 		
 		JLabel lblLoopSimulation = new JLabel("Loop Simulation");
 		lblLoopSimulation.setFont(new Font("Tahoma", Font.PLAIN, 14));

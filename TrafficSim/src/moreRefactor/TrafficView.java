@@ -76,7 +76,7 @@ public class TrafficView extends PApplet
 			background(0, 0, 0);
 			image(loadGif, 123, 123);
 
-		} else{
+		} else {
 			//System.out.println("Now drawing");
 			background(0, 255, 0);
 			createHighway();
@@ -104,7 +104,7 @@ public class TrafficView extends PApplet
 		
 		for (BoundingBox bb : carLocs)
 		{
-			//rect((float)bb.getMinX(), (float)bb.getMinY(), (float)bb.getWidth(), (float)bb.getHeight()); //
+			//rect((float)bb.getMinX(), (float)bb.getMinY(), (float)bb.getWidth(), (float)bb.getHeight());
 			image(RAVE, (float)bb.getMinX(), (float)bb.getMinY());
 		}
 	}
