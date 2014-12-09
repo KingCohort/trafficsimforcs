@@ -57,9 +57,7 @@ public class TrafficModel
 		 */
 		
 		for(int i = 0; i < TrafficConstants.getInstance().getCARNUM(); i++){
-			
-			
-						
+				
 			
 		}
 			
@@ -78,11 +76,18 @@ public class TrafficModel
 		
 		TrafficConstants.getInstance().isModelReady = true;
 	}
+	
+	public void writeToFile(String TextLine) throws IOException{
+		FileWriter write = new FileWriter("log.txt", true);
+		PrintWriter print = new PrintWriter(write);
+		
+		print.printf("%s"+"%n",TextLine);
+		print.close();
+	}
 
 
 	// 	java has bounding boxes now yay
-	public ArrayList<BoundingBox> runSimulation()
-	{	
+	public ArrayList<BoundingBox> runSimulation(){	
 		carBB.clear();
 		for (Car car : cars)
 		{
@@ -97,6 +102,12 @@ public class TrafficModel
 		}
 		for(Car car: cars){
 			car.makeDecision(carBB); 
+			try {
+				writeToFile(car.toString());
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		if (TrafficConstants.getInstance().GLOBALSIMVIEW==false) {
 			float firstCarDifference = firstCarPosition - cars[0].getxCoord();
@@ -121,49 +132,7 @@ public class TrafficModel
 		
 	}
 	
-	/*void makeStartingLocBB(){
-		
-		for(int i = 0; i < TrafficConstants.getInstance().LANENUM; i++){
-			
-			startingLocs[i] = new BoundingBox(-TrafficConstants.getInstance().CARWIDTH, ((i+1)*100) + 50, TrafficConstants.getInstance().CARWIDTH, TrafficConstants.getInstance().CARHEIGHT);
-			
-		}
-		
-		
-	}
-	
 
-	boolean isOpen(int laneNum){
-		
-		for(Car car: cars){
-			
-			for(int i = 0; i < TrafficConstants.getInstance().LANENUM; i++){
-				
-				if(car.getBoundingBox().intersects(startingLocs[i])){
-					
-					isOpen[i] = true;
-					
-				} else{
-					
-					isOpen[i] = false;
-				}
-				
-			}
-			
-			
-		}
-		
-		if(isOpen[laneNum] == true){
-			
-			return true;
-		} else{
-			
-			return false;
-		}
-			
-		
-	}
-		*/
 
 	public Object[] PersonalityGenerator(){ // We're using THIS method to get the values http://www.javamex.com/tutorials/random_numbers/gaussian_distribution_2.shtml
 
