@@ -37,7 +37,7 @@ class TrafficConstants
 	int CARWIDTH = 80; 
 	int CARHEIGHT = 40;
 	boolean GLOBALSIMVIEW = true; //is it global view or single car data, when false is follow view, true is fixed
-	boolean LOOPING = false; // false looping is off
+	boolean LOOPING = true; //do the cars return to the left side of the screen after disappearing off the right
 
 	//called by GUI on start, input the relevent data from the GUI into the constructor
 	// getters and setters for all values from the GUI
@@ -86,23 +86,18 @@ class TrafficConstants
 	{
 		return GLOBALSIMVIEW;
 	}
-	
-	void setLOOPING(boolean looping)
-	{
-		LOOPING = looping;
-	}
-	
-	boolean getLOOPING()
-	{
-		return LOOPING;
-	}
+
+	void setLOOPING(boolean bool) {
+		LOOPING = bool;
+	}	
 
 	int MEDIANSPEED = 0;
 	int TOPLANESTARTY = 150;
 	int BOTLANESTARTY = 250;
 	int STARTX = 0; // negative to start off screen. Will alter at later date
 	int UPPERBOUND = 101;
-	float BASESPEED = 1;	
+	float BASESPEED = 1;
+
 	
 }
 

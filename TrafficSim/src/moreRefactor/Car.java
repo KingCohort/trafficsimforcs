@@ -40,6 +40,7 @@ public class Car
 
 	int arrayValue;
 	ArrayList<BoundingBox> carSurroundingBB = new ArrayList<BoundingBox>();
+	Car[] cars;
 
 	boolean checkFrontTesterBool;
 
@@ -57,10 +58,14 @@ public class Car
 	//Since all cars move relative to the first car, all car comfortable speeds are reduced by the first car's comfortable speed
 	//in the constructors below.
 	float speedAdjust = 0;
+	//inQueue determines whether or not the car is in the creation queue, used if the car is created on top of another.
+	boolean inQueue = false;
+	boolean leavingQueue = false;
+	int queueTimer = 25;
 
 
 	//Fixed-location constructor.
-	public Car(float xCoord, float yCoord, int arrayValue, Object[] personalityValues, float speedAdjust)
+	public Car(float xCoord, float yCoord, int arrayValue, Object[] personalityValues, float speedAdjust, ArrayList<BoundingBox> carBB)
 	{
 
 		this.xCoord = xCoord;
@@ -74,15 +79,23 @@ public class Car
 		whatLane = (Integer)personalityValues[STARTINGLANE];
 		yCoord = 150 + (Integer)personalityValues[STARTINGLANE]* 100;
 		if (TrafficConstants.getInstance().GLOBALSIMVIEW==false) {
-			
+
 			//Fixed-location cars start towards the middle of the highway, to better see cars around them.
 			this.xCoord += 960;
 			comfortableSpeed = comfortableSpeed - speedAdjust;
 		}
+		for(int i = 0; i < carBB.size(); i++){
+
+			if(i == arrayValue){
+
+			}else if(getBoundingBox().intersects(carBB.get(i))){
+				inQueue = true;
+			}
+		}
 	}
 
 	//Random-location constructor.
-	public Car(int arrayValue, Object[] personalityValues, float speedAdjust)
+	public Car(int arrayValue, Object[] personalityValues, float speedAdjust, ArrayList<BoundingBox> carBB)
 	{
 		//Creates the car just offscreen, then sets its starting Y to the middle of a random lane based on how many are available.
 		//Y coordinate must be hardcoded since the lane height and highway start Y are only accessible from within TrafficView at the moment.
@@ -102,6 +115,15 @@ public class Car
 				this.xCoord += 960;
 			}
 			comfortableSpeed = comfortableSpeed - speedAdjust;
+		}
+		for(int i = 0; i < carBB.size(); i++){
+
+			if(i == arrayValue){
+				//Check yourself before you shrek yourself
+
+			}else if(getBoundingBox().intersects(carBB.get(i))){
+				inQueue = true;
+			}
 		}
 	}
 
@@ -136,76 +158,87 @@ public class Car
 
 
 
-	void makeDecision(ArrayList<BoundingBox> carLoc){	
-		surroundingCarLocations = checkOtherCars(carLoc);
-		if(attention > statBehaviorCheck.nextInt(TrafficConstants.getInstance().UPPERBOUND)){
-			testerAttention = true;
-			personalBubbleMaker();
-			personalBubbleViolation(carLoc);
-		} else{
-			testerAttention = false;
-		}
-		if(!isCrashed(carLoc)){
-
-			move();
-
-			if(personalBubbleCheckerBools[RIGHT]){
-				slowDown();
-				if(aggression < statBehaviorCheck.nextInt(TrafficConstants.getInstance().UPPERBOUND)){
-					wantToChangeLanes = true;
-				}
-
+	void makeDecision(ArrayList<BoundingBox> carLoc, Car[] cars){
+		//If the car isn't about to leave the queue, it can act normally.
+		if (!leavingQueue) {
+			surroundingCarLocations = checkOtherCars(carLoc);
+			if(attention > statBehaviorCheck.nextInt(TrafficConstants.getInstance().UPPERBOUND)){
+				testerAttention = true;
+				personalBubbleMaker();
+				personalBubbleViolation(carLoc);
 			} else{
-
-				normalizeSpeed();
+				testerAttention = false;
 			}
+			if(!isIntersectingOtherCar(cars)){
 
-			if(personalBubbleCheckerBools[UP]){
-				moveDownOneLane();
-			}
+				move();
 
-			if(personalBubbleCheckerBools[DOWN]){
-				moveUpOneLane();
-			} 
-
-			if(personalBubbleCheckerBools[LEFT]){				
-
-
-				if(currentSpeed + 1 < comfortableSpeed){
-
-					wantToChangeLanes = true;
-
-				}
-
-				if(aggression > statBehaviorCheck.nextInt(TrafficConstants.getInstance().UPPERBOUND)){
-
-					speedUp();
-
+				if(personalBubbleCheckerBools[RIGHT]){
+					slowDown();
+					if(aggression < statBehaviorCheck.nextInt(TrafficConstants.getInstance().UPPERBOUND)){
+						wantToChangeLanes = true;
+					}
 
 				} else{
 
 					normalizeSpeed();
 				}
 
-			} 
-
-			if(wantToChangeLanes){	
-
-				if(aggression > statBehaviorCheck.nextInt(TrafficConstants.getInstance().UPPERBOUND)){
-
-					speedUp();
-
-				} else{
-
-					slowDown();
+				if(personalBubbleCheckerBools[UP]){
+					moveDownOneLane();
 				}
 
-				changeLanes();
-			} 
+				if(personalBubbleCheckerBools[DOWN]){
+					moveUpOneLane();
+				} 
 
-		}else{
-			currentSpeed = 0-TrafficConstants.getInstance().MEDIANSPEED;
-			comfortableSpeed = 0-TrafficConstants.getInstance().MEDIANSPEED;
+				if(personalBubbleCheckerBools[LEFT]){				
+
+
+					if(currentSpeed + 1 < comfortableSpeed){
+
+						wantToChangeLanes = true;
+
+					}
+
+					if(aggression > statBehaviorCheck.nextInt(TrafficConstants.getInstance().UPPERBOUND)){
+
+						speedUp();
+
+
+					} else{
+
+						normalizeSpeed();
+					}
+
+				} 
+
+				if(wantToChangeLanes){	
+
+					if(aggression > statBehaviorCheck.nextInt(TrafficConstants.getInstance().UPPERBOUND)){
+
+						speedUp();
+
+					} else{
+
+						slowDown();
+					}
+
+					changeLanes();
+				} 
+
+			}else{
+				currentSpeed = 0-TrafficConstants.getInstance().MEDIANSPEED;
+				comfortableSpeed = 0-TrafficConstants.getInstance().MEDIANSPEED;
+			}
+		}
+		else {
+			//Let car go after 1 second of waiting.
+			queueTimer -= 1;
+			if (queueTimer==0) {
+				queueTimer = 25;
+				leavingQueue = false;
+			}
 		}
 	}
 
@@ -223,9 +256,17 @@ public class Car
 	{
 		//If looping mode is on, return car to start of highway once it disappears off right edge.
 		if (TrafficConstants.getInstance().LOOPING == true && getxCoord() > 1920) {
-			xCoord = TrafficConstants.getInstance().STARTX-TrafficConstants.getInstance().CARWIDTH;
+			//-20 because reasons
+			xCoord = TrafficConstants.getInstance().STARTX-TrafficConstants.getInstance().CARWIDTH-20;
+			inQueue = true;
 		}
 		xCoord = xCoord + currentSpeed;
+		try {
+			writeToFile("Car " + arrayValue + " has moved");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	void slowDown(){
@@ -394,22 +435,20 @@ public class Car
 		
 	}
 
-	boolean isCrashed(ArrayList<BoundingBox> carLocs){
-		methodRunning = "This Car has crashed";
-
-		for(int i = 0; i < carLocs.size(); i++){
+	boolean isIntersectingOtherCar(Car[] cars){
+		//Checks if there are cars that aren't in the queue intersecting this car.
+		//Used for crash detection and queues.
+		for(int i = 0; i < cars.length; i++){
 
 			if(i == arrayValue){
 				//Not checking myself dog
 
-			}else if(getBoundingBox().intersects(carLocs.get(i))){
-
+			}else if(getBoundingBox().intersects(cars[i].getBoundingBox()) && !cars[i].inQueue){
 				return true;
 			}
 		}
 		return false;
 	}
-
 
 	//DEBUG METHODS
 
@@ -426,7 +465,7 @@ public class Car
 		out+="Car Number " + arrayValue + "\n";
 		out+= "Method being run: " + methodRunning + "\n";
 		out+= "XY Coord=" + getxCoord() + "," + getyCoord()+"\n";	
-		out+="Have I crashed? " + isCrashed(TrafficModel.model.carBB) + "\n";
+		out+="Have I crashed? " + isIntersectingOtherCar(TrafficModel.model.cars) + "\n";
 		out+="Am I paying attention?" + testerAttention + "\n";
 		out+="Am I changing Lanes? ="+isChangingLanes+"\n";
 		out+="Aggression value is " + aggression + "\n";
@@ -446,11 +485,21 @@ public class Car
 
 		JOptionPane.showMessageDialog(TrafficView.view, out);
 	}
+
+	//	private String carLog;
+	//	private boolean append_to_file = false;
+
+	public void writeToFile(String TextLine) throws IOException{
+		FileWriter write = new FileWriter("log.txt", true);
+		PrintWriter print = new PrintWriter(write);
+
+		print.printf("%s"+"%n",TextLine);
+		print.close();
+	}
 	
 //	private String carLog;
 //	private boolean append_to_file = false;
 
-	
 }
 
 
