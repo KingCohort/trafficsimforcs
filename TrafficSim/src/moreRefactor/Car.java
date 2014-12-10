@@ -156,7 +156,11 @@ public class Car
 	}
 
 
-
+	String printCarStats(){
+		
+		return 	"Aggression value is " + aggression + "\n \t \t" + "Comfortable Speed is " + comfortableSpeed + "\n \t \t";
+		
+	}
 
 	void makeDecision(ArrayList<BoundingBox> carLoc, Car[] cars){
 		//If the car isn't about to leave the queue, it can act normally.
@@ -261,12 +265,7 @@ public class Car
 			inQueue = true;
 		}
 		xCoord = xCoord + currentSpeed;
-		try {
-			writeToFile("Car " + arrayValue + " has moved");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		
 	}
 
 	void slowDown(){
@@ -431,7 +430,7 @@ public class Car
 	
 	public String toString(){
 		
-		return "";
+		return "Car Number: " + arrayValue + "- Current Speed: " + currentSpeed + " and " + methodRunning;
 		
 	}
 
@@ -486,19 +485,7 @@ public class Car
 		JOptionPane.showMessageDialog(TrafficView.view, out);
 	}
 
-	//	private String carLog;
-	//	private boolean append_to_file = false;
 
-	public void writeToFile(String TextLine) throws IOException{
-		FileWriter write = new FileWriter("log.txt", true);
-		PrintWriter print = new PrintWriter(write);
-
-		print.printf("%s"+"%n",TextLine);
-		print.close();
-	}
-	
-//	private String carLog;
-//	private boolean append_to_file = false;
 
 }
 
