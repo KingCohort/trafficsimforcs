@@ -158,7 +158,7 @@ public class Car
 
 	String printCarStats(){
 		
-		return 	"Aggression value is " + aggression + "\n \t \t" + "Comfortable Speed is " + comfortableSpeed + "\n \t \t";
+		return "Car:" + arrayValue + "\n \t \t Aggression value is " + aggression + "\n \t \t" + "Comfortable Speed is " + comfortableSpeed + "\n \t \t";
 		
 	}
 

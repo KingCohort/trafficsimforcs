@@ -22,8 +22,8 @@ public class TrafficModel
 	public static TrafficModel model = new TrafficModel();
 	public Car debuggedCar;
 	public Object[] personalityValues = new Object[6];
-	public BoundingBox[] startingLocs = new BoundingBox[TrafficConstants.getInstance().LANENUM];
-	public boolean[] isOpen = new boolean[TrafficConstants.getInstance().LANENUM];
+	public BoundingBox[] startingLocs = new BoundingBox[TrafficConstants.getInstance().laneNum];
+	public boolean[] isOpen = new boolean[TrafficConstants.getInstance().laneNum];
 	public float speedAdjust = 0;
 	public boolean isSafe = true;
 
@@ -56,11 +56,7 @@ public class TrafficModel
 		}  
 
 		 */
-		for(int i = 0; i < TrafficConstants.getInstance().getCARNUM(); i++){
-
-
-		}
-
+	
 
 		Object[] firstCarPersonality = PersonalityGenerator();
 		if (TrafficConstants.getInstance().GLOBALSIMVIEW==false) {
@@ -70,6 +66,12 @@ public class TrafficModel
 		carBB.add(new BoundingBox(cars[0].xCoord,cars[0].yCoord,cars[0].width,cars[0].height));
 		for(int i = 1; i < TrafficConstants.getInstance().getCARNUM(); i++){
 			cars[i] = new Car(i, PersonalityGenerator(), speedAdjust, carBB);
+			try {
+				writeToFile(cars[i].printCarStats());
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			carBB.add(new BoundingBox(cars[i].xCoord,cars[i].yCoord,cars[i].width,cars[i].height));
 		}
 
@@ -96,6 +98,7 @@ public class TrafficModel
 		print.printf("%s"+"%n",TextLine);
 		print.close();
 	}
+	
 
 
 	// 	java has bounding boxes now yay
@@ -148,7 +151,7 @@ public class TrafficModel
 	}
 
 	private int chooseStartLane() {
-		int startLane = r.nextInt(TrafficConstants.getInstance().getLANENUM());
+		int startLane = r.nextInt(TrafficConstants.getInstance().getlaneNum());
 		return startLane;
 
 	}
@@ -192,12 +195,7 @@ public class TrafficModel
 
 	public void start()
 	{
-		try {
-			clearFile();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		
 		createCars();
 		do{
 
@@ -220,12 +218,12 @@ public class TrafficModel
 	}
 
 
-	public void clearFile()throws IOException{
+	/* public void clearFile()throws IOException{
 		FileWriter write = new FileWriter("log.txt", false);
 		PrintWriter print = new PrintWriter(write);
 		print.printf("","");
 		print.close();
 
-	}
+	} */
 
 }

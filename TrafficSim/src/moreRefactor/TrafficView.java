@@ -125,7 +125,7 @@ public class TrafficView extends PApplet
 		//int theHighwayOffsetVariable = 50;		// the amount of pixels the highway is drawn down the y-axis from the (0, 0) point
 
 		// lane vars
-		int laneNumber = TrafficConstants.getInstance().getLANENUM(); // get lane number from gui
+		int laneNumber = TrafficConstants.getInstance().getlaneNum(); // get lane number from gui
 		int laneHeight = 100; // height (y-axis) of the lane
 		//int laneWidth = displayWidth; // width (x-axis) of the lane
 

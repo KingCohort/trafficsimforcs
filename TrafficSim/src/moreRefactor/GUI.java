@@ -159,7 +159,7 @@ public class GUI extends JFrame {
 			public void stateChanged(ChangeEvent e)
 			{
 				laneSpinnerValue = (int) ((JSpinner)e.getSource()).getValue();
-				TrafficConstants.getInstance().setLANENUM(laneSpinnerValue);
+				TrafficConstants.getInstance().setlaneNum(laneSpinnerValue);
 			}
 		});
 

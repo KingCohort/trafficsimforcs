@@ -32,12 +32,13 @@ class TrafficConstants
 	// from GUI, vars may need to be initialized to an actual number because when pulled 
 	// 		from gui and not changed there is no default value
 	int CARNUM = 2; // defaults to 2 cars
-	int LANENUM = 2; // defaults to 2 lanes
+	int laneNum = 2; // defaults to 2 lanes
 	int AGGRESSION = 50; // defaults to an average aggression of a moderate amount, 50 is the middle value
 	int CARWIDTH = 80; 
 	int CARHEIGHT = 40;
 	boolean GLOBALSIMVIEW = true; //is it global view or single car data, when false is follow view, true is fixed
 	boolean LOOPING = true; //do the cars return to the left side of the screen after disappearing off the right
+	String fileName;
 
 	//called by GUI on start, input the relevent data from the GUI into the constructor
 	// getters and setters for all values from the GUI
@@ -51,14 +52,19 @@ class TrafficConstants
 		return CARNUM;
 	}
 	
-	void setLANENUM(int laneNum)
+	void setFileName(String fileName){
+		
+		this.fileName = fileName;
+	}
+	
+	void setlaneNum(int laneNum)
 	{
-		LANENUM = laneNum;
+		this.laneNum = laneNum;
 	}
 
-	int getLANENUM()
+	int getlaneNum()
 	{
-		return LANENUM;
+		return laneNum;
 	}
 	
 	void setAGGRESSION(int aggression)
