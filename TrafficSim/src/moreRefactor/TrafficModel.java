@@ -6,7 +6,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 import javafx.geometry.BoundingBox;
@@ -22,8 +21,8 @@ public class TrafficModel
 	public static TrafficModel model = new TrafficModel();
 	public Car debuggedCar;
 	public Object[] personalityValues = new Object[6];
-	public BoundingBox[] startingLocs = new BoundingBox[TrafficConstants.getInstance().laneNum];
-	public boolean[] isOpen = new boolean[TrafficConstants.getInstance().laneNum];
+	public BoundingBox[] startingLocs = new BoundingBox[TrafficConstants.getInstance().getLANENUM()];
+	public boolean[] isOpen = new boolean[TrafficConstants.getInstance().getLANENUM()];
 	public float speedAdjust = 0;
 	public boolean isSafe = true;
 
@@ -91,7 +90,8 @@ public class TrafficModel
 		TrafficConstants.getInstance().isModelReady = true;
 	}
 
-	public void writeToFile(String TextLine) throws IOException{
+	public void writeToFile(String TextLine) throws IOException
+	{
 		FileWriter write = new FileWriter("log.txt", true);
 		PrintWriter print = new PrintWriter(write);
 
@@ -151,7 +151,7 @@ public class TrafficModel
 	}
 
 	private int chooseStartLane() {
-		int startLane = r.nextInt(TrafficConstants.getInstance().getlaneNum());
+		int startLane = r.nextInt(TrafficConstants.getInstance().getLANENUM());
 		return startLane;
 
 	}

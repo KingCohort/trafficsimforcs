@@ -4,9 +4,6 @@ package moreRefactor;
 
 import java.util.ArrayList;
 import java.util.Random;
-import java.io.FileWriter;
-import java.io.PrintWriter;
-import java.io.IOException;
 
 import javax.swing.JOptionPane;
 

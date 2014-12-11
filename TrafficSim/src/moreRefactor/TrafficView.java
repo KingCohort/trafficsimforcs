@@ -43,6 +43,7 @@ public class TrafficView extends PApplet
 	PImage blueCarImage = loadImage("blueCar.png");
 	PImage redCarImage = loadImage("redCar.png");
 	PImage greenCarImage = loadImage("greenCar.png");
+	PImage carColor;
 	
 	ArrayList<PImage> images = new ArrayList<PImage>();
 	
@@ -63,7 +64,7 @@ public class TrafficView extends PApplet
 	// processing setup method
 	public void setup()
 	{
-		size(1920, 1080);
+		size(1920, 980);
 		frameRate(25);
 		view = this;
 		loadGif = loadImage("ajax-loader.gif");
@@ -72,11 +73,14 @@ public class TrafficView extends PApplet
 	// processing draw method
 	public void draw()
 	{
-		if(TrafficConstants.getInstance().isModelReady == false){
+		if(TrafficConstants.getInstance().isModelReady == false)
+		{
 			background(0, 0, 0);
 			image(loadGif, 123, 123);
 
-		} else {
+		}
+		else
+		{
 			//System.out.println("Now drawing");
 			background(0, 255, 0);
 			createHighway();
@@ -88,25 +92,25 @@ public class TrafficView extends PApplet
 
 
 	void displayCars(ArrayList<BoundingBox> carLocs)
-	{
-		//System.out.println("Displaying cars");
-		//fill(255, 0, 0);
-		
-		images.add(blueCarImage);
-		images.add(redCarImage);
-		images.add(greenCarImage);
-		Random randomGenerator = new Random();
-		
-		int index = randomGenerator.nextInt(images.size());
-        PImage RAVE = images.get(index);
-		
-		stroke(0);
-		
+	{		
 		for (BoundingBox bb : carLocs)
 		{
 			//rect((float)bb.getMinX(), (float)bb.getMinY(), (float)bb.getWidth(), (float)bb.getHeight());
-			image(RAVE, (float)bb.getMinX(), (float)bb.getMinY());
+			image(carColor(), (float)bb.getMinX(), (float)bb.getMinY());
 		}
+	}
+	
+	public PImage carColor()
+	{
+		images.add(blueCarImage);
+		images.add(redCarImage);
+		images.add(greenCarImage);
+		
+		Random randomGenerator = new Random();
+		int index = randomGenerator.nextInt(images.size());
+        carColor = images.get(index);
+        
+		return carColor;
 	}
 
 	void createHighway()
@@ -125,7 +129,7 @@ public class TrafficView extends PApplet
 		//int theHighwayOffsetVariable = 50;		// the amount of pixels the highway is drawn down the y-axis from the (0, 0) point
 
 		// lane vars
-		int laneNumber = TrafficConstants.getInstance().getlaneNum(); // get lane number from gui
+		int laneNumber = TrafficConstants.getInstance().getLANENUM(); // get lane number from gui
 		int laneHeight = 100; // height (y-axis) of the lane
 		//int laneWidth = displayWidth; // width (x-axis) of the lane
 
