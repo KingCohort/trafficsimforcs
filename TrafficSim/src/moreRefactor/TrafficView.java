@@ -67,24 +67,24 @@ public class TrafficView extends PApplet
 		size(1920, 980);
 		frameRate(25);
 		view = this;
-		loadGif = loadImage("ajax-loader.gif");
+		//loadGif = loadImage("ajax-loader.gif");
 	}
 
 	// processing draw method
 	public void draw()
 	{
+		loadGif = loadImage("ajax-loader.gif");
+		
 		if(TrafficConstants.getInstance().isModelReady == false)
 		{
 			background(0, 0, 0);
 			image(loadGif, 123, 123);
-
 		}
 		else
 		{
-			//System.out.println("Now drawing");
 			background(0, 255, 0);
 			createHighway();
-			//image(carImage, imageCar.getxCoord(), imageCar.getyCoord());
+			
 			carLocs = TrafficModel.model.runSimulation();
 			displayCars(carLocs);
 		}
@@ -95,19 +95,22 @@ public class TrafficView extends PApplet
 	{		
 		for (BoundingBox bb : carLocs)
 		{
-			//rect((float)bb.getMinX(), (float)bb.getMinY(), (float)bb.getWidth(), (float)bb.getHeight());
 			image(carColor(), (float)bb.getMinX(), (float)bb.getMinY());
 		}
 	}
 	
+	// should generate a random car image and passes it into the image method in displayCars()
 	public PImage carColor()
 	{
-		images.add(blueCarImage);
-		images.add(redCarImage);
-		images.add(greenCarImage);
+		int index;
+		Random randomGenerator;
 		
-		Random randomGenerator = new Random();
-		int index = randomGenerator.nextInt(images.size());
+		images.add(blueCarImage);
+//		images.add(redCarImage);
+//		images.add(greenCarImage);
+		
+		randomGenerator = new Random();
+		index = randomGenerator.nextInt(images.size());
         carColor = images.get(index);
         
 		return carColor;
@@ -115,8 +118,6 @@ public class TrafficView extends PApplet
 
 	void createHighway()
 	{
-		//System.out.println("----- LANE NUMBER IN VIEW: " + TrafficConstants.getInstance().getLANENUM());
-
 		// the highway is drawn in layers 
 		// the bottom is drawn first then other layers added on top of that
 		// the background (technically the first layer) is drawn in the draw method

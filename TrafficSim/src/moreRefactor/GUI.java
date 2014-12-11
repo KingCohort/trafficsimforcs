@@ -186,7 +186,7 @@ public class GUI extends JFrame {
 
 		// spinner for number of cars
 		carSpinner = new JSpinner();
-		carSpinner.setModel(new SpinnerNumberModel(2, 2, 20, 1));
+		carSpinner.setModel(new SpinnerNumberModel(2, 2, 30, 1));
 		carSpinner.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		GridBagConstraints gbc_spinner_1 = new GridBagConstraints();
 		gbc_spinner_1.anchor = GridBagConstraints.WEST;
@@ -206,7 +206,7 @@ public class GUI extends JFrame {
 		});
 
 		// EXPLANATION LABEL: explanation for spinner for number of cars
-		JLabel lblChooseANumber_1 = new JLabel("Choose a number 2 - 20.");
+		JLabel lblChooseANumber_1 = new JLabel("Choose a number 2 - 30.");
 		lblChooseANumber_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		GridBagConstraints gbc_lblChooseANumber_1 = new GridBagConstraints();
 		gbc_lblChooseANumber_1.anchor = GridBagConstraints.WEST;

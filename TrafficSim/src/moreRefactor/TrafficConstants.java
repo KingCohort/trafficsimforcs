@@ -12,7 +12,8 @@ class TrafficConstants
 
 	}
 
-	public static synchronized TrafficConstants getInstance(){ // TrafficConstants.getInstance().*; << that is the way you get info from this class
+	public static synchronized TrafficConstants getInstance() // TrafficConstants.getInstance().*; << that is the way you get info from this class
+	{
 
 		if(instance == null){
 			instance = new TrafficConstants();
@@ -23,8 +24,6 @@ class TrafficConstants
 	}
 	
 	boolean isModelReady = false; 
-
-	
 	int defaultAggression = 50;
 	double defaultBubbleSize = 15;
 	
