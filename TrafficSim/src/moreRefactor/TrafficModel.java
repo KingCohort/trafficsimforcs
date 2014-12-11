@@ -168,10 +168,15 @@ public class TrafficModel
 
 		personalityValues[AGGRESSION] = aggression;
 		float comfortableSpeed = (float) (TrafficConstants.getInstance().BASESPEED + (aggression / 10));
-
+		
+		if(comfortableSpeed <= 0){
+			
+			comfortableSpeed = 1;
+		}
+		
 		personalityValues[COMFORTABLESPEED] = comfortableSpeed;
 
-		int attention = r.nextInt(101-85) + 85;
+		int attention = r.nextInt(101-90) + 90;
 
 		personalityValues[ATTENTION] = attention;
 
@@ -184,6 +189,11 @@ public class TrafficModel
 
 			bubbleSize = bubbleSize - comfortableSpeed;
 
+		}
+		
+		if(bubbleSize < 10){
+			
+			bubbleSize = 10;
 		}
 
 		personalityValues[BUBBLESIZE] = bubbleSize;

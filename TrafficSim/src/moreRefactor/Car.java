@@ -28,8 +28,9 @@ public class Car
 	BoundingBox[] myPersonalBubble = new BoundingBox[4];
 	boolean[] personalBubbleCheckerBools = new boolean[4];
 	boolean testerAttention = false;
-	int whatLane; 
-	int laneGoal;
+	int startingLane;
+	int whatLane;
+	BoundingBox aheadView;
 	String carDescription;
 	String methodRunning;
 	Random statBehaviorCheck = new Random(); // statBehaviorCheck.nextInt(TrafficConstants.getInstance().UPPERBOUND) to get the next random number.
@@ -37,7 +38,7 @@ public class Car
 
 	int arrayValue;
 	ArrayList<BoundingBox> carSurroundingBB = new ArrayList<BoundingBox>();
-	Car[] cars;
+	Car[] cars;  
 
 	boolean checkFrontTesterBool;
 
@@ -98,6 +99,7 @@ public class Car
 		//Y coordinate must be hardcoded since the lane height and highway start Y are only accessible from within TrafficView at the moment.
 		xCoord = TrafficConstants.getInstance().STARTX-TrafficConstants.getInstance().CARWIDTH;
 		whatLane = (Integer)personalityValues[STARTINGLANE];
+		startingLane = (Integer)personalityValues[STARTINGLANE];
 		yCoord = 150 + (Integer)personalityValues[STARTINGLANE]* 100;
 		this.arrayValue = arrayValue;
 		this.speedAdjust = speedAdjust;
@@ -154,29 +156,113 @@ public class Car
 
 
 	String printCarStats(){
-		
+
 		return "Car:" + arrayValue + "\n \t \t Aggression value is " + aggression + "\n \t \t" + "Comfortable Speed is " + comfortableSpeed + "\n \t \t";
-		
+
 	}
 
 	void makeDecision(ArrayList<BoundingBox> carLoc, Car[] cars){
+		
+		methodRunning = "";
+		if (!leavingQueue) {
+			surroundingCarLocations = checkOtherCars(carLoc);
+			personalBubbleMaker();
+			personalBubbleViolation(carLoc);
+			if(!isIntersectingOtherCar(cars)){
+				move();
+				if(surroundingCarLocations[RIGHT]){				
+					slowDown();	
+					for(Car car: cars){
+						if(carSurroundingBB.get(RIGHT).intersects(car.getBoundingBox())){							
+							if(car.currentSpeed > this.currentSpeed){	
+								if(aggression >= statBehaviorCheck.nextInt(TrafficConstants.getInstance().UPPERBOUND)){						
+									wantToChangeLanes = true;						
+								}									
+								if(car.currentSpeed == 0){
+									wantToChangeLanes = true;
+									changeLanes();
+								}
+							} 
+						}
+					}
+
+				} else{
+
+					normalizeSpeed();
+				}
+
+				if(personalBubbleCheckerBools[RIGHT]){
+					//slowDown();
+					
+					if(aggression >= statBehaviorCheck.nextInt(TrafficConstants.getInstance().UPPERBOUND)){						
+						wantToChangeLanes = true;						
+					}	
+				}
+
+				if(surroundingCarLocations[LEFT]){
+					for(Car car: cars){
+						if(carSurroundingBB.get(LEFT).intersects(car.getBoundingBox())){							
+							if(car.currentSpeed > this.currentSpeed){								
+								wantToChangeLanes = true;
+							} 
+						}
+
+
+					}
+
+				}
+
+				if(personalBubbleCheckerBools[LEFT]){						
+					wantToChangeLanes = true;
+				} else{
+					
+					normalizeSpeed();
+				}
+
+				if(wantToChangeLanes){
+					
+					changeLanes();
+				}
+				
+
+			} else{
+
+				currentSpeed = 0;
+
+
+			}
+
+
+
+		}else {
+			//Let car go after 1 second of waiting.
+			queueTimer -= 1;
+			if (queueTimer==0) {
+				queueTimer = 25;
+				leavingQueue = false;
+			}
+		}
+
+	}
+
+	/*	void makeDecision(ArrayList<BoundingBox> carLoc, Car[] cars){
 		//If the car isn't about to leave the queue, it can act normally.
 		if (!leavingQueue) {
 			surroundingCarLocations = checkOtherCars(carLoc);
-			if(attention > statBehaviorCheck.nextInt(TrafficConstants.getInstance().UPPERBOUND)){
-				testerAttention = true;
+			//if(attention > statBehaviorCheck.nextInt(TrafficConstants.getInstance().UPPERBOUND)){
+			//	testerAttention = true;
 				personalBubbleMaker();
 				personalBubbleViolation(carLoc);
-			} else{
-				testerAttention = false;
-			}
+			//} else{
+			//	testerAttention = false;
+			//}
 			if(!isIntersectingOtherCar(cars)){
-
-				move();
-
 				if(personalBubbleCheckerBools[RIGHT]){
 					slowDown();
-					if(aggression < statBehaviorCheck.nextInt(TrafficConstants.getInstance().UPPERBOUND)){
+					if(aggression > statBehaviorCheck.nextInt(TrafficConstants.getInstance().UPPERBOUND)){
+						wantToChangeLanes = true;
+					}
+					if(currentSpeed -1 < comfortableSpeed){
 						wantToChangeLanes = true;
 					}
 
@@ -186,45 +272,30 @@ public class Car
 				}
 
 				if(personalBubbleCheckerBools[UP]){
-					moveDownOneLane();
+					if(whatLane != 4){
+						moveDownOneLane();
+					} else{
+						speedUp();
+					}
 				}
 
 				if(personalBubbleCheckerBools[DOWN]){
-					moveUpOneLane();
+					if(whatLane != 0){
+						moveUpOneLane();
+					} else{
+						speedUp();
+					}
 				} 
 
 				if(personalBubbleCheckerBools[LEFT]){				
 
-
-					if(currentSpeed + 1 < comfortableSpeed){
-
+					speedUp();
+					if(currentSpeed < comfortableSpeed){
 						wantToChangeLanes = true;
-
 					}
-
-					if(aggression > statBehaviorCheck.nextInt(TrafficConstants.getInstance().UPPERBOUND)){
-
-						speedUp();
-
-
-					} else{
-
-						normalizeSpeed();
-					}
-
 				} 
 
 				if(wantToChangeLanes){	
-
-					if(aggression > statBehaviorCheck.nextInt(TrafficConstants.getInstance().UPPERBOUND)){
-
-						speedUp();
-
-					} else{
-
-						slowDown();
-					}
-
 					changeLanes();
 				} 
 
@@ -241,7 +312,9 @@ public class Car
 				leavingQueue = false;
 			}
 		}
-	}
+
+		move();
+	}*/
 
 
 	BoundingBox getBoundingBox()
@@ -253,6 +326,8 @@ public class Car
 	//CAR BEHAVIOR METHODS START HERE
 
 
+
+
 	void move()
 	{
 		//If looping mode is on, return car to start of highway once it disappears off right edge.
@@ -262,41 +337,41 @@ public class Car
 			inQueue = true;
 		}
 		xCoord = xCoord + currentSpeed;
-		
+
 	}
 
 	void slowDown(){
 		if(currentSpeed > 0){
-			currentSpeed = (float) (currentSpeed - 0.1);
+			currentSpeed = (float) (currentSpeed - .5);
 			xCoord = xCoord + currentSpeed;
 		} else{
 			currentSpeed = 1;
 		}
 
 		methodRunning += "- slowing Down";
-		
+
 	}
 
 	void speedUp(){
-		currentSpeed = (float) (currentSpeed + 0.1);
+		currentSpeed = (float) (currentSpeed + .5);
 		xCoord = xCoord + currentSpeed;
 		methodRunning += "- speeding Up";
-		
+
 	}
 
 
 	void changeLanes(){
 		methodRunning = "Has decided to change lanes";
-		if(surroundingCarLocations[UP] == false && whatLane != 0){
-
-			whatLane = whatLane + 1;
-
+		
+		
+		if(surroundingCarLocations[UP] == false){
+			if(whatLane != 0)
 			moveUpOneLane();
 
-		} else if (surroundingCarLocations[DOWN] == false && whatLane != 4){
-
+		} 
+		if(surroundingCarLocations[DOWN] == false){
+			if(whatLane != 4)
 			moveDownOneLane();
-
 		}
 	}
 
@@ -310,26 +385,28 @@ public class Car
 	}
 
 	void moveDownOneLane(){
-		methodRunning += ": Moving down one lane";
-		if(getyCoord() < 150 + whatLane * 100){		
+		methodRunning += ": Moving from " + whatLane + " to " + (whatLane - 1);
+		if(getyCoord() != ((whatLane) * 100) + 150){		
 
 			yCoord = yCoord + 2;
 			xCoord = xCoord + 1;		
 
 		} else{
+			whatLane = whatLane - 1;
 			wantToChangeLanes = false;
 			return;
 		}
 	}
 
 	void moveUpOneLane(){
-		methodRunning += ": Moving up one lane";
-		if(getyCoord() > 150 + whatLane * 100){
+		methodRunning += ": Moving from " + whatLane + " to" + (whatLane + 1);
+		if(getyCoord() != ((whatLane) * 100) + 150){
 
 			yCoord = yCoord - 2;
 			xCoord = xCoord + 1;
 
 		} else{
+			whatLane = whatLane + 1;
 			wantToChangeLanes = false;
 			return;
 		}			
@@ -423,12 +500,14 @@ public class Car
 		return surroundingCarLocations;
 
 	}
-	
-	
+
+
+
+
 	public String toString(){
-		
+
 		return "Car Number: " + arrayValue + "- Current Speed: " + currentSpeed + " and " + methodRunning;
-		
+
 	}
 
 	boolean isIntersectingOtherCar(Car[] cars){
@@ -464,6 +543,8 @@ public class Car
 		out+="Have I crashed? " + isIntersectingOtherCar(TrafficModel.model.cars) + "\n";
 		out+="Am I paying attention?" + testerAttention + "\n";
 		out+="Am I changing Lanes? ="+isChangingLanes+"\n";
+		out+="Starting Lane: " + startingLane + "\n";
+		out+="What lane am I in? " + whatLane + "\n";
 		out+="Aggression value is " + aggression + "\n";
 		out+="Comfortable Speed is " + comfortableSpeed + "\n";
 		out+="Current Speed is " + currentSpeed + "\n";
@@ -478,6 +559,7 @@ public class Car
 		out+="Personal Bubble Right is " + personalBubbleCheckerBools[RIGHT]+"\n";
 		out+="Personal Bubble bottom is " + personalBubbleCheckerBools[DOWN]+"\n";
 		out+="Personal Bubble left is " + personalBubbleCheckerBools[LEFT]+"\n";
+
 
 		JOptionPane.showMessageDialog(TrafficView.view, out);
 	}
