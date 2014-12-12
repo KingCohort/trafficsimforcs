@@ -386,13 +386,13 @@ public class Car
 
 	void moveDownOneLane(){
 		methodRunning += ": Moving from " + whatLane + " to " + (whatLane - 1);
-		if(getyCoord() != ((whatLane) * 100) + 150){		
+		if(getyCoord() != ((whatLane+1) * 100) + 150){		
 
 			yCoord = yCoord + 2;
 			xCoord = xCoord + 1;		
 
 		} else{
-			whatLane = whatLane - 1;
+			whatLane = whatLane + 1;
 			wantToChangeLanes = false;
 			return;
 		}
@@ -400,13 +400,13 @@ public class Car
 
 	void moveUpOneLane(){
 		methodRunning += ": Moving from " + whatLane + " to" + (whatLane + 1);
-		if(getyCoord() != ((whatLane) * 100) + 150){
+		if(getyCoord() != ((whatLane-1) * 100) + 150){
 
 			yCoord = yCoord - 2;
 			xCoord = xCoord + 1;
 
 		} else{
-			whatLane = whatLane + 1;
+			whatLane = whatLane - 1;
 			wantToChangeLanes = false;
 			return;
 		}			
