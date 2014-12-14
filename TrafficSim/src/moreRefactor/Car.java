@@ -475,21 +475,21 @@ public class Car
 
 	void checkLaneNum(){
 
-		if(getyCoord() >= 120 && getyCoord() <= 220){
+		if(getyCoord() >= 130 && getyCoord() <= 230){
 
 			laneNumber = 0;
 
-		} else if (getyCoord() >= 220 && getyCoord() <= 320){
+		} else if (getyCoord() >= 240 && getyCoord() <= 340){
 
 			laneNumber = 1;
 
-		} else if(getyCoord() >=320 && getyCoord() <= 420){
+		} else if(getyCoord() >=350 && getyCoord() <= 450){
 
 			laneNumber = 2;
-		} else if(getyCoord() >= 420 && getyCoord() <= 520){
+		} else if(getyCoord() >= 460 && getyCoord() <= 560){
 
 			laneNumber = 3;
-		} else if(getyCoord() >=520 && getyCoord() <= 570){
+		} else if(getyCoord() >=570 && getyCoord() <= 670){
 
 			laneNumber = 4;
 		}
