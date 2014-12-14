@@ -391,7 +391,9 @@ public class Car
 			xCoord = TrafficConstants.getInstance().STARTX-TrafficConstants.getInstance().CARWIDTH-40;
 			inQueue = true;
 		}
-		xCoord = xCoord + currentSpeed;
+		else {
+			xCoord = xCoord + currentSpeed;
+		}
 
 	}
 
