@@ -19,6 +19,7 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -29,8 +30,11 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+
 import processing.core.PApplet;
+
 import javax.swing.JCheckBox;
+import javax.swing.JTextField;
 
 public class GUI extends JFrame {
 
@@ -50,6 +54,8 @@ public class GUI extends JFrame {
 	JCheckBox loopCheckBox;
 	boolean setFalse = false;
 	boolean setTrue = true;
+	JTextField textField;
+	String textFieldValue;
 
 	/**
 	 * Launch the application.
@@ -107,7 +113,7 @@ public class GUI extends JFrame {
 				}
 			}
 		});
-	}
+	}	
 
 	/**
 	 * Create the frame.
@@ -127,9 +133,9 @@ public class GUI extends JFrame {
 		GridBagLayout gbl_contentPane = new GridBagLayout();
 		// the spacing with the layout creates a padding of 5 pixels between each cell 
 		gbl_contentPane.columnWidths = new int[]{200, 25, 75, 25, 200, 0}; // {label area, padding, spinner area, padding, explaination area, 0(weirdness with swing??)}
-		gbl_contentPane.rowHeights = new int[]{30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 0}; // all the rows are the same height, the last 0 is weirdness with swing i dont understand
-		gbl_contentPane.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0}; // auto generated
-		gbl_contentPane.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE}; // auto generated
+		gbl_contentPane.rowHeights = new int[]{30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 0, 0}; // all the rows are the same height, the last 0 is weirdness with swing i dont understand
+		gbl_contentPane.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 1.0, 0.0}; // auto generated
+		gbl_contentPane.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE}; // auto generated
 		contentPane.setLayout(gbl_contentPane);
 
 		// LABEL: asking for the number of lanes
@@ -228,7 +234,7 @@ public class GUI extends JFrame {
 
 		// spinner to choose the aggression of the drivers
 		aggressionSpinner = new JSpinner();
-		aggressionSpinner.setModel(new SpinnerNumberModel(0, 0, 100, 5));
+		aggressionSpinner.setModel(new SpinnerNumberModel(50, 0, 100, 5));
 		aggressionSpinner.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		GridBagConstraints gbc_spinner_2 = new GridBagConstraints();
 		gbc_spinner_2.anchor = GridBagConstraints.WEST;
@@ -325,13 +331,43 @@ public class GUI extends JFrame {
 		gbc_lblThisWillContinue.gridy = 10;
 		contentPane.add(lblThisWillContinue, gbc_lblThisWillContinue);
 		
+		JLabel lblLogFileName = new JLabel("Log File Name");
+		lblLogFileName.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		GridBagConstraints gbc_lblLogFileName = new GridBagConstraints();
+		gbc_lblLogFileName.anchor = GridBagConstraints.WEST;
+		gbc_lblLogFileName.insets = new Insets(0, 0, 5, 5);
+		gbc_lblLogFileName.gridx = 0;
+		gbc_lblLogFileName.gridy = 12;
+		contentPane.add(lblLogFileName, gbc_lblLogFileName);
+		
+		textField = new JTextField();
+		textField.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		GridBagConstraints gbc_textField = new GridBagConstraints();
+		gbc_textField.anchor = GridBagConstraints.WEST;
+		gbc_textField.insets = new Insets(0, 0, 5, 5);
+		gbc_textField.gridx = 4;
+		gbc_textField.gridy = 12;
+		contentPane.add(textField, gbc_textField);
+		textField.setColumns(20);	
+		
 		// the start button, starts the simulation
 		btnStart = new JButton("START SIMULATION");
 		GridBagConstraints gbc_btnStart = new GridBagConstraints();
 		gbc_btnStart.insets = new Insets(0, 0, 0, 5);
 		gbc_btnStart.gridx = 4;
-		gbc_btnStart.gridy = 13;
-		contentPane.add(btnStart, gbc_btnStart);		
+		gbc_btnStart.gridy = 14;
+		contentPane.add(btnStart, gbc_btnStart);	
+		
+		// after the btnStart button is declared
+		btnStart.addActionListener(new ActionListener()
+		{
+			   public void actionPerformed(ActionEvent ae)
+			   {
+			      textFieldValue = textField.getText();
+			      TrafficConstants.getInstance().setFILENAME(textFieldValue);
+			      
+			   }
+		});	
 	}	
 }
 

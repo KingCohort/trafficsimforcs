@@ -36,7 +36,6 @@ public class TrafficView extends PApplet
 	 */
 
 	private static final long serialVersionUID = 1L;
-
 	ArrayList<BoundingBox> carLocs = new ArrayList<BoundingBox>();
 	public static TrafficView view;
 	PImage loadGif;
@@ -44,9 +43,7 @@ public class TrafficView extends PApplet
 	PImage redCarImage = loadImage("redCar.png");
 	PImage greenCarImage = loadImage("greenCar.png");
 	PImage carColor;
-	
 	ArrayList<PImage> images = new ArrayList<PImage>();
-	
 	public Car imageCar;
 	int offset = 0;
 
@@ -67,7 +64,6 @@ public class TrafficView extends PApplet
 		size(1920, 980);
 		frameRate(25);
 		view = this;
-		//loadGif = loadImage("ajax-loader.gif");
 	}
 
 	// processing draw method
@@ -95,7 +91,9 @@ public class TrafficView extends PApplet
 	{		
 		for (BoundingBox bb : carLocs)
 		{
-			//rect((float)bb.getMinX(), (float)bb.getMinY(), (float)bb.getWidth(), (float)bb.getHeight());
+			noFill();
+			noStroke();
+			rect((float)bb.getMinX(), (float)bb.getMinY(), (float)bb.getWidth(), (float)bb.getHeight());
 			image(carColor(), (float)bb.getMinX(), (float)bb.getMinY());
 		}
 	}

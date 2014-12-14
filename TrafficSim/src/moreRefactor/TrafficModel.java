@@ -94,7 +94,7 @@ public class TrafficModel
 	
 	public void writeToFile(String TextLine) throws IOException
 	{
-		FileWriter write = new FileWriter("log.txt", true);
+		FileWriter write = new FileWriter(TrafficConstants.getInstance().getFILENAME() + ".txt", true);
 		PrintWriter print = new PrintWriter(write);
 
 		print.printf("%s"+"%n",TextLine);
