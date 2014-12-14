@@ -157,7 +157,7 @@ public class Car
 
 	String printCarStats(){
 
-		return "Car:" + arrayValue + "\n \t \t Aggression value is " + aggression + "\n \t \t" + "Comfortable Speed is " + comfortableSpeed + "\n \t \t";
+		return "Car: " + arrayValue + "\n \t \t Aggression value is " + aggression + "\n \t \t" + "Comfortable Speed is " + comfortableSpeed + "\n \t \t";
 
 	}
 
@@ -277,6 +277,7 @@ public class Car
 	void makeDecision(ArrayList<BoundingBox> carLoc, Car[] cars){
 		methodRunning = "";
 		if (!leavingQueue) {
+			checkLaneNum();
 			surroundingCarLocations = checkOtherCars(carLoc);
 			personalBubbleMaker();
 			personalBubbleViolation(carLoc);
@@ -286,12 +287,13 @@ public class Car
 				}			
 				if(isThisLaneStopped(laneNumber, cars)){	
 					isChangingLanes = true;
+					changeLaneCalculation(cars);
 					if(wantToMoveDownOneLane){
 						moveDownOneLane();
 					} else if(wantToMoveUpOneLane){
 						moveUpOneLane();
-					}else{
-						changeLaneCalculation(cars);
+					} else{
+						slowDown();
 					}
 					move();	
 				} else{
@@ -318,10 +320,14 @@ public class Car
 								}					
 							}
 						}	
+						
+						
+						
+						
 					}				
 					if(surroundingCarLocations[RIGHT]){					
 						if(personalBubbleCheckerBools[RIGHT]){						
-							if((statBehaviorCheck.nextInt(TrafficConstants.getInstance().UPPERBOUND) < aggression)){							
+							if((statBehaviorCheck.nextInt(TrafficConstants.getInstance().UPPERBOUND) < aggression - (comfortableSpeed - currentSpeed))){							
 								isChangingLanes = true;						
 							} else{
 								slowDown();
@@ -391,7 +397,7 @@ public class Car
 
 	void slowDown(){
 		if(currentSpeed > 0){
-			currentSpeed = (float) (currentSpeed - .5);
+			currentSpeed = (float)(currentSpeed - .5);
 			xCoord = xCoord + currentSpeed;
 		} else{
 			currentSpeed = 1;
@@ -411,16 +417,20 @@ public class Car
 
 	void changeLaneCalculation(Car[] cars){
 
-		if(surroundingCarLocations[UP] == false){
-			if(laneNumber != 0)
-				if(isThisLaneStopped(laneNumber-1, cars))
+		if(laneNumber != 0){
+			if(surroundingCarLocations[UP] == false){
+				if(!isThisLaneStopped(laneNumber-1, cars)){
 					wantToMoveUpOneLane = true;
+				}
+			}
 
 		} 
-		if(surroundingCarLocations[DOWN] == false){
-			if(laneNumber != 4)
-				if(isThisLaneStopped(laneNumber+1, cars))
+		if(laneNumber != 4){
+			if(surroundingCarLocations[DOWN] == false){
+				if(!isThisLaneStopped(laneNumber+1, cars)){
 					wantToMoveDownOneLane = true;
+				}
+			}
 		}
 	}
 
@@ -435,7 +445,7 @@ public class Car
 
 	void moveDownOneLane(){
 		methodRunning += ": Moving from " + laneNumber + " to " + (laneNumber + 1);
-		if(getyCoord() <= ((laneNumber+1) * 100) + 150){		
+		if(getyCoord() >= ((laneNumber+1) * 100) + 150){		
 
 			yCoord = yCoord + 2;
 			xCoord = xCoord + 1;		
@@ -449,7 +459,7 @@ public class Car
 
 	void moveUpOneLane(){
 		methodRunning += ": Moving from " + laneNumber + " to" + (laneNumber - 1);
-		if(getyCoord() >= ((laneNumber-1) * 100) + 150){
+		if(getyCoord() <= ((laneNumber-1) * 100) + 150){
 
 			yCoord = yCoord - 2;
 			xCoord = xCoord + 1;
@@ -477,7 +487,7 @@ public class Car
 		} else if(getyCoord() >= 420 && getyCoord() <= 520){
 
 			laneNumber = 3;
-		} else if(getyCoord() >=520 && getyCoord() <= 620){
+		} else if(getyCoord() >=520 && getyCoord() <= 570){
 
 			laneNumber = 4;
 		}
