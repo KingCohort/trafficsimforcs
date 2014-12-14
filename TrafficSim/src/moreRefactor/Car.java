@@ -37,8 +37,7 @@ public class Car
 	BoundingBox myBoundingBox = getBoundingBox();
 
 	int arrayValue;
-	ArrayList<BoundingBox> carSurroundingBB = new ArrayList<BoundingBox>();
-	Car[] cars;  
+	ArrayList<BoundingBox> carSurroundingBB = new ArrayList<BoundingBox>(); 
 
 	boolean checkFrontTesterBool;
 
@@ -643,6 +642,7 @@ public class Car
 		out+= "Method being run: " + methodRunning + "\n";
 		out+= "XY Coord=" + getxCoord() + "," + getyCoord()+"\n";	
 		out+="Have I crashed? " + isIntersectingOtherCar(TrafficModel.model.cars) + "\n";
+		out+= "Is lane stopped " + isThisLaneStopped(laneNumber, TrafficModel.model.cars);
 		out+="Am I paying attention?" + testerAttention + "\n";
 		out+="Am I changing Lanes? ="+isChangingLanes+"\n";
 		out+="Starting Lane: " + startingLane + "\n";
