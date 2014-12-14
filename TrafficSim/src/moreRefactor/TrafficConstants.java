@@ -24,10 +24,8 @@ class TrafficConstants
 
 	}
 	
-	boolean isModelReady = false; 
-	int defaultAggression = 50;
+	boolean isModelReady = false;
 	double defaultBubbleSize = 15;
-
 	
 	
 	

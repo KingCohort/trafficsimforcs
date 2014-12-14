@@ -28,8 +28,7 @@ import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
+import javax.swing.event.*;
 
 import processing.core.PApplet;
 
@@ -54,7 +53,7 @@ public class GUI extends JFrame {
 	JCheckBox loopCheckBox;
 	boolean setFalse = false;
 	boolean setTrue = true;
-	JTextField textField;
+	JTextField txtLog;
 	String textFieldValue;
 
 	/**
@@ -67,7 +66,40 @@ public class GUI extends JFrame {
 			public void run()
 			{
 				try
-				{					
+				{
+					
+					
+//					textField.getDocument().addDocumentListener(new DocumentListener()
+//					{
+//						public void changedUpdate(DocumentEvent e)
+//						{
+//							changed();
+//						}
+//
+//						public void removeUpdate(DocumentEvent e)
+//						{
+//							changed();
+//						}
+//
+//						public void insertUpdate(DocumentEvent e)
+//						{
+//							changed();
+//						}
+//
+//						public void changed()
+//						{
+//							if (textField.getText().equals(""))
+//							{
+//								btnStart.setEnabled(false);
+//							}
+//							else
+//							{
+//								btnStart.setEnabled(true);
+//							}
+//						}
+//					});
+					
+					
 					btnStart.addActionListener(new ActionListener()
 					{
 						@Override
@@ -85,7 +117,7 @@ public class GUI extends JFrame {
 								// the view will remain fixed
 								TrafficConstants.getInstance().setGLOBALSIMVIEW(setTrue);
 							}
-							
+
 							// set loop
 							if (loopCheckBox.isSelected())
 							{
@@ -98,14 +130,15 @@ public class GUI extends JFrame {
 								// does not loop the cars
 								TrafficConstants.getInstance().setLOOPING(setFalse);
 							}
-							
+
+							textFieldValue = txtLog.getText();
+							TrafficConstants.getInstance().setFILENAME(textFieldValue);
+
 							// starts the main view in processing
 							PApplet.main("moreRefactor.TrafficView"); // needs proper path
 						}
 					});
-
 					setVisible(true);
-
 				}
 				catch (Exception e)
 				{
@@ -262,7 +295,7 @@ public class GUI extends JFrame {
 		gbc_lblThisIsThe.gridx = 4;
 		gbc_lblThisIsThe.gridy = 5;
 		contentPane.add(lblThisIsThe, gbc_lblThisIsThe);
-				
+
 		JLabel lblNewLabel = new JLabel("View");
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
@@ -271,7 +304,7 @@ public class GUI extends JFrame {
 		gbc_lblNewLabel.gridx = 0;
 		gbc_lblNewLabel.gridy = 7;
 		contentPane.add(lblNewLabel, gbc_lblNewLabel);
-		
+
 		followCheckBox = new JCheckBox("Follow"); // maybe class var
 		followCheckBox.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		GridBagConstraints gbc_chckbxNewCheckBox = new GridBagConstraints();
@@ -280,9 +313,7 @@ public class GUI extends JFrame {
 		gbc_chckbxNewCheckBox.gridx = 2;
 		gbc_chckbxNewCheckBox.gridy = 7;
 		contentPane.add(followCheckBox, gbc_chckbxNewCheckBox);
-		
-		
-		
+
 		// EXPLANATION LABEL: explain fixed
 		JLabel lblNewLabel_1 = new JLabel("Fixed maintains a vew of a section of the road");
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
@@ -292,7 +323,7 @@ public class GUI extends JFrame {
 		gbc_lblNewLabel_1.gridx = 4;
 		gbc_lblNewLabel_1.gridy = 7;
 		contentPane.add(lblNewLabel_1, gbc_lblNewLabel_1);
-		
+
 		// EXPLANATION LABEL: explain follow
 		JLabel lblNewLabel_2 = new JLabel("Follow will follow the first car created (checked)");
 		lblNewLabel_2.setFont(new Font("Tahoma", Font.PLAIN, 14));
@@ -302,8 +333,7 @@ public class GUI extends JFrame {
 		gbc_lblNewLabel_2.gridx = 4;
 		gbc_lblNewLabel_2.gridy = 8;
 		contentPane.add(lblNewLabel_2, gbc_lblNewLabel_2);
-		
-		
+
 		JLabel lblLoopSimulation = new JLabel("Loop Simulation");
 		lblLoopSimulation.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		GridBagConstraints gbc_lblLoopSimulation = new GridBagConstraints();
@@ -312,7 +342,7 @@ public class GUI extends JFrame {
 		gbc_lblLoopSimulation.gridx = 0;
 		gbc_lblLoopSimulation.gridy = 10;
 		contentPane.add(lblLoopSimulation, gbc_lblLoopSimulation);
-		
+
 		loopCheckBox = new JCheckBox("Loop"); // maybe class var
 		loopCheckBox.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		GridBagConstraints gbc_chckbxLoop = new GridBagConstraints();
@@ -321,7 +351,7 @@ public class GUI extends JFrame {
 		gbc_chckbxLoop.gridx = 2;
 		gbc_chckbxLoop.gridy = 10;
 		contentPane.add(loopCheckBox, gbc_chckbxLoop);
-		
+
 		JLabel lblThisWillContinue = new JLabel("This will continue to generate cars off screen");
 		lblThisWillContinue.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		GridBagConstraints gbc_lblThisWillContinue = new GridBagConstraints();
@@ -330,7 +360,7 @@ public class GUI extends JFrame {
 		gbc_lblThisWillContinue.gridx = 4;
 		gbc_lblThisWillContinue.gridy = 10;
 		contentPane.add(lblThisWillContinue, gbc_lblThisWillContinue);
-		
+
 		JLabel lblLogFileName = new JLabel("Log File Name");
 		lblLogFileName.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		GridBagConstraints gbc_lblLogFileName = new GridBagConstraints();
@@ -339,17 +369,18 @@ public class GUI extends JFrame {
 		gbc_lblLogFileName.gridx = 0;
 		gbc_lblLogFileName.gridy = 12;
 		contentPane.add(lblLogFileName, gbc_lblLogFileName);
-		
-		textField = new JTextField();
-		textField.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		GridBagConstraints gbc_textField = new GridBagConstraints();
-		gbc_textField.anchor = GridBagConstraints.WEST;
-		gbc_textField.insets = new Insets(0, 0, 5, 5);
-		gbc_textField.gridx = 4;
-		gbc_textField.gridy = 12;
-		contentPane.add(textField, gbc_textField);
-		textField.setColumns(20);	
-		
+
+		txtLog = new JTextField();
+		txtLog.setText("log_rename");
+		txtLog.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		GridBagConstraints gbc_txtLog = new GridBagConstraints();
+		gbc_txtLog.anchor = GridBagConstraints.WEST;
+		gbc_txtLog.insets = new Insets(0, 0, 5, 5);
+		gbc_txtLog.gridx = 4;
+		gbc_txtLog.gridy = 12;
+		contentPane.add(txtLog, gbc_txtLog);
+		txtLog.setColumns(20);	
+
 		// the start button, starts the simulation
 		btnStart = new JButton("START SIMULATION");
 		GridBagConstraints gbc_btnStart = new GridBagConstraints();
@@ -357,17 +388,6 @@ public class GUI extends JFrame {
 		gbc_btnStart.gridx = 4;
 		gbc_btnStart.gridy = 14;
 		contentPane.add(btnStart, gbc_btnStart);	
-		
-		// after the btnStart button is declared
-		btnStart.addActionListener(new ActionListener()
-		{
-			   public void actionPerformed(ActionEvent ae)
-			   {
-			      textFieldValue = textField.getText();
-			      TrafficConstants.getInstance().setFILENAME(textFieldValue);
-			      
-			   }
-		});	
 	}	
 }
 

@@ -501,7 +501,7 @@ public class Car
 
 			if(car.isIntersectingOtherCar(cars)){
 				if(car.laneNumber == laneNumber){
-					System.out.println("a lane is stopped");
+					//System.out.println("a lane is stopped");
 					return true;
 				}
 			} else{

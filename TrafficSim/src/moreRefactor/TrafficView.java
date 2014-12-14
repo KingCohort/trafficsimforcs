@@ -19,20 +19,6 @@ public class TrafficView extends PApplet
 	 * SIMULATION BEING DONE HERE
 	 * take array of cars
 	 * telling things where to draw stuff
-	 * 
-	 * --- INFORMATION ABOUT VARS ---
-	 * 
-	 * __Size : is the size of the box in the Y direction
-	 * 		remember the Y axis increases as you go down vertically on the screen
-	 * 
-	 * __Hor : is the length of the box in the X direction
-	 * 		remember the X axis increases horizontally across the right of the screen -->
-	 * 		displayWidth
-	 * 
-	 * REMEMBER THE COORDINATE OF A BOX IS IN THE UPPER LEFT CORNER OF THE BOX
-	 * 		__Xcoor : is the X coordinate
-	 * 		__Ycoor : is the Y coordinate
-	 * 
 	 */
 
 	private static final long serialVersionUID = 1L;
