@@ -99,7 +99,7 @@ public class Car
 		xCoord = TrafficConstants.getInstance().STARTX-TrafficConstants.getInstance().CARWIDTH;
 		laneNumber = (Integer)personalityValues[STARTINGLANE];
 		startingLane = (Integer)personalityValues[STARTINGLANE];
-		yCoord = (Integer)personalityValues[STARTINGLANE]* 100 + 150;
+		yCoord = (Integer)personalityValues[STARTINGLANE]* 100 + 160;
 		this.arrayValue = arrayValue;
 		this.speedAdjust = speedAdjust;
 		aggression = (Double)personalityValues[AGGRESSION];
@@ -446,7 +446,7 @@ public class Car
 
 	void moveDownOneLane(){
 		methodRunning += ": Moving from " + laneNumber + " to " + (laneNumber + 1);
-		if(getyCoord() >= ((laneNumber+1) * 100) + 150){		
+		if(getyCoord() >= ((laneNumber+1) * 110) + 150){		
 
 			yCoord = yCoord + 2;
 			xCoord = xCoord + 1;		
@@ -460,7 +460,7 @@ public class Car
 
 	void moveUpOneLane(){
 		methodRunning += ": Moving from " + laneNumber + " to" + (laneNumber - 1);
-		if(getyCoord() <= ((laneNumber-1) * 100) + 150){
+		if(getyCoord() <= ((laneNumber-1) * 110) + 150){
 
 			yCoord = yCoord - 2;
 			xCoord = xCoord + 1;
@@ -501,6 +501,7 @@ public class Car
 
 			if(car.isIntersectingOtherCar(cars)){
 				if(car.laneNumber == laneNumber){
+					System.out.println("a lane is stopped");
 					return true;
 				}
 			} else{
@@ -642,7 +643,7 @@ public class Car
 		out+= "Method being run: " + methodRunning + "\n";
 		out+= "XY Coord=" + getxCoord() + "," + getyCoord()+"\n";	
 		out+="Have I crashed? " + isIntersectingOtherCar(TrafficModel.model.cars) + "\n";
-		out+= "Is lane stopped " + isThisLaneStopped(laneNumber, TrafficModel.model.cars);
+		out+= "Is lane stopped? " + isThisLaneStopped(laneNumber, TrafficModel.model.cars) + "\n";
 		out+="Am I paying attention?" + testerAttention + "\n";
 		out+="Am I changing Lanes? ="+isChangingLanes+"\n";
 		out+="Starting Lane: " + startingLane + "\n";

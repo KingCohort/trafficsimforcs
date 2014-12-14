@@ -8,6 +8,8 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Random;
 
+import javax.swing.JOptionPane;
+
 import javafx.geometry.BoundingBox;
 
 public class TrafficModel
@@ -226,6 +228,8 @@ public class TrafficModel
 				car.debug();
 			}
 		}
+			JOptionPane.showMessageDialog(TrafficView.view, "XY Coord=" + x + "," + y +"\n");
+		}
 	}
 
 
@@ -236,5 +240,3 @@ public class TrafficModel
 		print.close();
 
 	} */
-
-}
