@@ -2,6 +2,9 @@
 
 package moreRefactor;
 
+import java.time.LocalDateTime;
+import java.util.Date;
+
 class TrafficConstants
 {
 	private static TrafficConstants instance;
@@ -46,8 +49,8 @@ class TrafficConstants
 	int UPPERBOUND = 101;
 	float BASESPEED = 1;
 	
-	
-	String fileName;
+	LocalDateTime timePoint = LocalDateTime.now();
+	String fileName = "Car Sim Log: " + timePoint ;
 	//called by GUI on start, input the relevent data from the GUI into the constructor
 	// getters and setters for all values from the GUI
 	
