@@ -28,7 +28,7 @@ class TrafficConstants
 	int defaultAggression = 50;
 	double defaultBubbleSize = 15;
 
-	static String strDate;
+	
 	
 	
 	// from GUI, vars may need to be initialized to an actual number because when pulled 
