@@ -169,9 +169,11 @@ public class TrafficModel
 		personalityValues[AGGRESSION] = aggression;
 		float comfortableSpeed = (float) (TrafficConstants.getInstance().BASESPEED + (aggression / 10));
 		
-		if(comfortableSpeed <= 0){
-			
+		if(comfortableSpeed <= 0){	
 			comfortableSpeed = 1;
+		} else if(comfortableSpeed > 6){
+			
+			comfortableSpeed = 6;
 		}
 		
 		personalityValues[COMFORTABLESPEED] = comfortableSpeed;

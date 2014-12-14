@@ -21,15 +21,15 @@ public class Car
 	int AGGRESSION = 0, COMFORTABLESPEED = 1, DECISIONMAKING = 3, ATTENTION = 2, BUBBLESIZE = 4, STARTINGLANE = 5;
 	double width = TrafficConstants.getInstance().CARWIDTH;
 	double height = TrafficConstants.getInstance().CARHEIGHT;
-	boolean isChangingLanes = false; // true during the act of lane change
-	boolean wantToChangeLanes = false; //true when car is going to attempt a lane change
-	boolean changeLaneTest = false;
+	boolean isChangingLanes = false; //true when car is going to attempt a lane change
+	boolean wantToMoveUpOneLane = false;
+	boolean wantToMoveDownOneLane = false;
 	boolean[] surroundingCarLocations = new boolean[5]; // 0 = right 1 = up 2 = left 3 = down
 	BoundingBox[] myPersonalBubble = new BoundingBox[4];
 	boolean[] personalBubbleCheckerBools = new boolean[4];
 	boolean testerAttention = false;
 	int startingLane;
-	int whatLane;
+	int laneNumber;
 	BoundingBox aheadView;
 	String carDescription;
 	String methodRunning;
@@ -74,7 +74,7 @@ public class Car
 		comfortableSpeed = (Float)personalityValues[COMFORTABLESPEED];
 		attention = (Integer)personalityValues[ATTENTION];
 		comfortBubble = (Double)personalityValues[BUBBLESIZE];
-		whatLane = (Integer)personalityValues[STARTINGLANE];
+		laneNumber = (Integer)personalityValues[STARTINGLANE];
 		yCoord = 150 + (Integer)personalityValues[STARTINGLANE]* 100;
 		if (TrafficConstants.getInstance().GLOBALSIMVIEW==false) {
 
@@ -98,9 +98,9 @@ public class Car
 		//Creates the car just offscreen, then sets its starting Y to the middle of a random lane based on how many are available.
 		//Y coordinate must be hardcoded since the lane height and highway start Y are only accessible from within TrafficView at the moment.
 		xCoord = TrafficConstants.getInstance().STARTX-TrafficConstants.getInstance().CARWIDTH;
-		whatLane = (Integer)personalityValues[STARTINGLANE];
+		laneNumber = (Integer)personalityValues[STARTINGLANE];
 		startingLane = (Integer)personalityValues[STARTINGLANE];
-		yCoord = 150 + (Integer)personalityValues[STARTINGLANE]* 100;
+		yCoord = (Integer)personalityValues[STARTINGLANE]* 100 + 150;
 		this.arrayValue = arrayValue;
 		this.speedAdjust = speedAdjust;
 		aggression = (Double)personalityValues[AGGRESSION];
@@ -162,77 +162,105 @@ public class Car
 	}
 
 	void makeDecision(ArrayList<BoundingBox> carLoc, Car[] cars){
-		
+
 		methodRunning = "";
 		if (!leavingQueue) {
 			surroundingCarLocations = checkOtherCars(carLoc);
 			personalBubbleMaker();
 			personalBubbleViolation(carLoc);
+			if(!isChangingLanes){
+				checkLaneNum();
+			}
+			move();
 			if(!isIntersectingOtherCar(cars)){
-				move();
-				if(surroundingCarLocations[RIGHT]){				
-					slowDown();	
-					for(Car car: cars){
-						if(carSurroundingBB.get(RIGHT).intersects(car.getBoundingBox())){							
-							if(car.currentSpeed > this.currentSpeed){	
-								if(aggression >= statBehaviorCheck.nextInt(TrafficConstants.getInstance().UPPERBOUND)){						
-									wantToChangeLanes = true;						
-								}									
-								if(car.currentSpeed == 0){
-									wantToChangeLanes = true;
-									changeLanes();
-								}
-							} 
-						}
-					}
-
-				} else{
-
-					normalizeSpeed();
-				}
-
-				if(personalBubbleCheckerBools[RIGHT]){
-					//slowDown();
-					
-					if(aggression >= statBehaviorCheck.nextInt(TrafficConstants.getInstance().UPPERBOUND)){						
-						wantToChangeLanes = true;						
-					}	
-				}
-
-				if(surroundingCarLocations[LEFT]){
-					for(Car car: cars){
-						if(carSurroundingBB.get(LEFT).intersects(car.getBoundingBox())){							
-							if(car.currentSpeed > this.currentSpeed){								
-								wantToChangeLanes = true;
-							} 
-						}
-
-
-					}
-
-				}
-
-				if(personalBubbleCheckerBools[LEFT]){						
-					wantToChangeLanes = true;
-				} else{
-					
-					normalizeSpeed();
-				}
-
-				if(wantToChangeLanes){
-					
-					changeLanes();
-				}
 				
+				if(isThisLaneStopped(laneNumber, cars)){
+					currentSpeed = 1;
+					if(wantToMoveDownOneLane){
+						moveDownOneLane();
+					} 
 
-			} else{
+					if(wantToMoveUpOneLane){	
+						moveUpOneLane();
+					} else{
+
+						wantChangeLanes(cars);	
+					}
+					
+					
+				} else{
+					if(isChangingLanes){
+				
+						if(wantToMoveDownOneLane){
+							moveDownOneLane();
+						} 
+
+						if(wantToMoveUpOneLane){	
+							moveUpOneLane();
+						} else{
+
+							wantChangeLanes(cars);	
+						}
+					}
+					if(surroundingCarLocations[RIGHT]){				
+						slowDown();	
+						for(Car car: cars){
+							if(carSurroundingBB.get(RIGHT).intersects(car.getBoundingBox())){
+								slowDown();
+								if(car.currentSpeed > this.currentSpeed){	
+									if(aggression >= statBehaviorCheck.nextInt(TrafficConstants.getInstance().UPPERBOUND)){						
+										isChangingLanes = true;						
+									}									
+
+								} 
+							}
+						}
+
+					} else{
+
+						normalizeSpeed();
+					}
+
+					if(personalBubbleCheckerBools[RIGHT]){
+						slowDown();
+						if(aggression >= statBehaviorCheck.nextInt(TrafficConstants.getInstance().UPPERBOUND)){						
+							isChangingLanes = true;						
+						}	
+					}
+
+					if(surroundingCarLocations[LEFT]){
+						if(!surroundingCarLocations[RIGHT]){
+							speedUp();
+						} else{
+							
+							isChangingLanes = true;
+							
+						}
+						for(Car car: cars){
+							if(carSurroundingBB.get(LEFT).intersects(car.getBoundingBox())){							
+								if(car.currentSpeed > this.currentSpeed){								
+									isChangingLanes = true;
+								} 
+							}
+
+
+						}
+
+					}
+
+					if(personalBubbleCheckerBools[LEFT]){						
+						isChangingLanes = true;
+					} else{
+
+						normalizeSpeed();
+					}
+
+
+				}
+			}else{
 
 				currentSpeed = 0;
-
-
 			}
-
-
 
 		}else {
 			//Let car go after 1 second of waiting.
@@ -240,81 +268,12 @@ public class Car
 			if (queueTimer==0) {
 				queueTimer = 25;
 				leavingQueue = false;
+				currentSpeed = 1;
 			}
 		}
 
 	}
 
-	/*	void makeDecision(ArrayList<BoundingBox> carLoc, Car[] cars){
-		//If the car isn't about to leave the queue, it can act normally.
-		if (!leavingQueue) {
-			surroundingCarLocations = checkOtherCars(carLoc);
-			//if(attention > statBehaviorCheck.nextInt(TrafficConstants.getInstance().UPPERBOUND)){
-			//	testerAttention = true;
-				personalBubbleMaker();
-				personalBubbleViolation(carLoc);
-			//} else{
-			//	testerAttention = false;
-			//}
-			if(!isIntersectingOtherCar(cars)){
-				if(personalBubbleCheckerBools[RIGHT]){
-					slowDown();
-					if(aggression > statBehaviorCheck.nextInt(TrafficConstants.getInstance().UPPERBOUND)){
-						wantToChangeLanes = true;
-					}
-					if(currentSpeed -1 < comfortableSpeed){
-						wantToChangeLanes = true;
-					}
-
-				} else{
-
-					normalizeSpeed();
-				}
-
-				if(personalBubbleCheckerBools[UP]){
-					if(whatLane != 4){
-						moveDownOneLane();
-					} else{
-						speedUp();
-					}
-				}
-
-				if(personalBubbleCheckerBools[DOWN]){
-					if(whatLane != 0){
-						moveUpOneLane();
-					} else{
-						speedUp();
-					}
-				} 
-
-				if(personalBubbleCheckerBools[LEFT]){				
-
-					speedUp();
-					if(currentSpeed < comfortableSpeed){
-						wantToChangeLanes = true;
-					}
-				} 
-
-				if(wantToChangeLanes){	
-					changeLanes();
-				} 
-
-			}else{
-				currentSpeed = 0-TrafficConstants.getInstance().MEDIANSPEED;
-				comfortableSpeed = 0-TrafficConstants.getInstance().MEDIANSPEED;
-			}
-		}
-		else {
-			//Let car go after 1 second of waiting.
-			queueTimer -= 1;
-			if (queueTimer==0) {
-				queueTimer = 25;
-				leavingQueue = false;
-			}
-		}
-
-		move();
-	}*/
 
 
 	BoundingBox getBoundingBox()
@@ -333,7 +292,7 @@ public class Car
 		//If looping mode is on, return car to start of highway once it disappears off right edge.
 		if (TrafficConstants.getInstance().LOOPING == true && getxCoord() > 1920) {
 			//-20 because reasons
-			xCoord = TrafficConstants.getInstance().STARTX-TrafficConstants.getInstance().CARWIDTH-20;
+			xCoord = TrafficConstants.getInstance().STARTX-TrafficConstants.getInstance().CARWIDTH-40;
 			inQueue = true;
 		}
 		xCoord = xCoord + currentSpeed;
@@ -360,18 +319,18 @@ public class Car
 	}
 
 
-	void changeLanes(){
-		methodRunning = "Has decided to change lanes";
-		
-		
+	void wantChangeLanes(Car[] cars){
+
 		if(surroundingCarLocations[UP] == false){
-			if(whatLane != 0)
-			moveUpOneLane();
+			if(laneNumber != 0)
+				if(isThisLaneStopped(laneNumber-1, cars))
+				wantToMoveUpOneLane = true;
 
 		} 
 		if(surroundingCarLocations[DOWN] == false){
-			if(whatLane != 4)
-			moveDownOneLane();
+			if(laneNumber != 4)
+				if(isThisLaneStopped(laneNumber+1, cars))
+				wantToMoveDownOneLane = true;
 		}
 	}
 
@@ -385,31 +344,70 @@ public class Car
 	}
 
 	void moveDownOneLane(){
-		methodRunning += ": Moving from " + whatLane + " to " + (whatLane - 1);
-		if(getyCoord() != ((whatLane+1) * 100) + 150){		
+		methodRunning += ": Moving from " + laneNumber + " to " + (laneNumber + 1);
+		if(getyCoord() <= ((laneNumber+1) * 100) + 150){		
 
 			yCoord = yCoord + 2;
 			xCoord = xCoord + 1;		
 
 		} else{
-			whatLane = whatLane + 1;
-			wantToChangeLanes = false;
+			isChangingLanes = false;
 			return;
 		}
 	}
 
 	void moveUpOneLane(){
-		methodRunning += ": Moving from " + whatLane + " to" + (whatLane + 1);
-		if(getyCoord() != ((whatLane-1) * 100) + 150){
+		methodRunning += ": Moving from " + laneNumber + " to" + (laneNumber - 1);
+		if(getyCoord() >= ((laneNumber-1) * 100) + 150){
 
 			yCoord = yCoord - 2;
 			xCoord = xCoord + 1;
 
-		} else{
-			whatLane = whatLane - 1;
-			wantToChangeLanes = false;
+		} else{	 
+			isChangingLanes = false;
 			return;
-		}			
+		}			 
+	}
+
+	void checkLaneNum(){
+
+		if(getyCoord() >= 120 && getyCoord() <= 220){
+
+			laneNumber = 0;
+
+		} else if (getyCoord() >= 220 && getyCoord() <= 320){
+
+			laneNumber = 1;
+
+		} else if(getyCoord() >=320 && getyCoord() <= 420){
+
+			laneNumber = 2;
+		} else if(getyCoord() >= 420 && getyCoord() <= 520){
+
+			laneNumber = 3;
+		} else if(getyCoord() >=520 && getyCoord() <= 620){
+
+			laneNumber = 4;
+		}
+
+	}
+
+	boolean isThisLaneStopped(int laneNumber, Car[] cars){
+
+		for(Car car : cars){
+
+			if(car.isIntersectingOtherCar(cars)){
+				if(car.laneNumber == laneNumber){
+					return true;
+				}
+			} else{
+				return false;
+			}
+
+		}
+		return false;
+
+
 	}
 
 
@@ -544,7 +542,7 @@ public class Car
 		out+="Am I paying attention?" + testerAttention + "\n";
 		out+="Am I changing Lanes? ="+isChangingLanes+"\n";
 		out+="Starting Lane: " + startingLane + "\n";
-		out+="What lane am I in? " + whatLane + "\n";
+		out+="What lane am I in? " + laneNumber + "\n";
 		out+="Aggression value is " + aggression + "\n";
 		out+="Comfortable Speed is " + comfortableSpeed + "\n";
 		out+="Current Speed is " + currentSpeed + "\n";
