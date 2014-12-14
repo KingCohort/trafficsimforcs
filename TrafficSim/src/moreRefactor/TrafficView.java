@@ -157,12 +157,12 @@ public class TrafficView extends PApplet
 
 		// base
 		fill(51);
-		stroke(0);
+		noStroke();
 		rect(highwayBaseXcoord, highwayBaseYcoord, highwayBaseWidth, highwayBaseHeight);
 
 		// edge markers
 		fill(255);
-		stroke(0);
+		noStroke();
 		// upper
 		rect(upperGutterMarkerXcoord, upperGutterMarkerYcoord, gutterMarkerWidth, markerHeight);
 		// lower
@@ -170,7 +170,7 @@ public class TrafficView extends PApplet
 
 		// medians (lane dividers)
 		fill(255);
-		stroke(0); 
+		noStroke();
 		//Offset for moving median when fixed view is on. Resets to 0 if below -100 to make sure we don't run out of rectangles.
 		offset = offset - TrafficConstants.getInstance().MEDIANSPEED;
 		if (offset < -100) {

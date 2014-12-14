@@ -39,9 +39,7 @@ class TrafficConstants
 	int CARWIDTH = 80; 
 	int CARHEIGHT = 40;
 	boolean GLOBALSIMVIEW = true; //is it global view or single car data, when false is follow view, true is fixed
-	boolean LOOPING = false; //FALSE BY DEFAULT DONT CHANGE, do the cars return to the left side of the screen after disappearing off the right
-
-	
+	boolean LOOPING = false; //FALSE BY DEFAULT DONT CHANGE, do the cars return to the left side of the screen after disappearing off the right	
 	int MEDIANSPEED = 0;
 	int TOPLANESTARTY = 150;
 	int BOTLANESTARTY = 250;
@@ -49,7 +47,7 @@ class TrafficConstants
 	int UPPERBOUND = 101;
 	float BASESPEED = 1;
 	
-	String FILENAME = "init";
+	String FILENAME = "";
 
 	//called by GUI on start, input the relevent data from the GUI into the constructor
 	// getters and setters for all values from the GUI
