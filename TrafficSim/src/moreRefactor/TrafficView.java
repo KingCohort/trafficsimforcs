@@ -95,6 +95,7 @@ public class TrafficView extends PApplet
 	{		
 		for (BoundingBox bb : carLocs)
 		{
+			//rect((float)bb.getMinX(), (float)bb.getMinY(), (float)bb.getWidth(), (float)bb.getHeight());
 			image(carColor(), (float)bb.getMinX(), (float)bb.getMinY());
 		}
 	}

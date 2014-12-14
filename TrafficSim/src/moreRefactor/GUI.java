@@ -4,12 +4,11 @@ package moreRefactor;
 
 /*
  * 
- * this GUI is built "windowBuilder"
+ * the GUI is built with "windowBuilder"
  * 		can be installed from "http://www.eclipse.org/windowbuilder/download.php"
- * 		just how you would install another software into eclipse
+ * 		how to install other software into eclipse
  * 			Help > Install New Softare > 
  * 			enter this address(this is for eclipse luna 4.4 you may need another verion): http://download.eclipse.org/windowbuilder/WB/release/R201406251200/4.4/
- * 			the windowBuilder is required and this uses Swing so get both of those
  * 
  */
 
@@ -20,7 +19,6 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -31,7 +29,6 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-
 import processing.core.PApplet;
 import javax.swing.JCheckBox;
 
@@ -40,17 +37,15 @@ public class GUI extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 
-	JButton btnStart;
-
 	// these vars are declared here because they need to be accessed from other classes
 	//		others are declared in the GUI() because they do not change values
+	JButton btnStart;
 	JSpinner carSpinner;
 	int carSpinnerValue;
 	JSpinner laneSpinner;
 	int laneSpinnerValue;
 	JSpinner aggressionSpinner;
 	int aggressionSpinnerValue;
-	
 	JCheckBox followCheckBox;
 	JCheckBox loopCheckBox;
 	boolean setFalse = false;
@@ -75,25 +70,31 @@ public class GUI extends JFrame {
 							// set view
 							if (followCheckBox.isSelected())
 							{
+								// follows the first car generated
 								TrafficConstants.getInstance().setGLOBALSIMVIEW(setFalse);
 							}
 							else
 							{
+								// default value
+								// the view will remain fixed
 								TrafficConstants.getInstance().setGLOBALSIMVIEW(setTrue);
 							}
 							
 							// set loop
 							if (loopCheckBox.isSelected())
 							{
+								// makes the cars loop on the road
 								TrafficConstants.getInstance().setLOOPING(setTrue);
 							}
 							else
 							{
+								// default value
+								// does not loop the cars
 								TrafficConstants.getInstance().setLOOPING(setFalse);
 							}
-
-							PApplet.main("moreRefactor.TrafficView");
-
+							
+							// starts the main view in processing
+							PApplet.main("moreRefactor.TrafficView"); // needs proper path
 						}
 					});
 
@@ -127,8 +128,8 @@ public class GUI extends JFrame {
 		// the spacing with the layout creates a padding of 5 pixels between each cell 
 		gbl_contentPane.columnWidths = new int[]{200, 25, 75, 25, 200, 0}; // {label area, padding, spinner area, padding, explaination area, 0(weirdness with swing??)}
 		gbl_contentPane.rowHeights = new int[]{30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 0}; // all the rows are the same height, the last 0 is weirdness with swing i dont understand
-		gbl_contentPane.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0}; // auto generated (unused)
-		gbl_contentPane.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE}; // auto generated (unused)
+		gbl_contentPane.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0}; // auto generated
+		gbl_contentPane.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE}; // auto generated
 		contentPane.setLayout(gbl_contentPane);
 
 		// LABEL: asking for the number of lanes
