@@ -6,11 +6,9 @@ class TrafficConstants
 {
 	private static TrafficConstants instance;
 
-	private TrafficConstants(){
-
-		//	AHAHAHAHAHHAHAHAHAHAHAHHA NO INSTANTIATION FOR YOU
-		
-
+	private TrafficConstants()
+	{
+		// no instantiation because singleton
 	}
 
 	public static synchronized TrafficConstants getInstance() // TrafficConstants.getInstance().*; << that is the way you get info from this class
@@ -48,15 +46,15 @@ class TrafficConstants
 	String FILENAME = "";
 
 	//called by GUI on start, input the relevent data from the GUI into the constructor
-	// getters and setters for all values from the GUI
-	void setFILENAME(String fileName)
-	{		
-		FILENAME = fileName;
-	}
-	
-	String getFILENAME()
+	// getters and setters for all values from the GUI	
+	void setLANENUM(int laneNum)
 	{
-		return FILENAME;
+		LANENUM = laneNum;
+	}
+
+	int getLANENUM()
+	{
+		return LANENUM;
 	}
 	
 	void setCARNUM(int carNum)
@@ -69,16 +67,6 @@ class TrafficConstants
 		return CARNUM;
 	}
 	
-	void setLANENUM(int laneNum)
-	{
-		LANENUM = laneNum;
-	}
-
-	int getLANENUM()
-	{
-		return LANENUM;
-	}
-	
 	void setAGGRESSION(int aggression)
 	{
 		AGGRESSION = aggression;
@@ -88,11 +76,6 @@ class TrafficConstants
 	int getAGGRESSION()
 	{
 		return AGGRESSION;
-	}
-	
-	void setMEDIANSPEED(int medianSpeed)
-	{
-		MEDIANSPEED = medianSpeed;
 	}
 	
 	void setGLOBALSIMVIEW(boolean globalsimview)
@@ -109,9 +92,27 @@ class TrafficConstants
 	{
 		LOOPING = bool;
 	}
-
-
 	
+	boolean getLOOPING()
+	{
+		return LOOPING;
+	}
+	
+	void setFILENAME(String fileName)
+	{		
+		FILENAME = fileName;
+	}
+	
+	String getFILENAME()
+	{
+		return FILENAME;
+	}
+	
+	// not from GUI
+	void setMEDIANSPEED(int medianSpeed)
+	{
+		MEDIANSPEED = medianSpeed;
+	}
 }
 
 

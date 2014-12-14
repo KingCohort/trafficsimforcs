@@ -385,7 +385,7 @@ public class Car
 	void move()
 	{
 		//If looping mode is on, return car to start of highway once it disappears off right edge.
-		if (TrafficConstants.getInstance().LOOPING == true && getxCoord() > 1920) {
+		if (TrafficConstants.getInstance().getLOOPING() == true && getxCoord() > 1920) {
 			//-20 because reasons
 			xCoord = TrafficConstants.getInstance().STARTX-TrafficConstants.getInstance().CARWIDTH-40;
 			inQueue = true;
