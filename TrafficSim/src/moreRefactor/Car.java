@@ -161,7 +161,7 @@ public class Car
 
 	}
 
-	void makeDecision(ArrayList<BoundingBox> carLoc, Car[] cars){
+	/*	void makeDecision(ArrayList<BoundingBox> carLoc, Car[] cars){
 
 		methodRunning = "";
 		if (!leavingQueue) {
@@ -173,7 +173,7 @@ public class Car
 			}
 			move();
 			if(!isIntersectingOtherCar(cars)){
-				
+
 				if(isThisLaneStopped(laneNumber, cars)){
 					currentSpeed = 1;
 					if(wantToMoveDownOneLane){
@@ -186,11 +186,11 @@ public class Car
 
 						wantChangeLanes(cars);	
 					}
-					
-					
+
+
 				} else{
 					if(isChangingLanes){
-				
+
 						if(wantToMoveDownOneLane){
 							moveDownOneLane();
 						} 
@@ -232,9 +232,9 @@ public class Car
 						if(!surroundingCarLocations[RIGHT]){
 							speedUp();
 						} else{
-							
+
 							isChangingLanes = true;
-							
+
 						}
 						for(Car car: cars){
 							if(carSurroundingBB.get(LEFT).intersects(car.getBoundingBox())){							
@@ -272,7 +272,97 @@ public class Car
 			}
 		}
 
+	} */
+
+	void makeDecision(ArrayList<BoundingBox> carLoc, Car[] cars){
+		methodRunning = "";
+		if (!leavingQueue) {
+			surroundingCarLocations = checkOtherCars(carLoc);
+			personalBubbleMaker();
+			personalBubbleViolation(carLoc);
+			if(!isIntersectingOtherCar(cars)){
+				if(!isChangingLanes){
+					checkLaneNum();
+				}			
+				if(isThisLaneStopped(laneNumber, cars)){	
+					isChangingLanes = true;
+					if(wantToMoveDownOneLane){
+						moveDownOneLane();
+					} else if(wantToMoveUpOneLane){
+						moveUpOneLane();
+					}else{
+						changeLaneCalculation(cars);
+					}
+					move();	
+				} else{
+					normalizeSpeed();
+					if(surroundingCarLocations[LEFT]){
+						if(!surroundingCarLocations[RIGHT]){
+							if(statBehaviorCheck.nextInt(TrafficConstants.getInstance().UPPERBOUND) < aggression){
+								speedUp();
+							} else{			
+								for(Car car: cars){							
+									if(car.getBoundingBox().intersects(carSurroundingBB.get(LEFT))){								
+										if(car.currentSpeed > currentSpeed){
+											isChangingLanes = true;
+										}								
+									}					
+								}
+							} 
+						}else{			
+							for(Car car: cars){							
+								if(car.getBoundingBox().intersects(carSurroundingBB.get(LEFT))){								
+									if(car.currentSpeed > currentSpeed){
+										isChangingLanes = true;
+									}								
+								}					
+							}
+						}	
+					}				
+					if(surroundingCarLocations[RIGHT]){					
+						if(personalBubbleCheckerBools[RIGHT]){						
+							if((statBehaviorCheck.nextInt(TrafficConstants.getInstance().UPPERBOUND) < aggression)){							
+								isChangingLanes = true;						
+							} else{
+								slowDown();
+							}
+						}
+					} else{
+						if((statBehaviorCheck.nextInt(TrafficConstants.getInstance().UPPERBOUND) < aggression)){
+							speedUp();
+						} 				
+					}
+
+					if(isChangingLanes){	
+						if(wantToMoveDownOneLane){
+							moveDownOneLane();
+						} else if(wantToMoveUpOneLane){
+							moveUpOneLane();
+						}else{
+							changeLaneCalculation(cars);
+						}
+						move();	
+					}
+				}
+
+				move();
+			} else{
+				currentSpeed = 0-TrafficConstants.getInstance().MEDIANSPEED;
+                comfortableSpeed = 0-TrafficConstants.getInstance().MEDIANSPEED;
+
+			}
+		} else {
+			//Let car go after 1 second of waiting.
+			queueTimer -= 1;
+			if (queueTimer==0) {
+				queueTimer = 25;
+				leavingQueue = false;
+				currentSpeed = 1;
+			}
+		}
+
 	}
+
 
 
 
@@ -319,26 +409,26 @@ public class Car
 	}
 
 
-	void wantChangeLanes(Car[] cars){
+	void changeLaneCalculation(Car[] cars){
 
 		if(surroundingCarLocations[UP] == false){
 			if(laneNumber != 0)
 				if(isThisLaneStopped(laneNumber-1, cars))
-				wantToMoveUpOneLane = true;
+					wantToMoveUpOneLane = true;
 
 		} 
 		if(surroundingCarLocations[DOWN] == false){
 			if(laneNumber != 4)
 				if(isThisLaneStopped(laneNumber+1, cars))
-				wantToMoveDownOneLane = true;
+					wantToMoveDownOneLane = true;
 		}
 	}
 
 	void normalizeSpeed(){ //makes the car prefer its comfort speed
 		methodRunning = "Normalizing its speed";
-		if(currentSpeed < comfortableSpeed){			
+		if(currentSpeed+1 < comfortableSpeed){			
 			speedUp();
-		} else if (currentSpeed > comfortableSpeed){			
+		} else if (currentSpeed-1 > comfortableSpeed){			
 			slowDown();			
 		} 
 	}
@@ -352,6 +442,7 @@ public class Car
 
 		} else{
 			isChangingLanes = false;
+			wantToMoveDownOneLane = false;
 			return;
 		}
 	}
@@ -365,6 +456,7 @@ public class Car
 
 		} else{	 
 			isChangingLanes = false;
+			wantToMoveUpOneLane = false;
 			return;
 		}			 
 	}
@@ -402,7 +494,7 @@ public class Car
 				}
 			} else{
 				return false;
-			}
+			} 
 
 		}
 		return false;

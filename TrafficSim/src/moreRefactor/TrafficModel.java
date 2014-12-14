@@ -90,9 +90,11 @@ public class TrafficModel
 		TrafficConstants.getInstance().isModelReady = true;
 	}
 
+
+	
 	public void writeToFile(String TextLine) throws IOException
 	{
-		FileWriter write = new FileWriter(TrafficConstants.getInstance().getFileName(), true);
+		FileWriter write = new FileWriter("log.txt", true);
 		PrintWriter print = new PrintWriter(write);
 
 		print.printf("%s"+"%n",TextLine);

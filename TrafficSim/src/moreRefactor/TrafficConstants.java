@@ -2,8 +2,12 @@
 
 package moreRefactor;
 
+import java.time.Clock;
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.Date;
+
+import sun.util.resources.LocaleData;
 
 class TrafficConstants
 {
@@ -12,6 +16,7 @@ class TrafficConstants
 	private TrafficConstants(){
 
 		//	AHAHAHAHAHHAHAHAHAHAHAHHA NO INSTANTIATION FOR YOU
+		
 
 	}
 
@@ -29,7 +34,7 @@ class TrafficConstants
 	boolean isModelReady = false; 
 	int defaultAggression = 50;
 	double defaultBubbleSize = 15;
-	
+
 	
 	// from GUI, vars may need to be initialized to an actual number because when pulled 
 	// 		from gui and not changed there is no default value
@@ -49,8 +54,8 @@ class TrafficConstants
 	int UPPERBOUND = 101;
 	float BASESPEED = 1;
 	
-	LocalDateTime timePoint = LocalDateTime.now();
-	String fileName = "Car Sim Log: " + timePoint ;
+	
+	String fileName = "Car Sim Log:";
 	//called by GUI on start, input the relevent data from the GUI into the constructor
 	// getters and setters for all values from the GUI
 	
