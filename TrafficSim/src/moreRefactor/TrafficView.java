@@ -145,8 +145,7 @@ public class TrafficView extends PApplet
 		int upperGutterMarkerXcoord = 0;
 		int upperGutterMarkerYcoord = highwayBaseYcoord + gutter;
 		int lowerGutterMarkerXcoord = 0;
-		int lowerGutterMarkerYcoord = ( (highwayBaseYcoord + highwayBaseHeight) - gutter - ( markerHeight * (laneNumber - 1) ) );
-
+		int lowerGutterMarkerYcoord = ( (highwayBaseYcoord + highwayBaseHeight) - gutter - markerHeight);
 		// median
 		int medianHeight = markerHeight;
 		int medianWidth = medianMarkerWidth;
@@ -183,10 +182,10 @@ public class TrafficView extends PApplet
 
 		if (laneNumber == 5) // five lanes
 		{
-			medianYcoord_1 = ( (highwayBaseYcoord) + (gutter) + (laneHeight) );
-			medianYcoord_2 = ( (highwayBaseYcoord) + (gutter) + (laneHeight * 2) );
-			medianYcoord_3 = ( (highwayBaseYcoord) + (gutter) + (laneHeight * 3) );
-			medianYcoord_4 = ( (highwayBaseYcoord) + (gutter) + (laneHeight * 4) );
+			medianYcoord_1 = ( (highwayBaseYcoord) + (gutter) + (laneHeight) + markerHeight);
+			medianYcoord_2 = ( (highwayBaseYcoord) + (gutter) + (laneHeight * 2) + markerHeight*2);
+			medianYcoord_3 = ( (highwayBaseYcoord) + (gutter) + (laneHeight * 3) + markerHeight*3);
+			medianYcoord_4 = ( (highwayBaseYcoord) + (gutter) + (laneHeight * 4) + markerHeight*4 );
 			
 			// draw medians
 			for (int i = 0; i < displayWidth+100; i += 100)
@@ -199,9 +198,9 @@ public class TrafficView extends PApplet
 		}
 		else if (laneNumber == 4) // four lanes
 		{
-			medianYcoord_1 = ( (highwayBaseYcoord) + (gutter) + (laneHeight) );
-			medianYcoord_2 = ( (highwayBaseYcoord) + (gutter) + (laneHeight * 2) );
-			medianYcoord_3 = ( (highwayBaseYcoord) + (gutter) + (laneHeight * 3) );
+			medianYcoord_1 = ( (highwayBaseYcoord) + (gutter) + (laneHeight) + markerHeight );
+			medianYcoord_2 = ( (highwayBaseYcoord) + (gutter) + (laneHeight * 2) + markerHeight*2 );
+			medianYcoord_3 = ( (highwayBaseYcoord) + (gutter) + (laneHeight * 3) + markerHeight*3 );
 
 			// draw medians
 			for (int i = 0; i < displayWidth+100; i += 100)
@@ -213,8 +212,8 @@ public class TrafficView extends PApplet
 		}
 		else if (laneNumber == 3) // three lanes
 		{
-			medianYcoord_1 = ( (highwayBaseYcoord) + (gutter) + (laneHeight) );
-			medianYcoord_2 = ( (highwayBaseYcoord) + (gutter) + (laneHeight * 2) );
+			medianYcoord_1 = ( (highwayBaseYcoord) + (gutter) + (laneHeight) + markerHeight );
+			medianYcoord_2 = ( (highwayBaseYcoord) + (gutter) + (laneHeight * 2) + markerHeight*2 );
 
 			// draw medians
 			for (int i = 0; i < displayWidth+100; i += 100)
@@ -225,7 +224,7 @@ public class TrafficView extends PApplet
 		}
 		else // two lanes
 		{
-			medianYcoord_1 = ( (highwayBaseYcoord) + (gutter) + (laneHeight) );
+			medianYcoord_1 = ( (highwayBaseYcoord) + (gutter) + (laneHeight) + markerHeight );
 
 			// draw medians
 			for (int i = 0; i < displayWidth+100; i += 100)

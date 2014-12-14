@@ -74,7 +74,7 @@ public class Car
 		attention = (Integer)personalityValues[ATTENTION];
 		comfortBubble = (Double)personalityValues[BUBBLESIZE];
 		laneNumber = (Integer)personalityValues[STARTINGLANE];
-		yCoord = 150 + (Integer)personalityValues[STARTINGLANE]* 100;
+		yCoord = 160 + (Integer)personalityValues[STARTINGLANE]* 110;
 		if (TrafficConstants.getInstance().GLOBALSIMVIEW==false) {
 
 			//Fixed-location cars start towards the middle of the highway, to better see cars around them.
@@ -99,7 +99,7 @@ public class Car
 		xCoord = TrafficConstants.getInstance().STARTX-TrafficConstants.getInstance().CARWIDTH;
 		laneNumber = (Integer)personalityValues[STARTINGLANE];
 		startingLane = (Integer)personalityValues[STARTINGLANE];
-		yCoord = (Integer)personalityValues[STARTINGLANE]* 100 + 160;
+		yCoord = (Integer)personalityValues[STARTINGLANE]* 110 + 160;
 		this.arrayValue = arrayValue;
 		this.speedAdjust = speedAdjust;
 		aggression = (Double)personalityValues[AGGRESSION];
@@ -446,7 +446,7 @@ public class Car
 
 	void moveDownOneLane(){
 		methodRunning += ": Moving from " + laneNumber + " to " + (laneNumber + 1);
-		if(getyCoord() >= ((laneNumber+1) * 110) + 150){		
+		if(getyCoord() >= ((laneNumber+1) * 110) + 160){		
 
 			yCoord = yCoord + 2;
 			xCoord = xCoord + 1;		
@@ -460,7 +460,7 @@ public class Car
 
 	void moveUpOneLane(){
 		methodRunning += ": Moving from " + laneNumber + " to" + (laneNumber - 1);
-		if(getyCoord() <= ((laneNumber-1) * 110) + 150){
+		if(getyCoord() <= ((laneNumber-1) * 110) + 160){
 
 			yCoord = yCoord - 2;
 			xCoord = xCoord + 1;
