@@ -496,22 +496,17 @@ public class Car
 	}
 
 	boolean isThisLaneStopped(int laneNumber, Car[] cars){
-
+     boolean isLaneStopped = false;
 		for(Car car : cars){
-
 			if(car.isIntersectingOtherCar(cars)){
 				if(car.laneNumber == laneNumber){
-					//System.out.println("a lane is stopped");
-					return true;
+					isLaneStopped = true;
+
 				}
-			} else{
-				return false;
 			} 
-
 		}
-		return false;
-
-
+		
+		return isLaneStopped;
 	}
 
 
