@@ -67,39 +67,6 @@ public class GUI extends JFrame {
 			{
 				try
 				{
-					
-					
-//					textField.getDocument().addDocumentListener(new DocumentListener()
-//					{
-//						public void changedUpdate(DocumentEvent e)
-//						{
-//							changed();
-//						}
-//
-//						public void removeUpdate(DocumentEvent e)
-//						{
-//							changed();
-//						}
-//
-//						public void insertUpdate(DocumentEvent e)
-//						{
-//							changed();
-//						}
-//
-//						public void changed()
-//						{
-//							if (textField.getText().equals(""))
-//							{
-//								btnStart.setEnabled(false);
-//							}
-//							else
-//							{
-//								btnStart.setEnabled(true);
-//							}
-//						}
-//					});
-					
-					
 					btnStart.addActionListener(new ActionListener()
 					{
 						@Override

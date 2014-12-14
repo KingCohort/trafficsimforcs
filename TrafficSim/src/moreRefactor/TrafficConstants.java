@@ -25,8 +25,6 @@ class TrafficConstants
 	boolean isModelReady = false;
 	double defaultBubbleSize = 15;
 	
-	
-	
 	// from GUI, vars may need to be initialized to an actual number because when pulled 
 	// 		from gui and not changed there is no default value
 	int CARNUM = 2; // defaults to 2 cars
@@ -42,7 +40,6 @@ class TrafficConstants
 	int STARTX = 0; // negative to start off screen. Will alter at later date
 	int UPPERBOUND = 101;
 //	float BASESPEED = 1;
-	
 	String FILENAME = "";
 
 	//called by GUI on start, input the relevent data from the GUI into the constructor
