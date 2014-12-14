@@ -92,7 +92,7 @@ public class TrafficModel
 
 	public void writeToFile(String TextLine) throws IOException
 	{
-		FileWriter write = new FileWriter("log.txt", true);
+		FileWriter write = new FileWriter(TrafficConstants.getInstance().getFileName(), true);
 		PrintWriter print = new PrintWriter(write);
 
 		print.printf("%s"+"%n",TextLine);
@@ -167,14 +167,11 @@ public class TrafficModel
 		} while(aggression < 0 || aggression > 100);
 
 		personalityValues[AGGRESSION] = aggression;
-		float comfortableSpeed = (float) (TrafficConstants.getInstance().BASESPEED + (aggression / 10));
+		float comfortableSpeed = (float)(aggression / 10);
 		
 		if(comfortableSpeed <= 0){	
 			comfortableSpeed = 1;
-		} else if(comfortableSpeed > 6){
-			
-			comfortableSpeed = 6;
-		}
+		} 
 		
 		personalityValues[COMFORTABLESPEED] = comfortableSpeed;
 
