@@ -276,7 +276,6 @@ public class Car
 	void makeDecision(ArrayList<BoundingBox> carLoc, Car[] cars){
 		methodRunning = "";
 		if (!leavingQueue) {
-			checkLaneNum();
 			surroundingCarLocations = checkOtherCars(carLoc);
 			personalBubbleMaker();
 			personalBubbleViolation(carLoc);
@@ -311,11 +310,15 @@ public class Car
 						speedUp();
 					}
 					if(isChangingLanes){	
+						System.out.println("test 1");
 						if(wantToMoveDownOneLane){
+							System.out.println("moving down");
 							moveDownOneLane();
 						} else if(wantToMoveUpOneLane){
+							System.out.println("moving up");
 							moveUpOneLane();
 						}else{
+							System.out.println("checking");
 							changeLaneCalculation(cars);
 						}
 				}
@@ -323,6 +326,9 @@ public class Car
 			} else{
 				currentSpeed = 0-TrafficConstants.getInstance().MEDIANSPEED;
                 comfortableSpeed = 0-TrafficConstants.getInstance().MEDIANSPEED;
+                isChangingLanes = false;
+            	wantToMoveUpOneLane = false;
+            	wantToMoveDownOneLane = false;
 
 			}
 		} else {
@@ -337,7 +343,6 @@ public class Car
 				}
 			}
 		}
-
 	}
 
 
@@ -415,12 +420,13 @@ public class Car
 
 	void moveDownOneLane(){
 		methodRunning += ": Moving from " + laneNumber + " to " + (laneNumber + 1);
-		if(getyCoord() >= ((laneNumber+1) * 110) + 160){		
-
-			yCoord = yCoord + 2;
-			xCoord = xCoord + 1;		
+		System.out.println("current y coord: " + getyCoord());
+		System.out.println("next lane target: " + (((laneNumber+1) * 110) + 160));
+		if(getyCoord() <= ((laneNumber+1) * 110) + 160){	
+			yCoord = yCoord + 2;;		
 
 		} else{
+			System.out.println("jk no down");
 			isChangingLanes = false;
 			wantToMoveDownOneLane = false;
 			return;
@@ -429,12 +435,14 @@ public class Car
 
 	void moveUpOneLane(){
 		methodRunning += ": Moving from " + laneNumber + " to" + (laneNumber - 1);
-		if(getyCoord() <= ((laneNumber-1) * 110) + 160){
-
-			yCoord = yCoord - 2;
-			xCoord = xCoord + 1;
+		System.out.println("current y coord: " + getyCoord());
+		System.out.println("next lane target: " + (((laneNumber-1) * 110) + 160));
+		if(getyCoord() >= ((laneNumber-1) * 110) + 160){
+			System.out.println("better move up!");
+			yCoord = yCoord - 2;;
 
 		} else{	 
+			System.out.println("jk no up");
 			isChangingLanes = false;
 			wantToMoveUpOneLane = false;
 			return;
