@@ -144,7 +144,7 @@ public class GUI extends JFrame {
 		lblNumberOfLanes.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		GridBagConstraints gbc_lblNumberOfLanes = new GridBagConstraints();
 		gbc_lblNumberOfLanes.anchor = GridBagConstraints.WEST;
-		gbc_lblNumberOfLanes.insets = new Insets(0, 0, 5, 5);
+		gbc_lblNumberOfLanes.insets = new Insets(0, 10, 5, 5);
 		gbc_lblNumberOfLanes.gridx = 0;
 		gbc_lblNumberOfLanes.gridy = 1;
 		contentPane.add(lblNumberOfLanes, gbc_lblNumberOfLanes);
@@ -154,7 +154,7 @@ public class GUI extends JFrame {
 		laneSpinner.setModel(new SpinnerNumberModel(2, 2, 5, 1));
 		laneSpinner.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		GridBagConstraints gbc_spinner = new GridBagConstraints();
-		gbc_spinner.anchor = GridBagConstraints.WEST;
+		gbc_spinner.anchor = GridBagConstraints.EAST;
 		gbc_spinner.insets = new Insets(0, 0, 5, 5);
 		gbc_spinner.gridx = 2;
 		gbc_spinner.gridy = 1;
@@ -186,7 +186,7 @@ public class GUI extends JFrame {
 		lblNumberOfCars.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		GridBagConstraints gbc_lblNumberOfCars = new GridBagConstraints();
 		gbc_lblNumberOfCars.anchor = GridBagConstraints.WEST;
-		gbc_lblNumberOfCars.insets = new Insets(0, 0, 5, 5);
+		gbc_lblNumberOfCars.insets = new Insets(0, 10, 5, 5);
 		gbc_lblNumberOfCars.gridx = 0;
 		gbc_lblNumberOfCars.gridy = 3;
 		contentPane.add(lblNumberOfCars, gbc_lblNumberOfCars);
@@ -196,7 +196,7 @@ public class GUI extends JFrame {
 		carSpinner.setModel(new SpinnerNumberModel(2, 2, 30, 1));
 		carSpinner.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		GridBagConstraints gbc_spinner_1 = new GridBagConstraints();
-		gbc_spinner_1.anchor = GridBagConstraints.WEST;
+		gbc_spinner_1.anchor = GridBagConstraints.EAST;
 		gbc_spinner_1.insets = new Insets(0, 0, 5, 5);
 		gbc_spinner_1.gridx = 2;
 		gbc_spinner_1.gridy = 3;
@@ -227,7 +227,7 @@ public class GUI extends JFrame {
 		lblDriverAggression.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		GridBagConstraints gbc_lblDriverAggression = new GridBagConstraints();
 		gbc_lblDriverAggression.anchor = GridBagConstraints.WEST;
-		gbc_lblDriverAggression.insets = new Insets(0, 0, 5, 5);
+		gbc_lblDriverAggression.insets = new Insets(0, 10, 5, 5);
 		gbc_lblDriverAggression.gridx = 0;
 		gbc_lblDriverAggression.gridy = 5;
 		contentPane.add(lblDriverAggression, gbc_lblDriverAggression);
@@ -237,7 +237,7 @@ public class GUI extends JFrame {
 		aggressionSpinner.setModel(new SpinnerNumberModel(50, 0, 100, 5));
 		aggressionSpinner.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		GridBagConstraints gbc_spinner_2 = new GridBagConstraints();
-		gbc_spinner_2.anchor = GridBagConstraints.WEST;
+		gbc_spinner_2.anchor = GridBagConstraints.EAST;
 		gbc_spinner_2.insets = new Insets(0, 0, 5, 5);
 		gbc_spinner_2.gridx = 2;
 		gbc_spinner_2.gridy = 5;
@@ -267,7 +267,7 @@ public class GUI extends JFrame {
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
 		gbc_lblNewLabel.anchor = GridBagConstraints.WEST;
-		gbc_lblNewLabel.insets = new Insets(0, 0, 5, 5);
+		gbc_lblNewLabel.insets = new Insets(0, 10, 5, 5);
 		gbc_lblNewLabel.gridx = 0;
 		gbc_lblNewLabel.gridy = 7;
 		contentPane.add(lblNewLabel, gbc_lblNewLabel);
@@ -305,7 +305,7 @@ public class GUI extends JFrame {
 		lblLoopSimulation.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		GridBagConstraints gbc_lblLoopSimulation = new GridBagConstraints();
 		gbc_lblLoopSimulation.anchor = GridBagConstraints.WEST;
-		gbc_lblLoopSimulation.insets = new Insets(0, 0, 5, 5);
+		gbc_lblLoopSimulation.insets = new Insets(0, 10, 5, 5);
 		gbc_lblLoopSimulation.gridx = 0;
 		gbc_lblLoopSimulation.gridy = 10;
 		contentPane.add(lblLoopSimulation, gbc_lblLoopSimulation);
@@ -332,7 +332,7 @@ public class GUI extends JFrame {
 		lblLogFileName.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		GridBagConstraints gbc_lblLogFileName = new GridBagConstraints();
 		gbc_lblLogFileName.anchor = GridBagConstraints.WEST;
-		gbc_lblLogFileName.insets = new Insets(0, 0, 5, 5);
+		gbc_lblLogFileName.insets = new Insets(0, 10, 5, 5);
 		gbc_lblLogFileName.gridx = 0;
 		gbc_lblLogFileName.gridy = 12;
 		contentPane.add(lblLogFileName, gbc_lblLogFileName);
