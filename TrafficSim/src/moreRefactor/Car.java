@@ -96,7 +96,7 @@ public class Car
 	{
 		//Creates the car just offscreen, then sets its starting Y to the middle of a random lane based on how many are available.
 		//Y coordinate must be hardcoded since the lane height and highway start Y are only accessible from within TrafficView at the moment.
-		xCoord = TrafficConstants.getInstance().STARTX-TrafficConstants.getInstance().CARWIDTH;
+		xCoord = TrafficConstants.getInstance().STARTX-TrafficConstants.getInstance().CARWIDTH -80;
 		laneNumber = (Integer)personalityValues[STARTINGLANE];
 		startingLane = (Integer)personalityValues[STARTINGLANE];
 		yCoord = (Integer)personalityValues[STARTINGLANE]* 110 + 160;
@@ -287,57 +287,16 @@ public class Car
 				if(isThisLaneStopped(laneNumber, cars)){	
 					isChangingLanes = true;
 					changeLaneCalculation(cars);
-					if(wantToMoveDownOneLane){
-						moveDownOneLane();
-					} else if(wantToMoveUpOneLane){
-						moveUpOneLane();
-					} else{
-						slowDown();
-					}
-					move();	
-				} else{
-					normalizeSpeed();
-					if(surroundingCarLocations[LEFT]){
-						if(!surroundingCarLocations[RIGHT]){
-							if(statBehaviorCheck.nextInt(TrafficConstants.getInstance().UPPERBOUND) < aggression){
-								speedUp();
-							} else{			
-								for(Car car: cars){							
-									if(car.getBoundingBox().intersects(carSurroundingBB.get(LEFT))){								
-										if(car.currentSpeed > currentSpeed){
-											isChangingLanes = true;
-										}								
-									}					
-								}
-							} 
-						}else{			
-							for(Car car: cars){							
-								if(car.getBoundingBox().intersects(carSurroundingBB.get(LEFT))){								
-									if(car.currentSpeed > currentSpeed){
-										isChangingLanes = true;
-									}								
-								}					
-							}
-						}	
-						
-						
-						
-						
-					}				
-					if(surroundingCarLocations[RIGHT]){					
-						if(personalBubbleCheckerBools[RIGHT]){						
-							if((statBehaviorCheck.nextInt(TrafficConstants.getInstance().UPPERBOUND) < aggression - (comfortableSpeed - currentSpeed))){							
-								isChangingLanes = true;						
-							} else{
-								slowDown();
-							}
+				} 
+					if(surroundingCarLocations[RIGHT]){						
+						if((statBehaviorCheck.nextInt(TrafficConstants.getInstance().UPPERBOUND) < aggression)){						
+							isChangingLanes = true;
+						} else{							
+							slowDown();						
 						}
-					} else{
-						if((statBehaviorCheck.nextInt(TrafficConstants.getInstance().UPPERBOUND) < aggression)){
-							speedUp();
-						} 				
 					}
-
+					
+					
 					if(isChangingLanes){	
 						if(wantToMoveDownOneLane){
 							moveDownOneLane();
@@ -346,10 +305,10 @@ public class Car
 						}else{
 							changeLaneCalculation(cars);
 						}
-						move();	
-					}
+						
+					
 				}
-
+				normalizeSpeed();
 				move();
 			} else{
 				currentSpeed = 0-TrafficConstants.getInstance().MEDIANSPEED;
@@ -362,7 +321,7 @@ public class Car
 			if (queueTimer==0) {
 				queueTimer = 25;
 				leavingQueue = false;
-				currentSpeed = 1;
+				
 			}
 		}
 
@@ -387,7 +346,7 @@ public class Car
 		//If looping mode is on, return car to start of highway once it disappears off right edge.
 		if (TrafficConstants.getInstance().getLOOPING() == true && getxCoord() > 1920) {
 			//-20 because reasons
-			xCoord = TrafficConstants.getInstance().STARTX-TrafficConstants.getInstance().CARWIDTH-40;
+			xCoord = TrafficConstants.getInstance().STARTX-TrafficConstants.getInstance().CARWIDTH-100;
 			inQueue = true;
 		}
 		else {
@@ -399,18 +358,15 @@ public class Car
 	void slowDown(){
 		if(currentSpeed > 0){
 			currentSpeed = (float)(currentSpeed - .5);
-			xCoord = xCoord + currentSpeed;
 		} else{
 			currentSpeed = 1;
 		}
-
 		methodRunning += "- slowing Down";
 
 	}
 
 	void speedUp(){
 		currentSpeed = (float) (currentSpeed + .5);
-		xCoord = xCoord + currentSpeed;
 		methodRunning += "- speeding Up";
 
 	}
@@ -437,9 +393,9 @@ public class Car
 
 	void normalizeSpeed(){ //makes the car prefer its comfort speed
 		methodRunning = "Normalizing its speed";
-		if(currentSpeed+1 < comfortableSpeed){			
+		if(currentSpeed  < comfortableSpeed){			
 			speedUp();
-		} else if (currentSpeed-1 > comfortableSpeed){			
+		} else if (currentSpeed > comfortableSpeed){			
 			slowDown();			
 		} 
 	}

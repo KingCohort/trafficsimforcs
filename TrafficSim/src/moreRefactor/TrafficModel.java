@@ -228,7 +228,7 @@ public class TrafficModel
 				car.debug();
 			}
 		}
-			JOptionPane.showMessageDialog(TrafficView.view, "XY Coord=" + x + "," + y +"\n");
+			//JOptionPane.showMessageDialog(TrafficView.view, "XY Coord=" + x + "," + y +"\n");
 		}
 	}
 
