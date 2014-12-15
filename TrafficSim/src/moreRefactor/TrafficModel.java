@@ -16,7 +16,7 @@ public class TrafficModel
 
 	Car[] cars = new Car[TrafficConstants.getInstance().getCARNUM()];
 	ArrayList<BoundingBox> carBB = new ArrayList<BoundingBox>();
-	int AGGRESSION = 0, COMFORTABLESPEED = 1, DECISIONMAKING = 3, ATTENTION = 2, BUBBLESIZE = 4, STARTINGLANE = 5;
+	int AGGRESSION = 0, COMFORTABLESPEED = 1, WAITCOUNT = 3, ATTENTION = 2, BUBBLESIZE = 4, STARTINGLANE = 5;
 	Boolean simulation = true;
 	public static TrafficModel model = new TrafficModel();
 	public Car debuggedCar;
@@ -35,27 +35,7 @@ public class TrafficModel
 		model = this;
 	}
 
-	public void createCars()
-	{
-
-		//WHEN TESTING MAKE SURE THE CARS ARE NOT ON TOP OF EACHOTHER, WE HAVENT FIXED THAT YET
-
-		/*	for(int i = 0; i < TrafficConstants.getInstance().getCARNUM(); i++)
-		{
-			if(i < (TrafficConstants.getInstance().getCARNUM() / 2))
-			{
-				System.out.println("----- CAR NUMBER: " + TrafficConstants.getInstance().getCARNUM() + " i: " + i);
-				cars[i] = new Car(TrafficConstants.getInstance().STARTX, TrafficConstants.getInstance().TOPLANESTARTY, i);
-			}
-			else
-			{
-				System.out.println("----- CAR NUMBER: " + TrafficConstants.getInstance().getCARNUM() + " i: " + i);
-				cars[i] = new Car(TrafficConstants.getInstance().STARTX, TrafficConstants.getInstance().BOTLANESTARTY, i);
-			}
-		}  
-
-		 */
-	
+	public void createCars(){
 
 		Object[] firstCarPersonality = PersonalityGenerator();
 		if (TrafficConstants.getInstance().GLOBALSIMVIEW==false) {
@@ -65,6 +45,7 @@ public class TrafficModel
 		carBB.add(new BoundingBox(cars[0].xCoord,cars[0].yCoord,cars[0].width,cars[0].height));
 		for(int i = 1; i < TrafficConstants.getInstance().getCARNUM(); i++){
 			cars[i] = new Car(i, PersonalityGenerator(), speedAdjust, carBB);
+			
 			try {
 				writeToFile(cars[i].printCarStats());
 			} catch (IOException e) {
@@ -74,26 +55,11 @@ public class TrafficModel
 			carBB.add(new BoundingBox(cars[i].xCoord,cars[i].yCoord,cars[i].width,cars[i].height));
 		}
 
-
-		//		Object[] firstCarPersonality = PersonalityGenerator();
-		//		if (TrafficConstants.getInstance().GLOBALSIMVIEW==false) {
-		//			speedAdjust = (float) firstCarPersonality[COMFORTABLESPEED];
-		//		}
-		//		
-		//		cars[1] = new Car(1, PersonalityGenerator(), speedAdjust);
-		//		cars[2] = new Car(2, PersonalityGenerator(), speedAdjust);
-		//		cars[3] = new Car(3, PersonalityGenerator(), speedAdjust);
-		//		cars[3].wantToChangeLanes = true;
-		//		//The fifth car below demonstrates the new random-location car constructor.
-		//		//cars[4] = new Car(4, PersonalityGenerator(), speedAdjust);
-
 		TrafficConstants.getInstance().isModelReady = true;
 	}
 
-
 	
-	public void writeToFile(String TextLine) throws IOException
-	{
+	public void writeToFile(String TextLine) throws IOException{
 		FileWriter write = new FileWriter(TrafficConstants.getInstance().getFILENAME() + ".txt", true);
 		PrintWriter print = new PrintWriter(write);
 
@@ -167,13 +133,15 @@ public class TrafficModel
 		do {
 			aggression = Math.round(r.nextGaussian() * (100 - TrafficConstants.getInstance().getAGGRESSION()) + TrafficConstants.getInstance().getAGGRESSION());
 		} while(aggression < 0 || aggression > 100);
-
-		personalityValues[AGGRESSION] = aggression;
-		float comfortableSpeed = (float)(aggression / 10);
 		
-		if(comfortableSpeed <= 0){	
+		personalityValues[AGGRESSION] = aggression;
+		float comfortableSpeed =  (float)(aggression / 10) + 1;
+		
+		if(comfortableSpeed < 1){	
 			comfortableSpeed = 1;
-		} 
+		} else if (comfortableSpeed > 11){
+			comfortableSpeed = 10;
+		}
 		
 		personalityValues[COMFORTABLESPEED] = comfortableSpeed;
 
@@ -201,6 +169,8 @@ public class TrafficModel
 
 		personalityValues[STARTINGLANE] = chooseStartLane();
 
+		personalityValues[WAITCOUNT] = Math.abs(aggression - 100);
+		
 		return personalityValues;
 	}
 
