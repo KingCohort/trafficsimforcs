@@ -193,7 +193,7 @@ public class GUI extends JFrame {
 
 		// spinner for number of cars
 		carSpinner = new JSpinner();
-		carSpinner.setModel(new SpinnerNumberModel(2, 2, 30, 1));
+		carSpinner.setModel(new SpinnerNumberModel(2, 2, 20, 1));
 		carSpinner.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		GridBagConstraints gbc_spinner_1 = new GridBagConstraints();
 		gbc_spinner_1.anchor = GridBagConstraints.EAST;
