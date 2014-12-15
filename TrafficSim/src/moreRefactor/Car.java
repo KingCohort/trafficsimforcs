@@ -423,7 +423,7 @@ public class Car
 			}
 
 		} 
-		if(laneNumber != 4){
+		if(laneNumber != TrafficConstants.getInstance().getLANENUM() - 1){
 			if(surroundingCarLocations[DOWN] == false){
 				if(!isThisLaneStopped(laneNumber+1, cars)){
 					wantToMoveDownOneLane = true;
@@ -446,7 +446,7 @@ public class Car
 		System.out.println("current y coord: " + getyCoord());
 		System.out.println("next lane target: " + (((laneNumber+1) * 110) + 160));
 		if(getyCoord() <= ((laneNumber+1) * 110) + 160){	
-			yCoord = yCoord + 2;;		
+			yCoord = yCoord + 2;
 
 		} else{
 			System.out.println("jk no down");
@@ -462,7 +462,7 @@ public class Car
 		System.out.println("next lane target: " + (((laneNumber-1) * 110) + 160));
 		if(getyCoord() >= ((laneNumber-1) * 110) + 160){
 			System.out.println("better move up!");
-			yCoord = yCoord - 2;;
+			yCoord = yCoord - 2;
 
 		} else{	 
 			System.out.println("jk no up");
