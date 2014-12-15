@@ -280,6 +280,8 @@ public class Car
 			personalBubbleMaker();
 			personalBubbleViolation(carLoc);
 			if(!isIntersectingOtherCar(cars)){
+
+				normalizeSpeed();
 				if(!isChangingLanes){
 					checkLaneNum();
 				}			
@@ -287,61 +289,76 @@ public class Car
 					isChangingLanes = true;
 					changeLaneCalculation(cars);
 				} 
-					if(surroundingCarLocations[RIGHT]){						
-						if((statBehaviorCheck.nextInt(TrafficConstants.getInstance().UPPERBOUND) < aggression)){						
-							isChangingLanes = true;
-						} else{							
-							slowDown();						
-						}
-					}	
-					
-					if(surroundingCarLocations[LEFT]){
-						if((statBehaviorCheck.nextInt(TrafficConstants.getInstance().UPPERBOUND) > aggression)){						
-							isChangingLanes = true;
-						} else{							
-							speedUp();						
-						}
-					}
-					if(personalBubbleCheckerBools[RIGHT]){
-						slowDown();
-						slowDown();
-					}
-					if(personalBubbleCheckerBools[LEFT]){
-						speedUp();
-					}
-					if(isChangingLanes){	
-						System.out.println("test 1");
-						if(wantToMoveDownOneLane){
-							System.out.println("moving down");
-							moveDownOneLane();
-						} else if(wantToMoveUpOneLane){
-							System.out.println("moving up");
-							moveUpOneLane();
-						}else{
-							System.out.println("checking");
-							changeLaneCalculation(cars);
-						}
-				}
-				move();
-			} else{
-				currentSpeed = 0-TrafficConstants.getInstance().MEDIANSPEED;
-                comfortableSpeed = 0-TrafficConstants.getInstance().MEDIANSPEED;
-                isChangingLanes = false;
-            	wantToMoveUpOneLane = false;
-            	wantToMoveDownOneLane = false;
 
-			}
-		} else {
-			//Let car go after 1 second of waiting.
-			queueTimer -= 1;
-			if (queueTimer==0) {
-				queueTimer = 25;
-				leavingQueue = false;
-				currentSpeed = 1;
-				if(!surroundingCarLocations[RIGHT]){
-					normalizeSpeed();
+				if(isChangingLanes){	
+					changeLaneCalculation(cars);	
+					if(wantToMoveDownOneLane){
+						moveDownOneLane();
+					} else if(wantToMoveUpOneLane){
+						moveUpOneLane();
+					}else{
+						changeLaneCalculation(cars);
+					}
+				}
+				if(surroundingCarLocations[RIGHT]){						
+					if((statBehaviorCheck.nextInt(TrafficConstants.getInstance().UPPERBOUND) < aggression)){						
+						isChangingLanes = true;
+					} else{							
+						slowDown();						
+					}
+				}	
+
+				if(surroundingCarLocations[LEFT]){
+					if((statBehaviorCheck.nextInt(TrafficConstants.getInstance().UPPERBOUND) > aggression)){						
+						isChangingLanes = true;
+					} else{							
+						speedUp();						
+					}
+					
+				}
+				if(personalBubbleCheckerBools[RIGHT]){
+					slowDown();
+				}
+				if(personalBubbleCheckerBools[LEFT]){
+					speedUp();
+			
+							if(isChangingLanes){	
+								System.out.println("test 1");
+								if(wantToMoveDownOneLane){
+									System.out.println("moving down");
+									moveDownOneLane();
+								} else if(wantToMoveUpOneLane){
+									System.out.println("moving up");
+									moveUpOneLane();
+								}else{
+									System.out.println("checking");
+									changeLaneCalculation(cars);
+								}
+								
+							}
+
+					move();
+				} else{
+					currentSpeed = 0-TrafficConstants.getInstance().MEDIANSPEED;
+					comfortableSpeed = 0-TrafficConstants.getInstance().MEDIANSPEED;
+					isChangingLanes = false;
+					wantToMoveUpOneLane = false;
+					wantToMoveDownOneLane = false;
+
+				}
+			} else {
+				//Let car go after 1 second of waiting.
+				queueTimer -= 1;
+				if (queueTimer==0) {
+					queueTimer = 25;
+					leavingQueue = false;
+					currentSpeed = 1;
+					if(!surroundingCarLocations[RIGHT]){
+						normalizeSpeed();
+					}
 				}
 			}
+
 		}
 	}
 
@@ -473,7 +490,7 @@ public class Car
 	}
 
 	boolean isThisLaneStopped(int laneNumber, Car[] cars){
-     boolean isLaneStopped = false;
+		boolean isLaneStopped = false;
 		for(Car car : cars){
 			if(car.isIntersectingOtherCar(cars)){
 				if(car.laneNumber == laneNumber){
@@ -482,7 +499,7 @@ public class Car
 				}
 			} 
 		}
-		
+
 		return isLaneStopped;
 	}
 
