@@ -294,9 +294,22 @@ public class Car
 						} else{							
 							slowDown();						
 						}
+					}	
+					
+					if(surroundingCarLocations[LEFT]){
+						if((statBehaviorCheck.nextInt(TrafficConstants.getInstance().UPPERBOUND) > aggression)){						
+							isChangingLanes = true;
+						} else{							
+							speedUp();						
+						}
 					}
-					
-					
+					if(personalBubbleCheckerBools[RIGHT]){
+						slowDown();
+						slowDown();
+					}
+					if(personalBubbleCheckerBools[LEFT]){
+						speedUp();
+					}
 					if(isChangingLanes){	
 						if(wantToMoveDownOneLane){
 							moveDownOneLane();
@@ -305,10 +318,7 @@ public class Car
 						}else{
 							changeLaneCalculation(cars);
 						}
-						
-					
 				}
-				normalizeSpeed();
 				move();
 			} else{
 				currentSpeed = 0-TrafficConstants.getInstance().MEDIANSPEED;
@@ -321,7 +331,10 @@ public class Car
 			if (queueTimer==0) {
 				queueTimer = 25;
 				leavingQueue = false;
-				
+				currentSpeed = 1;
+				if(!surroundingCarLocations[RIGHT]){
+					normalizeSpeed();
+				}
 			}
 		}
 
