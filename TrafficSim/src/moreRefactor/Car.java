@@ -280,18 +280,15 @@ public class Car
 			personalBubbleMaker();
 			personalBubbleViolation(carLoc);
 			if(!isIntersectingOtherCar(cars)){
-
 				normalizeSpeed();
 				if(!isChangingLanes){
 					checkLaneNum();
 				}			
 				if(isThisLaneStopped(laneNumber, cars)){	
 					isChangingLanes = true;
-					changeLaneCalculation(cars);
 				} 
 
 				if(isChangingLanes){	
-					changeLaneCalculation(cars);	
 					if(wantToMoveDownOneLane){
 						moveDownOneLane();
 					} else if(wantToMoveUpOneLane){
@@ -301,46 +298,26 @@ public class Car
 					}
 				}
 				if(surroundingCarLocations[RIGHT]){
+					
 					if(currentSpeed + 1 < comfortableSpeed){
-
 						if((statBehaviorCheck.nextInt(TrafficConstants.getInstance().UPPERBOUND) < aggression)){						
 							isChangingLanes = true;
 						}
-
 					} else{							
 						slowDown();						
 					}
-				}	
-
+				}
 				if(personalBubbleCheckerBools[LEFT]){
-
+					
 					if((statBehaviorCheck.nextInt(TrafficConstants.getInstance().UPPERBOUND) > aggression)){						
 						isChangingLanes = true;
 					} else{							
 						speedUp();						
 					}
-
 				}
 				if(personalBubbleCheckerBools[RIGHT]){
 					slowDown();
-					if((statBehaviorCheck.nextInt(TrafficConstants.getInstance().UPPERBOUND) > aggression)){						
-						isChangingLanes = true;
-					}
-				}
-
-				if(isChangingLanes){	
-					System.out.println("test 1");
-					if(wantToMoveDownOneLane){
-						System.out.println("moving down");
-						moveDownOneLane();
-					} else if(wantToMoveUpOneLane){
-						System.out.println("moving up");
-						moveUpOneLane();
-					}else{
-						System.out.println("checking");
-						changeLaneCalculation(cars);
-					}
-
+					slowDown();
 				}
 
 				move();
@@ -358,9 +335,10 @@ public class Car
 			if (queueTimer==0) {
 				queueTimer = 25;
 				leavingQueue = false;
-				currentSpeed = 1;
 				if(!surroundingCarLocations[RIGHT]){
 					normalizeSpeed();
+				} else{
+					currentSpeed = 1;
 				}
 			}
 		}
@@ -414,14 +392,12 @@ public class Car
 
 
 	void changeLaneCalculation(Car[] cars){
-
 		if(laneNumber != 0){
 			if(surroundingCarLocations[UP] == false){
 				if(!isThisLaneStopped(laneNumber-1, cars)){
 					wantToMoveUpOneLane = true;
 				}
 			}
-
 		} 
 		if(laneNumber != TrafficConstants.getInstance().getLANENUM() - 1){
 			if(surroundingCarLocations[DOWN] == false){
