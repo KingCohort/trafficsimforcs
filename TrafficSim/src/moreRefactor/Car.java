@@ -300,67 +300,73 @@ public class Car
 						changeLaneCalculation(cars);
 					}
 				}
-				if(surroundingCarLocations[RIGHT]){						
-					if((statBehaviorCheck.nextInt(TrafficConstants.getInstance().UPPERBOUND) < aggression)){						
-						isChangingLanes = true;
+				if(surroundingCarLocations[RIGHT]){
+					if(currentSpeed + 1 < comfortableSpeed){
+
+						if((statBehaviorCheck.nextInt(TrafficConstants.getInstance().UPPERBOUND) < aggression)){						
+							isChangingLanes = true;
+						}
+
 					} else{							
 						slowDown();						
 					}
 				}	
 
-				if(surroundingCarLocations[LEFT]){
+				if(personalBubbleCheckerBools[LEFT]){
+
 					if((statBehaviorCheck.nextInt(TrafficConstants.getInstance().UPPERBOUND) > aggression)){						
 						isChangingLanes = true;
 					} else{							
 						speedUp();						
 					}
-					
+
 				}
 				if(personalBubbleCheckerBools[RIGHT]){
 					slowDown();
-				}
-				if(personalBubbleCheckerBools[LEFT]){
-					speedUp();
-			
-							if(isChangingLanes){	
-								System.out.println("test 1");
-								if(wantToMoveDownOneLane){
-									System.out.println("moving down");
-									moveDownOneLane();
-								} else if(wantToMoveUpOneLane){
-									System.out.println("moving up");
-									moveUpOneLane();
-								}else{
-									System.out.println("checking");
-									changeLaneCalculation(cars);
-								}
-								
-							}
-
-					move();
-				} else{
-					currentSpeed = 0-TrafficConstants.getInstance().MEDIANSPEED;
-					comfortableSpeed = 0-TrafficConstants.getInstance().MEDIANSPEED;
-					isChangingLanes = false;
-					wantToMoveUpOneLane = false;
-					wantToMoveDownOneLane = false;
-
-				}
-			} else {
-				//Let car go after 1 second of waiting.
-				queueTimer -= 1;
-				if (queueTimer==0) {
-					queueTimer = 25;
-					leavingQueue = false;
-					currentSpeed = 1;
-					if(!surroundingCarLocations[RIGHT]){
-						normalizeSpeed();
+					if((statBehaviorCheck.nextInt(TrafficConstants.getInstance().UPPERBOUND) > aggression)){						
+						isChangingLanes = true;
 					}
 				}
-			}
 
+				if(isChangingLanes){	
+					System.out.println("test 1");
+					if(wantToMoveDownOneLane){
+						System.out.println("moving down");
+						moveDownOneLane();
+					} else if(wantToMoveUpOneLane){
+						System.out.println("moving up");
+						moveUpOneLane();
+					}else{
+						System.out.println("checking");
+						changeLaneCalculation(cars);
+					}
+
+				}
+
+				move();
+			} else{
+				currentSpeed = 0-TrafficConstants.getInstance().MEDIANSPEED;
+				comfortableSpeed = 0-TrafficConstants.getInstance().MEDIANSPEED;
+				isChangingLanes = false;
+				wantToMoveUpOneLane = false;
+				wantToMoveDownOneLane = false;
+
+			}
+		} else {
+			//Let car go after 1 second of waiting.
+			queueTimer -= 1;
+			if (queueTimer==0) {
+				queueTimer = 25;
+				leavingQueue = false;
+				currentSpeed = 1;
+				if(!surroundingCarLocations[RIGHT]){
+					normalizeSpeed();
+				}
+			}
 		}
+
 	}
+
 
 
 
