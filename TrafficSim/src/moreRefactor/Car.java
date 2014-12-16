@@ -305,7 +305,7 @@ public class Car
 							}
 						} else{
 							speedUp();
-						}
+						} 
 					}
 				} else{
 					closeTrueCountLeft = 0;
@@ -370,13 +370,13 @@ public class Car
 		} else{
 			currentSpeed = 1;
 		}
-		methodRunning += "slowing down";
+		methodRunning += ", slowing down";
 
 	}
 
 	void speedUp(){
 		currentSpeed = (float) (currentSpeed + .5);
-		methodRunning += "speeding up";
+		methodRunning += ", speeding up";
 
 	}
 
