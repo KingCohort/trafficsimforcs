@@ -88,7 +88,11 @@ public class TrafficModel
 			if (!car.inQueue) {
 				car.makeDecision(carBB, cars); 
 				try {
+					if(TrafficConstants.getInstance().GLOBALSIMVIEW==true){
 					writeToFile(car.toString());
+					}else{
+						writeToFile(cars[0].toString());
+					}
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

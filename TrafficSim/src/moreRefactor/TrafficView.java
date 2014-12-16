@@ -157,7 +157,7 @@ public class TrafficView extends PApplet
 		fill(255);
 		noStroke();
 		//Offset for moving median when fixed view is on. Resets to 0 if below -100 to make sure we don't run out of rectangles.
-		offset = offset - TrafficConstants.getInstance().MEDIANSPEED;
+		offset = offset - TrafficConstants.getInstance().medianSpeed;
 		if (offset < -100) {
 			offset = 0;
 		}

@@ -21,14 +21,13 @@ public class Car
 	int AGGRESSION = 0, COMFORTABLESPEED = 1, WAITCOUNT = 3, ATTENTION = 2, BUBBLESIZE = 4, STARTINGLANE = 5;
 	double width = TrafficConstants.getInstance().CARWIDTH;
 	double height = TrafficConstants.getInstance().CARHEIGHT;
-	boolean wantsToChangeLanes;
+	boolean wantsToChangeLanes = false;
 	boolean isChangingLanes = false; //true when car is going to attempt a lane change
 	boolean wantToMoveUpOneLane = false;
 	boolean wantToMoveDownOneLane = false;
 	boolean[] surroundingCarLocations = new boolean[6]; // 0 = right 1 = up 2 = left 3 = down 4 = right top daig 5 = right bot diag
 	BoundingBox[] myPersonalBubble = new BoundingBox[4];
 	boolean[] personalBubbleCheckerBools = new boolean[4];
-	boolean testerAttention = false;
 	boolean isCrashed;
 	int startingLane;
 	int laneNumber;
@@ -41,11 +40,9 @@ public class Car
 	double rightTrueCount = 0;
 	double closeTrueCountLeft = 0;
 	double carWaitCount;
-
 	int arrayValue;
 	ArrayList<BoundingBox> carSurroundingBB = new ArrayList<BoundingBox>(); 
 
-	boolean checkFrontTesterBool;
 
 	//The beginnings of personality paramaterization.
 
@@ -174,9 +171,9 @@ public class Car
 			personalBubbleMaker();
 			personalBubbleViolation(carLoc);
 			if(!isIntersectingOtherCar(cars)){
-				stayInMyLane();
 				if(!isChangingLanes){
 					checkLaneNum();
+					stayInMyLane();
 				}
 
 				if(isThisLaneStopped(laneNumber, cars)){
@@ -317,8 +314,12 @@ public class Car
 
 				move();
 			} else{
-				currentSpeed = 0-TrafficConstants.getInstance().MEDIANSPEED;
-				comfortableSpeed = 0-TrafficConstants.getInstance().MEDIANSPEED;
+				currentSpeed = 0;
+				comfortableSpeed = 0;
+				if(TrafficConstants.getInstance().GLOBALSIMVIEW == false){
+					
+					xCoord = xCoord - TrafficConstants.getInstance().getMedianSpeed();
+				}
 				isChangingLanes = false;
 				wantToMoveUpOneLane = false;
 				wantToMoveDownOneLane = false;
@@ -381,20 +382,11 @@ public class Car
 
 	void stayInMyLane(){
 
-		if(!isChangingLanes){
-
-			if(yCoord > ((laneNumber) * 110) + 160){
-
-				yCoord = yCoord - 1;
-
-			} else if(yCoord < ((laneNumber) * 110) + 160){
-
-				yCoord = yCoord + 1;
-
-			}
-
+		if(yCoord > ((laneNumber) * 110) + 160){
+			yCoord = yCoord - 1;
+		} else if(yCoord < ((laneNumber) * 110) + 160){
+			yCoord = yCoord + 1;
 		}
-
 	}
 
 	void changeLaneCalculation(Car[] cars){
@@ -508,7 +500,7 @@ public class Car
 		carSurroundingBB.add(new BoundingBox(getBoundingBox().getMinX(), getBoundingBox().getMaxY(), width, height*2)); // down
 		carSurroundingBB.add(new BoundingBox(getBoundingBox().getMinX() + width, (getBoundingBox().getMinY() - height), width, height)); // upper right diag
 		carSurroundingBB.add(new BoundingBox(getBoundingBox().getMinX() + width, getBoundingBox().getMaxY(), width, height)); // down right diag
-	
+
 
 
 
@@ -608,7 +600,6 @@ public class Car
 		//Checks if there are cars that aren't in the queue intersecting this car.
 		//Used for crash detection and queues.
 		for(int i = 0; i < cars.length; i++){
-
 			if(i == arrayValue){
 				//Not checking myself dog
 
@@ -643,8 +634,13 @@ public class Car
 		out+= "Crash In Lane = " + isThisLaneStopped(laneNumber, TrafficModel.model.cars) + "\n";
 		out+= "Method being run: " + methodRunning + "\n";
 		out+="Aggression value = " + aggression + "\n";
-		out+="Comfortable Speed = " + comfortableSpeed + "\n";
-		out+="Current Speed = " + currentSpeed + "\n";
+		if(TrafficConstants.getInstance().GLOBALSIMVIEW == true){
+			out+="Comfortable Speed = " + comfortableSpeed + "\n";
+			out+="Current Speed = " + currentSpeed + "\n";
+		} else{
+			out+="Comfortable Speed = " + (speedAdjust - comfortableSpeed) + "\n";
+			out+="Current Speed = " + (speedAdjust - currentSpeed) + "\n";
+		}
 		out+="Personal Bubble distance from car = " + comfortBubble + "\n";
 		out+= "Attempting Lane Change = " + wantsToChangeLanes + "\n";
 		out+="Currently Changing Lanes =" + isChangingLanes+ "\n";
