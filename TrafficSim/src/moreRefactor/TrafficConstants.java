@@ -78,7 +78,12 @@ class TrafficConstants
 	void setGLOBALSIMVIEW(boolean globalsimview)
 	{
 		GLOBALSIMVIEW = globalsimview;
-		setMEDIANSPEED(10);
+		if(globalsimview == false){
+			setMEDIANSPEED(10);	
+		} else{
+			setMEDIANSPEED(0);
+		}
+		
 	}
 	
 	boolean getGLOBALSIMVIEW()

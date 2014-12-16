@@ -18,7 +18,7 @@ public class Car
 	float xCoord;
 	float yCoord;
 	int UP = 1, DOWN = 3, LEFT = 2, RIGHT = 0, TOPDIAG = 4, BOTDIAG = 5;
-	int AGGRESSION = 0, COMFORTABLESPEED = 1, WAITCOUNT = 3, ATTENTION = 2, BUBBLESIZE = 4, STARTINGLANE = 5;
+	int AGGRESSION = 0, COMFORTABLESPEED = 1, WAITCOUNT = 3, BUBBLESIZE = 4, STARTINGLANE = 5;
 	double width = TrafficConstants.getInstance().CARWIDTH;
 	double height = TrafficConstants.getInstance().CARHEIGHT;
 	boolean wantsToChangeLanes = false;
@@ -74,8 +74,8 @@ public class Car
 		this.speedAdjust = speedAdjust;
 		aggression = (Double)personalityValues[AGGRESSION];
 		comfortableSpeed = (Float)personalityValues[COMFORTABLESPEED];
-		attention = (Integer)personalityValues[ATTENTION];
 		comfortBubble = (Double)personalityValues[BUBBLESIZE];
+		startingLane = (Integer)personalityValues[STARTINGLANE];
 		laneNumber = (Integer)personalityValues[STARTINGLANE];
 		yCoord = 160 + (Integer)personalityValues[STARTINGLANE]* 110;
 		carWaitCount = (Integer)personalityValues[WAITCOUNT];
@@ -108,7 +108,6 @@ public class Car
 		this.speedAdjust = speedAdjust;
 		aggression = (Double)personalityValues[AGGRESSION];
 		comfortableSpeed = (Float)personalityValues[COMFORTABLESPEED];
-		attention = (Integer)personalityValues[ATTENTION];
 		comfortBubble = (Double)personalityValues[BUBBLESIZE];
 		carWaitCount = (Double)personalityValues[WAITCOUNT];
 		if (TrafficConstants.getInstance().GLOBALSIMVIEW==false) {
