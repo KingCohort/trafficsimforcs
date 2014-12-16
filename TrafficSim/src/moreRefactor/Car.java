@@ -369,13 +369,13 @@ public class Car
 		} else{
 			currentSpeed = 1;
 		}
-		methodRunning += "-slowing Down";
+		methodRunning += "slowing down";
 
 	}
 
 	void speedUp(){
 		currentSpeed = (float) (currentSpeed + .5);
-		methodRunning += "-speeding Up";
+		methodRunning += "speeding up";
 
 	}
 
@@ -398,7 +398,7 @@ public class Car
 	}
 
 	void changeLaneCalculation(Car[] cars){
-		methodRunning = "Changing lanes by ";
+		methodRunning = "Changing lanes by- ";
 		if(laneNumber != 0){
 			if(surroundingCarLocations[UP] == false){
 				if(surroundingCarLocations[TOPDIAG] == false){
@@ -419,7 +419,7 @@ public class Car
 	}
 
 	void normalizeSpeed(){ //makes the car prefer its comfort speed
-		methodRunning = "Normalizing its speed";
+		methodRunning = "Normalizing its speed by- ";
 		if(currentSpeed  < comfortableSpeed){			
 			speedUp();
 		} else if (currentSpeed > comfortableSpeed){			
@@ -428,7 +428,7 @@ public class Car
 	}
 
 	void moveDownOneLane(){
-		methodRunning += ": Moving from " + laneNumber + " to " + (laneNumber + 1);
+		methodRunning += " Moving from " + laneNumber + " to " + (laneNumber + 1);
 		if(getyCoord() <= ((laneNumber+1) * 110) + 160){	
 			yCoord = yCoord + 2;
 			xCoord = xCoord +1;
@@ -445,7 +445,7 @@ public class Car
 	}
 
 	void moveUpOneLane(){
-		methodRunning += ": Moving from " + laneNumber + " to" + (laneNumber - 1);
+		methodRunning += " Moving from " + laneNumber + " to " + (laneNumber - 1);
 		if(getyCoord() >= ((laneNumber-1) * 110) + 160){
 			yCoord = yCoord - 2;
 			xCoord = xCoord + 1;
@@ -508,8 +508,7 @@ public class Car
 		carSurroundingBB.add(new BoundingBox(getBoundingBox().getMinX(), getBoundingBox().getMaxY(), width, height*2)); // down
 		carSurroundingBB.add(new BoundingBox(getBoundingBox().getMinX() + width, (getBoundingBox().getMinY() - height), width, height)); // upper right diag
 		carSurroundingBB.add(new BoundingBox(getBoundingBox().getMinX() + width, getBoundingBox().getMaxY(), width, height)); // down right diag
-		//carSurroundingBB.add(new BoundingBox(getBoundingBox().getMinX() - comfortBubble, getBoundingBox().getMinY() - comfortBubble, width + (2*comfortBubble), height + (2*comfortBubble)));
-		//	System.out.println(" Min X: " + carSurroundingBB.get(0).getMinX() + " Min y: " + carSurroundingBB.get(0).getMinY());
+	
 
 
 
@@ -524,7 +523,7 @@ public class Car
 		myPersonalBubble[RIGHT] = new BoundingBox(getBoundingBox().getMaxX() + comfortBubble, getBoundingBox().getMinY() - comfortBubble, 1, height + (2*comfortBubble));
 		myPersonalBubble[DOWN] = new BoundingBox(getBoundingBox().getMinX() - comfortBubble, getBoundingBox().getMaxY() + comfortBubble, width + (2*comfortBubble), 1 );
 
-		//Making the BBs drawn on the view so I can see them and ensure they're right. LEaving in for debugging purposes 
+		//Making the BBs drawn on the view so I can see them and ensure they're right. Leaving in for debugging purposes 
 		/* TrafficModel.model.carBB.add(myPersonalBubble[UP]);
 		TrafficModel.model.carBB.add(myPersonalBubble[DOWN]);
 		TrafficModel.model.carBB.add(myPersonalBubble[LEFT]);
@@ -537,7 +536,6 @@ public class Car
 		personalBubbleCheckerBools[LEFT] = false;
 		personalBubbleCheckerBools[UP] = false;
 		personalBubbleCheckerBools[DOWN] = false;
-
 
 		for(int i = 0; i < carLoc.size(); i++){
 
@@ -563,7 +561,7 @@ public class Car
 		carSurroundingBB = getSurroundingBoundingBoxs();
 		for(int i = 0; i < carLoc.size(); i++){
 
-			if(i != arrayValue){ //So there is no useless if statement
+			if(i != arrayValue){
 				if(carSurroundingBB.get(RIGHT).intersects(carLoc.get(i))){
 
 					surroundingCarLocations[RIGHT] = true;
@@ -637,36 +635,31 @@ public class Car
 	{
 		String out = "";
 		out+="//////////////ABOUT THIS CAR/////////////////////////\n";
-		out+="Car Number " + arrayValue + "\n";
+		out+="Car Number: " + arrayValue + "\n";
+		out+= "XY Coord= " + getxCoord() + "," + getyCoord() + "\n";	
+		out+="Starting Lane = " + startingLane + "\n";
+		out+="Lane Number = " + laneNumber + "\n";
+		out+="Has Crashed = " + isIntersectingOtherCar(TrafficModel.model.cars) + "\n";
+		out+= "Crash In Lane = " + isThisLaneStopped(laneNumber, TrafficModel.model.cars) + "\n";
 		out+= "Method being run: " + methodRunning + "\n";
-		out+= "XY Coord=" + getxCoord() + "," + getyCoord()+"\n";	
-		out+="Have I crashed? " + isIntersectingOtherCar(TrafficModel.model.cars) + "\n";
-		out+= "Is lane stopped? " + isThisLaneStopped(laneNumber, TrafficModel.model.cars) + "\n";
-		out+="Right Lane Count " + rightTrueCount + "\n";
-		out+="Left Lane Count " + leftTrueCount + "\n";
-		out+="Close Lef Lane Count " + closeTrueCountLeft + "\n";
-		out+="Car Wait Count " + carWaitCount + "\n";
-		out+="Am I paying attention?" + testerAttention + "\n";
-		out+="Am I changing Lanes? ="+isChangingLanes+"\n";
-		out+="Starting Lane: " + startingLane + "\n";
-		out+="What lane am I in? " + laneNumber + "\n";
-		out+="Aggression value is " + aggression + "\n";
-		out+="Comfortable Speed is " + comfortableSpeed + "\n";
-		out+="Current Speed is " + currentSpeed + "\n";
-		out+="Personal Bubble Values is " + comfortBubble + "\n";
+		out+="Aggression value = " + aggression + "\n";
+		out+="Comfortable Speed = " + comfortableSpeed + "\n";
+		out+="Current Speed = " + currentSpeed + "\n";
+		out+="Personal Bubble distance from car = " + comfortBubble + "\n";
+		out+= "Attempting Lane Change = " + wantsToChangeLanes + "\n";
+		out+="Currently Changing Lanes =" + isChangingLanes+ "\n";
 		out+="//////////////VISION CHECK////////////////////////////\n";
-		out+="Vision Check Right =" + surroundingCarLocations[RIGHT] + "\n";
-		out+="Vision Check Up =" + surroundingCarLocations[UP] +"\n";
-		out+="Vision Check Left ="+surroundingCarLocations[LEFT]+"\n";
-		out+="Vision Check Down ="+surroundingCarLocations[DOWN]+"\n";
-		out+="Vision Check Top Diagonal ="+surroundingCarLocations[TOPDIAG]+"\n";
-		out+="Vision Check Bottom Diagonal ="+surroundingCarLocations[BOTDIAG]+"\n";
+		out+="Vision Check Right = " + surroundingCarLocations[RIGHT] + "\n";
+		out+="Vision Check Up = " + surroundingCarLocations[UP] +"\n";
+		out+="Vision Check Left = " + surroundingCarLocations[LEFT]+"\n";
+		out+="Vision Check Down = " + surroundingCarLocations[DOWN]+"\n";
+		out+="Vision Check Top Diagonal = " + surroundingCarLocations[TOPDIAG]+"\n";
+		out+="Vision Check Bottom Diagonal = " + surroundingCarLocations[BOTDIAG]+"\n";
 		out+="/////////////PERSONAL BUBBLE CHECK////////////////////\n";
-		out+="Personal Bubble Top is " + personalBubbleCheckerBools[UP]+"\n" ;
-		out+="Personal Bubble Right is " + personalBubbleCheckerBools[RIGHT]+"\n";
-		out+="Personal Bubble bottom is " + personalBubbleCheckerBools[DOWN]+"\n";
-		out+="Personal Bubble left is " + personalBubbleCheckerBools[LEFT]+"\n";
-
+		out+="Personal Bubble Top = " + personalBubbleCheckerBools[UP]+"\n" ;
+		out+="Personal Bubble Right = " + personalBubbleCheckerBools[RIGHT]+"\n";
+		out+="Personal Bubble bottom = " + personalBubbleCheckerBools[DOWN]+"\n";
+		out+="Personal Bubble left = " + personalBubbleCheckerBools[LEFT]+"\n";
 
 		JOptionPane.showMessageDialog(TrafficView.view, out);
 	}
