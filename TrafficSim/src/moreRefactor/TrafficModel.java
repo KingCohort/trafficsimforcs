@@ -131,50 +131,33 @@ public class TrafficModel
 
 
 	public Object[] PersonalityGenerator(){ // We're using THIS method to get the values http://www.javamex.com/tutorials/random_numbers/gaussian_distribution_2.shtml
-
-
-		double aggression = 101;
+	double aggression = 101;
 		do {
 			aggression = Math.round(r.nextGaussian() * (100 - TrafficConstants.getInstance().getAGGRESSION()) + TrafficConstants.getInstance().getAGGRESSION());
-		} while(aggression < 0 || aggression > 100);
-		
+		} while(aggression < 0 || aggression > 100);	
 		personalityValues[AGGRESSION] = aggression;
-		float comfortableSpeed =  (float)(aggression / 10) + 1;
-		
+		float comfortableSpeed =  (float)(aggression / 10) + 1;	
 		if(comfortableSpeed < 1){	
 			comfortableSpeed = 1;
 		} else if (comfortableSpeed > 11){
 			comfortableSpeed = 10;
-		}
-		
+		}	
 		personalityValues[COMFORTABLESPEED] = comfortableSpeed;
-
 		int attention = r.nextInt(101-90) + 90;
-
 		personalityValues[ATTENTION] = attention;
-
 		double bubbleSize = TrafficConstants.getInstance().defaultBubbleSize;
 		if(aggression < 50){
-
 			bubbleSize = bubbleSize + (comfortableSpeed);
-
 		} else{
-
 			bubbleSize = bubbleSize - comfortableSpeed;
-
-		}
-		
+		}		
 		if(bubbleSize < 10){
 			
 			bubbleSize = 10;
 		}
-
 		personalityValues[BUBBLESIZE] = bubbleSize;
-
 		personalityValues[STARTINGLANE] = chooseStartLane();
-
-		personalityValues[WAITCOUNT] = Math.abs(aggression - 100);
-		
+		personalityValues[WAITCOUNT] = Math.abs(aggression - 100);		
 		return personalityValues;
 	}
 
