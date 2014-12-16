@@ -22,7 +22,6 @@ public class TrafficModel
 	public Car debuggedCar;
 	public Object[] personalityValues = new Object[6];
 	public BoundingBox[] startingLocs = new BoundingBox[TrafficConstants.getInstance().getLANENUM()];
-	public boolean[] isOpen = new boolean[TrafficConstants.getInstance().getLANENUM()];
 	public float speedAdjust = 0;
 	public boolean isSafe = true;
 
